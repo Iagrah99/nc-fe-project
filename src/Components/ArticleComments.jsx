@@ -1,8 +1,7 @@
-import { Row, Col, Card } from "react-bootstrap"
+import { Row } from "react-bootstrap"
 import { useEffect, useState } from "react";
-import { fetchCommentsByArticleId } from "../utils/app";
+import { fetchCommentsByArticleId } from "../utils/api";
 import CommentCard from "./CommentCard";
-import PageLoading from "./PageLoading";
 import CommentsLoading from "./CommentsLoading";
 const ArticleComments = ({articleId}) => {
 
@@ -11,7 +10,7 @@ const ArticleComments = ({articleId}) => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    fetchCommentsByArticleId(articleId).then((response) => {
+      fetchCommentsByArticleId(articleId).then((response) => {
       setComments(response.data)
       setIsLoading(false)
     })

@@ -8,7 +8,7 @@ const CommentCard = ({comment}) => {
       <Card.Body>
         <Card.Title>By {comment.author}</Card.Title>
         <Card.Text>{comment.body}</Card.Text>
-        <Card.Text>Upvotes: {comment.votes}</Card.Text>
+        <Card.Text>Votes: {comment.votes}</Card.Text>
         <Card.Text>Posted: {datePosted}</Card.Text>
       </Card.Body>
     </Card>

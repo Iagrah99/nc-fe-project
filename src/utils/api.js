@@ -25,3 +25,25 @@ export const fetchArticleById = (articleId = '') => {
 export const fetchCommentsByArticleId = (articleId = '') => {
   return ncNewsApi.get(`/articles/${articleId}/comments`);
 };
+
+// Parametric Patch Request Endpoints
+
+export const incrementArticleVotes = async (articleId = '') => {
+  try {
+    return await ncNewsApi.patch(`/articles/${articleId}`, {
+      inc_votes: 1,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const decrementArticleVotes = async (articleId = '') => {
+  try {
+    return await ncNewsApi.patch(`/articles/${articleId}`, {
+      inc_votes: -1,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

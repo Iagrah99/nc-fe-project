@@ -1,7 +1,7 @@
 import { Container } from 'react-bootstrap';
 import Header from '../Components/Header';
 import ArticleCard from '../Components/ArticleCard';
-import { fetchArticles } from '../utils/app';
+import { fetchArticles } from '../utils/api';
 import { useEffect, useState } from 'react';
 import { Row } from 'react-bootstrap';
 import PageLoading from '../Components/PageLoading';
