@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route} from 'react-router-dom'
 import Articles from './pages/Articles'
 import { useState } from 'react'
 import ArticleById from "./pages/ArticleById"
@@ -11,7 +11,7 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<Articles/>} />
-      <Route path={"/article"} element={<ArticleById/>}/>
+      <Route path={"/articles/article/:articleId"} element={<ArticleById/>}/>
     </Routes>
   )
 }

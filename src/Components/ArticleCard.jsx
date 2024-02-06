@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 const ArticleCard = ({article}) => {
   const navigate = useNavigate()
   const handleClick = (id) => {
-    navigate(`/article?article_id=${id}`)
+    navigate(`/articles/article/${id}`)
   }
 
   return ( 
