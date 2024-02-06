@@ -31,6 +31,7 @@ const ArticlePost = ({article, articleId}) => {
         setArticleVotes(response.data.article.votes)
        }).catch((err) => {
         setError("Error updating votes")
+        setArticleVotes((currentVotes) => currentVotes - 1)
        })
     } else if (e.target.innerText === "Downvote") {
       e.target.innerText = "Upvote"
@@ -38,6 +39,9 @@ const ArticlePost = ({article, articleId}) => {
       setArticleVotes((currentVotes) => currentVotes - 1)
       decrementArticleVotes(articleId).then((response) => {
         setArticleVotes(response.data.article.votes)
+       }).catch((err) => {
+        setError("Error updating votes")
+        setArticleVotes((currentVotes) => currentVotes + 1)
        })
     }
   }
