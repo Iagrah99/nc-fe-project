@@ -1,6 +1,6 @@
-import { Container, Card, Col, Button } from "react-bootstrap"
+import { Container } from "react-bootstrap"
 import Header from "../Components/Header"
-import { fetchArticleById } from "../utils/app"
+import { fetchArticleById } from "../utils/api"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import PageLoading from '../Components/PageLoading';
@@ -12,7 +12,7 @@ const ViewArticle = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { articleId } = useParams()
 
-  document.title = `NC News | ${article.title}`
+  
 
   useEffect(() => {
     fetchArticleById(articleId).then((response) => {
@@ -27,6 +27,8 @@ const ViewArticle = () => {
       <PageLoading/>
     );
   }
+
+  document.title = `NC News | ${article.title}`
 
   return ( 
     <Container fluid="xl">

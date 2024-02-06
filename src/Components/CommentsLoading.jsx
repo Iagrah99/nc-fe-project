@@ -1,4 +1,3 @@
-import Header from "./Header";
 import { Container } from 'react-bootstrap';
 import textStyles from "../css/TextCSSModule.module.css"
 const CommentsLoading = () => {
