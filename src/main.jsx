@@ -13,6 +13,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <App />
       </BrowserRouter>
-      </ThemeProvider>;
+      </ThemeProvider>
     </UserProvider>
 )
