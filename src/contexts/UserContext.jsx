@@ -1,7 +1,7 @@
-import { createContext } from "react";
-import { useState } from "react";
+import { createContext } from "react"
+import { useState } from "react"
 
-export const UserContext = createContext();
+export const UserContext = createContext()
 
 export const UserProvider = ({children}) => {
   const [loggedInUser, setLoggedInUser] = useState({})
@@ -10,5 +10,5 @@ export const UserProvider = ({children}) => {
     <UserContext.Provider value={{ loggedInUser, setLoggedInUser }}>
       {children}
     </UserContext.Provider>
-  );
+  )
 }
