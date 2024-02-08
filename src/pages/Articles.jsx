@@ -5,32 +5,34 @@ import { fetchArticles } from '../utils/api';
 import { useEffect, useState } from 'react';
 import { Row } from 'react-bootstrap';
 import PageLoading from '../Components/PageLoading';
+import NavigationBar from "../Components/Navbar";
+import Footer from '../Components/Footer';
+import PageError from '../Components/PageError';
 
 const Articles = () => {
   document.title = 'NC News | Articles';
 
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setisError] = useState(false)
 
   useEffect(() => {
-    fetchArticles().then((response) => {
-      setArticles(response.data.articles);
+    fetchArticles().then((articles) => {
+      setArticles(articles);
       setIsLoading(false);
+    }).catch((error) => {
+      setIsLoading(false)
+      setisError(true)
     });
   }, []);
 
-  if (isLoading) {
-    return (
-      <PageLoading/>
-    );
-  }
+  if (isLoading) return <PageLoading/>
+  if (isError) return <PageError/>
 
   return (
-    <Container fluid="xl">
-      <div style={{ marginBlock: '15px' }}></div>
+    <Container style={{minHeight: "100vh"}} fluid="xl">
+      <NavigationBar/>
       <Header />
-      <div style={{ marginBlock: '75px' }}></div>
-      <div>
         <Container fluid="xs">
           <Row>
             {articles.map((article) => (
@@ -38,7 +40,7 @@ const Articles = () => {
             ))}
           </Row>
         </Container>
-      </div>
+      <Footer/>
     </Container>
   );
 };

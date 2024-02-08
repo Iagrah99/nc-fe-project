@@ -1,10 +1,13 @@
 import { Container } from 'react-bootstrap';
 import textStyles from "../css/TextCSSModule.module.css"
+import Spinner from 'react-bootstrap/Spinner';
 const CommentsLoading = () => {
   return ( 
     <Container fluid="xl">
-        <div style={{ marginBlock: '15px' }}></div>
-        <h2 className={textStyles.center}>Loading Comments...</h2>
+        <div className={textStyles.center} style={{ marginBlock: '15px' }}>
+        <h2>Loading Comments...</h2>
+        <Spinner animation="border" role="status"/>
+        </div>
       </Container>
    );
 }

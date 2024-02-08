@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+  font-family: "Poppins", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+.btn {
+  border: none;
+  color: #fff;
+  font-size: 0.8rem;
+  border-radius: 4px;
+}
+
+.like-btn:hover {
+  color: #008000;
+}
+
+.dislike-btn:hover {
+  color: #ff0000;
+}
+
+
+.like-active {
+  color: #008000;
+}
+
+.dislike-active {
+  color: #ff0000;
+}
