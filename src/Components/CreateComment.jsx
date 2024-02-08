@@ -64,7 +64,7 @@ const CreateComment = ({articleId, setSuccess}) => {
       <Form.Group className="mb-3" controlId="formGroupComment">
       <Card.Body>
         <Form.Label>Comment</Form.Label>
-        <Form.Control as="textarea" rows={3} placeholder="What are your thoughts?" minLength={3} maxLength={2500} value={comment} required o onChange={(e) => {
+        <Form.Control as="textarea" rows={3} placeholder="What are your thoughts?" minLength={3} maxLength={2500} value={comment} required onChange={(e) => {
           const inputValue = e.target.value;
           setComment(inputValue);
 

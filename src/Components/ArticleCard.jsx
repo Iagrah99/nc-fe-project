@@ -1,7 +1,7 @@
 import { Card, Col, Button } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 
-const ArticleCard = ({article}) => {
+const ArticleCard = ({article, topic}) => {
   const navigate = useNavigate()
   const handleClick = (id) => {
     navigate(`/articles/article/${id}`)

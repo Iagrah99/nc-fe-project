@@ -29,6 +29,7 @@ const NavigationBar = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link style={{marginRight: "20px"}} onClick={handleLink} id='articles'>Articles</Nav.Link>
+            <Nav.Link style={{marginRight: "20px"}} onClick={handleLink} id='topics'>Topics</Nav.Link>
             <Nav.Link style={{marginRight: "20px"}} onClick={handleLink} id='/'>Switch User</Nav.Link>
           </Nav>
           <Navbar.Text>

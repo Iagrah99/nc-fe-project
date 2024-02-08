@@ -8,6 +8,7 @@ import PageLoading from '../Components/PageLoading';
 import NavigationBar from "../Components/Navbar";
 import Footer from '../Components/Footer';
 import PageError from '../Components/PageError';
+import { useSearchParams } from 'react-router-dom';
 
 const Articles = () => {
   document.title = 'NC News | Articles';
@@ -15,16 +16,19 @@ const Articles = () => {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setisError] = useState(false)
+  const [searchParams] = useSearchParams();
+
+  const filterByTopic = searchParams.get("topic"); 
 
   useEffect(() => {
-    fetchArticles().then((articles) => {
+    fetchArticles(filterByTopic).then((articles) => {
       setArticles(articles);
       setIsLoading(false);
     }).catch((error) => {
       setIsLoading(false)
       setisError(true)
     });
-  }, []);
+  }, [filterByTopic]);
 
   if (isLoading) return <PageLoading/>
   if (isError) return <PageError/>
