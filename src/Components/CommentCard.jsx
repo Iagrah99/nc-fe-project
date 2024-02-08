@@ -7,6 +7,7 @@ const CommentCard = ({comment, setDeleted}) => {
   const { loggedInUser } = useContext(UserContext);
   const datePosted = comment.created_at.slice(0, -14)
   const [deletingComment, setDeletingComment] = useState(false)
+  const [deletingError, setDeletingError] = useState("")
 
   const handleDelete = (e) => {
     e.preventDefault()
@@ -21,8 +22,11 @@ const CommentCard = ({comment, setDeleted}) => {
     removeComment(comment.comment_id, deletedComment).then(() => {
       setDeleted(comment.comment_id)
       setDeletingComment(false)
+      setDeletingError("")
+    }).catch((err) => {
+      setDeletingComment(false)
+      setDeletingError("There was a problem deleting your comment, please try again.")
     })
-
   }
 
   return ( 
@@ -35,6 +39,7 @@ const CommentCard = ({comment, setDeleted}) => {
         <Card.Text>Posted: {datePosted}</Card.Text>
         {loggedInUser.username === comment.author ? <Button variant="danger" onClick={handleDelete}>Delete Comment</Button>: null}
         {deletingComment ? <p style={{marginBlock: "15px"}}>Deleting Your Comment...</p> : null}
+        {deletingError ? <p style={{marginBlock: "15px"}}>{deletingError}</p> : null}
       </Card.Body>
     </Card>
    </Col>

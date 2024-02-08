@@ -4,8 +4,8 @@ const ncNewsApi = axios.create({
   baseURL: `https://nc-news-project-imqq.onrender.com/api`,
 });
 
-export const fetchArticles = async () => {
-  const res = await ncNewsApi.get(`/articles`);
+export const fetchArticles = async (topic) => {
+  const res = await ncNewsApi.get(`/articles`, { params: { topic: topic } });
   return res.data.articles;
 };
 
@@ -43,5 +43,10 @@ export const addComment = async (articleId = '', comment) => {
 
 export const removeComment = async (commentId = '', comment) => {
   const res = await ncNewsApi.delete(`/comments/${commentId}`, comment);
+  return res.data;
+};
+
+export const fetchTopics = async () => {
+  const res = await ncNewsApi.get(`/topics`);
   return res.data;
 };
