@@ -28,7 +28,7 @@ const Articles = () => {
       setIsLoading(false)
       setisError(true)
     });
-  }, []);
+  }, [filterByTopic]);
 
   if (isLoading) return <PageLoading/>
   if (isError) return <PageError/>
