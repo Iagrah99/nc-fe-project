@@ -1,49 +1,42 @@
 import axios from 'axios';
 
-// Base URL
-
 const ncNewsApi = axios.create({
   baseURL: `https://nc-news-project-imqq.onrender.com/api`,
 });
 
-// Normal Get Request Endpoints
-
 export const fetchArticles = async () => {
-  try {
-    return await ncNewsApi.get(`/articles`);
-  } catch (err) {
-    console.log(err);
-  }
+  const res = await ncNewsApi.get(`/articles`);
+  return res.data.articles;
 };
 
-// Parametric Get Request Endpoints
-
-export const fetchArticleById = (articleId = '') => {
-  return ncNewsApi.get(`/articles/${articleId}`);
+export const fetchArticleById = async (articleId = '') => {
+  const res = await ncNewsApi.get(`/articles/${articleId}`);
+  return res.data.article;
 };
 
-export const fetchCommentsByArticleId = (articleId = '') => {
-  return ncNewsApi.get(`/articles/${articleId}/comments`);
+export const fetchCommentsByArticleId = async (articleId = '') => {
+  const res = await ncNewsApi.get(`/articles/${articleId}/comments`);
+  return res.data;
 };
 
-// Parametric Patch Request Endpoints
-
-export const incrementArticleVotes = async (articleId = '') => {
-  try {
-    return await ncNewsApi.patch(`/articles/${articleId}`, {
-      inc_votes: 1,
-    });
-  } catch (err) {
-    console.log(err);
-  }
+export const incrementArticleVotes = async (articleId = '', voteChange = 1) => {
+  return await ncNewsApi.patch(`/articles/${articleId}`, {
+    inc_votes: voteChange,
+  });
 };
 
-export const decrementArticleVotes = async (articleId = '') => {
-  try {
-    return await ncNewsApi.patch(`/articles/${articleId}`, {
-      inc_votes: -1,
-    });
-  } catch (err) {
-    console.log(err);
-  }
+export const decrementArticleVotes = async (articleId = '', voteChange = 1) => {
+  return await ncNewsApi.patch(`/articles/${articleId}`, {
+    inc_votes: -voteChange,
+  });
+};
+
+export const fetchUsers = async () => {
+  const res = await ncNewsApi.get(`/users`);
+  return res.data.users;
+};
+
+export const addComment = async (articleId = '', comment) => {
+  const res = await ncNewsApi.post(`/articles/${articleId}/comments`, comment);
+  return res.data;
 };

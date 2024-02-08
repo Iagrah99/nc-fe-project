@@ -2,7 +2,9 @@ import textStyles from "../css/TextCSSModule.module.css"
 
 const Header = () => {
   return ( 
-    <h1 className={textStyles.center}><span className={textStyles.red}>NC</span> News</h1>
+    <header style={{marginBlock: "25px"}}>
+      <h1 className={textStyles.center}><span className={textStyles.red}>NC</span> News</h1>
+    </header>
    )
 }
  
