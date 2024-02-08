@@ -1,4 +1,4 @@
-import { Form, Col, Card, Row, Button, FloatingLabel } from "react-bootstrap"
+import { Form, Col, Card, Row, Button} from "react-bootstrap"
 import { useState } from "react";
 import { UserContext } from '../contexts/UserContext';
 import { useContext } from 'react';
@@ -9,37 +9,46 @@ import { useNavigate } from "react-router-dom"
 const CreateComment = ({articleId, setSuccess}) => {
   const [comment, setComment] = useState("")
   const [commentPosted, setCommentPosted] = useState(false)
-  const [isError, setisError] = useState(false);
+  const [commentPostingError, setCommentPostingError] = useState(false)
+  const [commentIsOnlySpaces, setCommentIsOnlySpaces] = useState(false)
+  const [commentPosting, setCommentPosting] = useState(false)
   const { loggedInUser } = useContext(UserContext);
 
   const navigate = useNavigate()
 
-  const addNewComment=(postedComment) => {
-    console.log(postedComment);
-    addComment(articleId, postedComment).then(() => {
+  const addNewComment=(postedComment, e) => {
+    addComment(articleId, postedComment).then((commentFromApi) => {
+      e.target[2].disabled = false
       setCommentPosted(true)
+      setCommentPosting(false)
+      setCommentIsOnlySpaces(false);
       setComment("")
-      setSuccess(true)
+      setSuccess(commentFromApi.comment_id)
 
     }).catch((error) => {
       setCommentPosted(false)
-      setisError(true)
+      setCommentPostingError(true)
     })
   };
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(e.target);
-    
-    const newComment = {
-      username: loggedInUser.username,
-      body: comment
-      }
 
-    addNewComment(newComment)
+    e.target[2].disabled = true
+    setCommentPosting(true)
+
+    const trimmedComment = comment.trim();
+    if (!trimmedComment) {
+      setCommentIsOnlySpaces(true);
+      return;
+    } else {
+        const newComment = {
+        username: loggedInUser.username,
+        body: comment
+        }
+    addNewComment(newComment, e)
+    }
   }
-
-  if (isError) return <PageError />;
 
   return ( 
     <Col xl="12" md="12" sm="12" xs="12">
@@ -55,12 +64,28 @@ const CreateComment = ({articleId, setSuccess}) => {
       <Form.Group className="mb-3" controlId="formGroupComment">
       <Card.Body>
         <Form.Label>Comment</Form.Label>
-        <Form.Control as="textarea" rows={3} placeholder="What are your thoughts?" value={comment} required onChange={(e) => {
-          setComment(e.target.value); setCommentPosted(false)
-          }} />
+        <Form.Control as="textarea" rows={3} placeholder="What are your thoughts?" minLength={3} maxLength={2500} value={comment} required o onChange={(e) => {
+          const inputValue = e.target.value;
+          setComment(inputValue);
+
+          inputValue.trim().length === 0;
+
+          const containsOnlySpaces = /^\s+$/.test(inputValue);
+          setCommentIsOnlySpaces(containsOnlySpaces);
+          
+          const disableButton = containsOnlySpaces || inputValue.trim().length === 0;
+          e.target.form[2].disabled = disableButton;
+
+          setCommentPosted(false);
+         }}/>
         <div style={{marginBlock: "25px"}}/>
+        {comment.length >= 2500 ? <p style={{marginBlock: "15px", color: "red"}}>Your comment is too long! The max character length is 2500.</p> : null}
+        {comment.length > 0 && comment.length < 3 ? <p style={{marginBlock: "15px", color: "red"}}>Your comment is too short! The min character length is 3.</p> : null}
+        {commentIsOnlySpaces && comment.length > 0 ? <p style={{marginBlock: "15px", color: "red"}}>Can't only use spaces!</p> : null}
         <Button type="submit" variant="primary">Post Comment</Button>
-        {commentPosted ? <p style={{marginBlock: "15px"}}>Posted Successfully!</p> : null}
+        {commentPosted ? <p style={{marginBlock: "15px", color: "green"}}>Posted Successfully!</p> : null}
+        {commentPosting ? <p style={{marginBlock: "15px"}}>Posting Your Comment</p> : null}
+        {commentPostingError ? <p style={{marginBlock: "15px"}}>Couldn't post comment, try again later.</p> : null}
       </Card.Body>
       
       </Form.Group>

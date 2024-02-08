@@ -1,7 +1,30 @@
-import { Card, Col } from "react-bootstrap"
+import { Button, Card, Col } from "react-bootstrap"
+import { UserContext } from '../contexts/UserContext';
+import { useContext, useState } from 'react';
+import { removeComment } from "../utils/api";
 
-const CommentCard = ({comment}) => {
+const CommentCard = ({comment, setDeleted}) => {  
+  const { loggedInUser } = useContext(UserContext);
   const datePosted = comment.created_at.slice(0, -14)
+  const [deletingComment, setDeletingComment] = useState(false)
+
+  const handleDelete = (e) => {
+    e.preventDefault()
+    e.target.disabled = true
+    setDeletingComment(comment.comment_id)
+
+    const deletedComment = {
+      username: comment.author,
+      body: comment.body
+      }
+
+    removeComment(comment.comment_id, deletedComment).then(() => {
+      setDeleted(comment.comment_id)
+      setDeletingComment(false)
+    })
+
+  }
+
   return ( 
     <Col xl="12" md="12" sm="12" xs="12">
      <Card bg="dark" style={{ width: '100%'}} >
@@ -10,6 +33,8 @@ const CommentCard = ({comment}) => {
         <Card.Text>{comment.body}</Card.Text>
         <Card.Text>Votes: {comment.votes}</Card.Text>
         <Card.Text>Posted: {datePosted}</Card.Text>
+        {loggedInUser.username === comment.author ? <Button variant="danger" onClick={handleDelete}>Delete Comment</Button>: null}
+        {deletingComment ? <p style={{marginBlock: "15px"}}>Deleting Your Comment...</p> : null}
       </Card.Body>
     </Card>
    </Col>
