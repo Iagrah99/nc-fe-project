@@ -40,3 +40,8 @@ export const addComment = async (articleId = '', comment) => {
   const res = await ncNewsApi.post(`/articles/${articleId}/comments`, comment);
   return res.data;
 };
+
+export const removeComment = async (commentId = '', comment) => {
+  const res = await ncNewsApi.delete(`/comments/${commentId}`, comment);
+  return res.data;
+};

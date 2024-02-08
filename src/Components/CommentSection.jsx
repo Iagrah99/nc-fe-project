@@ -3,7 +3,7 @@ import ArticleComments from "./ArticleComments";
 import CreateComment from "./CreateComment";
 
 const CommentSection = ({articleId}) => {
-  const [success, setSuccess] = useState(false)
+  const [success, setSuccess] = useState(null)
 
   return ( 
     <section>

@@ -4,11 +4,11 @@ import { fetchCommentsByArticleId } from '../utils/api';
 import CommentCard from './CommentCard';
 import CommentsLoading from './CommentsLoading';
 
-
 const ArticleComments = ({ articleId, success }) => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setisError] = useState(false);
+  const [deleted, setDeleted] = useState(null)
 
   useEffect(() => {
     fetchCommentsByArticleId(articleId)
@@ -20,7 +20,7 @@ const ArticleComments = ({ articleId, success }) => {
         setIsLoading(false);
         setisError(true);
       });
-  }, [success]);
+  }, [success, deleted]);
 
   if (isLoading) return <CommentsLoading />;
   if (isError) return <PageError />;
@@ -29,7 +29,7 @@ const ArticleComments = ({ articleId, success }) => {
     <section>
       <Row>
         {comments.map((comment) => (
-          <CommentCard comment={comment} key={comment.comment_id} />
+          <CommentCard comment={comment} key={comment.comment_id} setDeleted={setDeleted}/>
         ))}
       </Row>
     </section>

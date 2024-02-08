@@ -1,7 +1,7 @@
 import { Card, Col, Button } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { decrementArticleVotes, incrementArticleVotes,} from "../utils/api"
+import { decrementArticleVotes, incrementArticleVotes} from "../utils/api"
 import CommentSection from "./CommentSection"
 import "../css/Voting.css"
 
