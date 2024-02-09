@@ -64,7 +64,7 @@ const CreateComment = ({articleId, setSuccess}) => {
       <Form.Group className="mb-3" controlId="formGroupComment">
       <Card.Body>
         <Form.Label>Comment</Form.Label>
-        <Form.Control as="textarea" rows={3} placeholder="What are your thoughts?" minLength={3} maxLength={2500} value={comment} required onChange={(e) => {
+        <Form.Control as="textarea" rows={3} placeholder="What are your thoughts?" maxLength={2500} value={comment} required onChange={(e) => {
           const inputValue = e.target.value;
           setComment(inputValue);
 
@@ -80,7 +80,6 @@ const CreateComment = ({articleId, setSuccess}) => {
          }}/>
         <div style={{marginBlock: "25px"}}/>
         {comment.length >= 2500 ? <p style={{marginBlock: "15px", color: "red"}}>Your comment is too long! The max character length is 2500.</p> : null}
-        {comment.length > 0 && comment.length < 3 ? <p style={{marginBlock: "15px", color: "red"}}>Your comment is too short! The min character length is 3.</p> : null}
         {commentIsOnlySpaces && comment.length > 0 ? <p style={{marginBlock: "15px", color: "red"}}>Can't only use spaces!</p> : null}
         <Button type="submit" variant="primary">Post Comment</Button>
         {commentPosted ? <p style={{marginBlock: "15px", color: "green"}}>Posted Successfully!</p> : null}

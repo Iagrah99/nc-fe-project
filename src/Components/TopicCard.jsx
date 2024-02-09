@@ -6,7 +6,7 @@ const TopicCard = ({topic}) => {
   const navigate = useNavigate()
 
   const handleClick = () => {
-      navigate(`/articles?topic=${topic.slug}`)
+      navigate(`/articles/${topic.slug}`)
   }
 
   return (

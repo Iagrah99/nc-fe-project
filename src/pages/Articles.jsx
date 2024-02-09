@@ -1,14 +1,13 @@
-import { Container } from 'react-bootstrap';
+import { Col, Container, Row, Form } from 'react-bootstrap';
 import Header from '../Components/Header';
 import ArticleCard from '../Components/ArticleCard';
 import { fetchArticles } from '../utils/api';
 import { useEffect, useState } from 'react';
-import { Row } from 'react-bootstrap';
 import PageLoading from '../Components/PageLoading';
 import NavigationBar from "../Components/Navbar";
 import Footer from '../Components/Footer';
 import PageError from '../Components/PageError';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 const Articles = () => {
   document.title = 'NC News | Articles';
@@ -16,19 +15,32 @@ const Articles = () => {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setisError] = useState(false)
-  const [searchParams] = useSearchParams();
-
-  const filterByTopic = searchParams.get("topic"); 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const sortByQuery = searchParams.get("sort_by");
+  const orderByQuery = searchParams.get("order_by");
+  const {topic} = useParams()
 
   useEffect(() => {
-    fetchArticles(filterByTopic).then((articles) => {
+    fetchArticles(topic, sortByQuery, orderByQuery).then((articles) => {
       setArticles(articles);
-      setIsLoading(false);
+      setIsLoading(false);  
     }).catch((error) => {
       setIsLoading(false)
       setisError(true)
     });
-  }, [filterByTopic]);
+  }, [sortByQuery, orderByQuery]);
+
+  const handleSortBy = (e) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('sort_by', e.target.value);
+    setSearchParams(newParams);
+  }
+
+  const handleOrderBy = (e) => {
+     const newParams = new URLSearchParams(searchParams);
+     newParams.set('order_by', e.target.value);
+     setSearchParams(newParams);
+  }
 
   if (isLoading) return <PageLoading/>
   if (isError) return <PageError/>
@@ -37,6 +49,29 @@ const Articles = () => {
     <Container style={{minHeight: "100vh"}} fluid="xl">
       <NavigationBar/>
       <Header />
+      <Form>
+        <Row>
+          <Col>
+          <Form.Group className="mb-3" controlId="SortByGroup">
+          <p>Sort By</p>
+          <Form.Select aria-label="select-category" onChange={handleSortBy}>
+            <option value="created_at" id="date">Date</option>
+            <option value="comment_count" id="comment_count">Comment Count</option>
+            <option value="votes" id="votes">Votes</option>
+          </Form.Select>
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group className="mb-3" onChange={handleOrderBy}>
+          <p>Order By</p>
+          <Form.Select aria-label="select-category">
+            <option value="asc" id="ascending">Ascending</option>
+            <option value="desc" id="descending">Descending</option>
+          </Form.Select>
+          </Form.Group>
+          </Col>
+          </Row>
+        </Form>
         <Container fluid="xs">
           <Row>
             {articles.map((article) => (
