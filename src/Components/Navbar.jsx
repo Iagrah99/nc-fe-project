@@ -7,7 +7,7 @@ import { UserContext } from '../contexts/UserContext';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const NavigationBar = () => {
+const NavigationBar = ({error}) => {
   const navigate = useNavigate();
   
   const { loggedInUser } = useContext(UserContext);
@@ -18,7 +18,6 @@ const NavigationBar = () => {
     } else {
       navigate(`/${e.target.id}`)
     }
-    
   }
   return (
     <Navbar expand="lg" className="bg-body-tertiary" sticky='top'>

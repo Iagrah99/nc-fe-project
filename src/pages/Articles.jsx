@@ -15,6 +15,7 @@ const Articles = () => {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setisError] = useState(false)
+  const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const sortByQuery = searchParams.get("sort_by");
   const orderByQuery = searchParams.get("order_by");
@@ -22,13 +23,16 @@ const Articles = () => {
 
   useEffect(() => {
     fetchArticles(topic, sortByQuery, orderByQuery).then((articles) => {
+      setisError(false)
       setArticles(articles);
       setIsLoading(false);  
+      
     }).catch((error) => {
       setIsLoading(false)
+      setError(error)
       setisError(true)
     });
-  }, [sortByQuery, orderByQuery]);
+  }, [sortByQuery, orderByQuery, isError, topic]);
 
   const handleSortBy = (e) => {
     const newParams = new URLSearchParams(searchParams);
@@ -43,45 +47,47 @@ const Articles = () => {
   }
 
   if (isLoading) return <PageLoading/>
-  if (isError) return <PageError/>
+  if (isError) return <PageError error={error}/>
 
-  return (
-    <Container style={{minHeight: "100vh"}} fluid="xl">
-      <NavigationBar/>
-      <Header />
-      <Form>
-        <Row>
-          <Col>
-          <Form.Group className="mb-3" controlId="SortByGroup">
-          <p>Sort By</p>
-          <Form.Select aria-label="select-category" onChange={handleSortBy}>
-            <option value="created_at" id="date">Date</option>
-            <option value="comment_count" id="comment_count">Comment Count</option>
-            <option value="votes" id="votes">Votes</option>
-          </Form.Select>
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group className="mb-3" onChange={handleOrderBy}>
-          <p>Order By</p>
-          <Form.Select aria-label="select-category">
-            <option value="asc" id="ascending">Ascending</option>
-            <option value="desc" id="descending">Descending</option>
-          </Form.Select>
-          </Form.Group>
-          </Col>
-          </Row>
-        </Form>
-        <Container fluid="xs">
+  else if (!isError) {
+    return (
+      <Container style={{minHeight: "100vh"}} fluid="xl">
+        <NavigationBar error={error}/>
+        <Header />
+        <Form>
           <Row>
-            {articles.map((article) => (
-              <ArticleCard article={article} key={article.article_id} />
-            ))}
-          </Row>
-        </Container>
-      <Footer/>
-    </Container>
-  );
+            <Col>
+            <Form.Group className="mb-3" controlId="SortByGroup">
+            <p>Sort By</p>
+            <Form.Select aria-label="select-category" onChange={handleSortBy}>
+              <option value="created_at" id="date">Date</option>
+              <option value="comment_count" id="comment_count">Comment Count</option>
+              <option value="votes" id="votes">Votes</option>
+            </Form.Select>
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group className="mb-3" onChange={handleOrderBy}>
+            <p>Order By</p>
+            <Form.Select aria-label="select-category">
+              <option value="asc" id="ascending">Ascending</option>
+              <option value="desc" id="descending">Descending</option>
+            </Form.Select>
+            </Form.Group>
+            </Col>
+            </Row>
+          </Form>
+          <Container fluid="xs">
+            <Row>
+              {articles.map((article) => (
+                <ArticleCard article={article} key={article.article_id} />
+              ))}
+            </Row>
+          </Container>
+        <Footer/>
+      </Container>
+    );
+  }
 };
 
 export default Articles;
