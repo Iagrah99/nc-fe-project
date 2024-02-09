@@ -1,7 +1,12 @@
 import { Card, Col, Button } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
+import { format } from 'date-fns'
 
 const ArticleCard = ({article, topic}) => {
+  const postedDate = article.created_at
+
+  const formattedDate = format(postedDate, "dd/MM/yyyy 'at' HH:mm");
+
   const navigate = useNavigate()
   const handleClick = (id) => {
     navigate(`/articles/article/${id}`)
@@ -16,7 +21,7 @@ const ArticleCard = ({article, topic}) => {
           <Card.Title>{article.title}</Card.Title>
           <Card.Text>Topic: {article.topic}</Card.Text>
           <Card.Text>Author: {article.author}</Card.Text>
-          <Card.Text>Posted: {article.created_at.slice(0, -14)}</Card.Text>
+          <Card.Text>Posted On: {formattedDate}</Card.Text>
           <Card.Text>Votes: {article.votes}</Card.Text>
           <Card.Text>Comment Count: {article.comment_count}</Card.Text>
         </Card.Body>

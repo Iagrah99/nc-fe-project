@@ -23,7 +23,7 @@ const NavigationBar = () => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary" sticky='top'>
       <Container >
-        <Navbar.Brand style={{cursor: "pointer"}} onClick={() => navigate("/home")}><span className={textStyles.red}>NC</span> News</Navbar.Brand>
+        <Navbar.Brand style={{cursor: "pointer"}} onClick={() => navigate("/articles")}><span className={textStyles.red}>NC</span> News</Navbar.Brand>
           
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
