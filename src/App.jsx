@@ -18,6 +18,7 @@ function App() {
       <Route path='/articles/:topic' element={<Articles/>} />
       <Route path='/articles/*' element={<PageError/>} />
       <Route path="/articles/article/:articleId" element={<ArticleById/>} />
+      <Route path="/articles/article/*" element={<PageError/>} />
     </Routes>
   )
 }
