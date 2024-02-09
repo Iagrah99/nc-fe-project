@@ -26,12 +26,11 @@ const Articles = () => {
       setisError(false)
       setArticles(articles);
       setIsLoading(false);  
-      
     }).catch((error) => {
       setIsLoading(false)
       setError(error)
       setisError(true)
-    });
+    })
   }, [sortByQuery, orderByQuery, isError, topic]);
 
   const handleSortBy = (e) => {
@@ -70,8 +69,8 @@ const Articles = () => {
             <Form.Group className="mb-3" onChange={handleOrderBy}>
             <p>Order By</p>
             <Form.Select aria-label="select-category">
+              <option value="desc" id="descending">Descending (Default)</option>
               <option value="asc" id="ascending">Ascending</option>
-              <option value="desc" id="descending">Descending</option>
             </Form.Select>
             </Form.Group>
             </Col>

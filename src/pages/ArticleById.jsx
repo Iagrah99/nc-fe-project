@@ -13,23 +13,26 @@ const ViewArticle = () => {
 
   const [article, setArticle] = useState({})
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setisError] = useState(false)
+  const [isError, setIsError] = useState(false)
+  const [error, setError] = useState(null);
   const { articleId } = useParams()
 
   document.title = `NC News | ${article.title}`
 
   useEffect(() => {
     fetchArticleById(articleId).then((article) => {
+      setIsError(false)
       setArticle(article)
       setIsLoading(false)
     }).catch((error) => {
       setIsLoading(false)
-      setisError(true)
+      setError(error)
+      setIsError(true)
     });
   }, [])
 
   if (isLoading) return <PageLoading/>
-  if (isError) return <PageError/>
+  if (isError) return <PageError error={error}/>
 
   return ( 
     <Container style={{minHeight: "100vh"}} fluid="xl">
