@@ -25,7 +25,7 @@ const Topics = () => {
   }, []); 
 
   if (isLoading) return <PageLoading/>
-  // if (isError) return <PageError error={error}/>
+  if (isError) return <PageError error={error}/>
 
     return (
       <Container style={{minHeight: "100vh"}}>

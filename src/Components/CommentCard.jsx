@@ -2,12 +2,15 @@ import { Button, Card, Col } from "react-bootstrap"
 import { UserContext } from '../contexts/UserContext';
 import { useContext, useState } from 'react';
 import { removeComment } from "../utils/api";
+import { format } from 'date-fns'
 
 const CommentCard = ({comment, setDeleted}) => {  
   const { loggedInUser } = useContext(UserContext);
-  const datePosted = comment.created_at.slice(0, -14)
   const [deletingComment, setDeletingComment] = useState(false)
   const [deletingError, setDeletingError] = useState("")
+  const datePosted = comment.created_at
+
+  const formattedDate = format(datePosted, "dd/MM/yyyy 'at' HH:mm");
 
   const handleDelete = (e) => {
     e.preventDefault()
@@ -36,7 +39,7 @@ const CommentCard = ({comment, setDeleted}) => {
         <Card.Title>By {comment.author}</Card.Title>
         <Card.Text>{comment.body}</Card.Text>
         <Card.Text>Votes: {comment.votes}</Card.Text>
-        <Card.Text>Posted: {datePosted}</Card.Text>
+        <Card.Text>Posted On: {formattedDate}</Card.Text>
         {loggedInUser.username === comment.author ? <Button variant="danger" onClick={handleDelete}>Delete Comment</Button>: null}
         {deletingComment ? <p style={{marginBlock: "15px"}}>Deleting Your Comment...</p> : null}
         {deletingError ? <p style={{marginBlock: "15px"}}>{deletingError}</p> : null}

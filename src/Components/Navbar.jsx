@@ -22,14 +22,14 @@ const NavigationBar = ({error}) => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary" sticky='top'>
       <Container >
-        <Navbar.Brand style={{cursor: "pointer"}} onClick={() => navigate("/articles")}><span className={textStyles.red}>NC</span> News</Navbar.Brand>
+        <Navbar.Brand style={{cursor: "pointer"}} onClick={() => navigate("/home")}><span className={textStyles.red}>NC</span> News</Navbar.Brand>
           
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link style={{marginRight: "20px"}} onClick={handleLink} id='articles'>Articles</Nav.Link>
             <Nav.Link style={{marginRight: "20px"}} onClick={handleLink} id='topics'>Topics</Nav.Link>
-            <Nav.Link style={{marginRight: "20px"}} onClick={handleLink} id='/'>Switch User</Nav.Link>
+            <Nav.Link style={{marginRight: "20px"}} onClick={handleLink} id='login'>Switch User</Nav.Link>
           </Nav>
           <Navbar.Text>
             Logged in as: {loggedInUser.username} <img src={loggedInUser.avatar_url} className={imageStyles.avatar}/>
