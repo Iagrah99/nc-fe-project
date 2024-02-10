@@ -1,9 +1,7 @@
-import { Col, Row } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { fetchCommentsByArticleId } from '../utils/api';
 import CommentCard from './CommentCard';
-import { format } from 'date-fns'
-
 import CommentsLoading from './CommentsLoading';
 
 const ArticleComments = ({ articleId, success }) => {

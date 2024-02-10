@@ -15,7 +15,7 @@ const ArticleCard = ({article, topic}) => {
   return ( 
     <Col xl="4" md="6" sm="12" xs="12">
       <article>
-      <Card bg="dark" style={{ width: '100%', height: "40rem"}} >
+      <Card bg="dark" style={{ width: '100%', height: "41rem"}} >
         <Card.Img src={article.article_img_url} style={{maxHeight: "20rem", minHeight: "20rem"}} alt={`An article image about ${article.topic}`}/>
         <Card.Body>
           <Card.Title>{article.title}</Card.Title>
@@ -25,7 +25,7 @@ const ArticleCard = ({article, topic}) => {
           <Card.Text>Votes: {article.votes}</Card.Text>
           <Card.Text>Comment Count: {article.comment_count}</Card.Text>
         </Card.Body>
-        <Button onClick={() => handleClick(article.article_id)} variant="danger">Visit Article</Button>
+        <Button onClick={() => handleClick(article.article_id)} variant="danger" style={{fontSize: "1rem"}}>Visit Article</Button>
       </Card>
     </article>
     <div style={{marginBlock: "75px"}}></div>

@@ -5,3 +5,8 @@
 .red {
   color: red;
 }
+
+.heading {
+  text-align: center;
+  margin-block: 2rem;
+}

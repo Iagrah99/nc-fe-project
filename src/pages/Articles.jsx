@@ -1,5 +1,4 @@
 import { Col, Container, Row, Form } from 'react-bootstrap';
-import Header from '../Components/Header';
 import ArticleCard from '../Components/ArticleCard';
 import { fetchArticles } from '../utils/api';
 import { useEffect, useState } from 'react';
@@ -8,6 +7,8 @@ import NavigationBar from "../Components/Navbar";
 import Footer from '../Components/Footer';
 import PageError from '../Components/PageError';
 import { useParams, useSearchParams } from 'react-router-dom';
+import styles from "../css/TextCSSModule.module.css"
+import Header from '../Components/Header';
 
 const Articles = () => {
   document.title = 'NC News | Articles';
@@ -52,12 +53,12 @@ const Articles = () => {
     return (
       <Container style={{minHeight: "100vh"}} fluid="xl">
         <NavigationBar error={error}/>
-        <Header />
-        <Form>
-          <Row>
-            <Col>
+        <Header/>
+        <Form style={{marginBlock: "3rem"}}>
+          <Row className="justify-content-center">
+            <Col md="auto" sm="auto" xs="auto">
             <Form.Group className="mb-3" controlId="SortByGroup">
-            <p>Sort By</p>
+            <p style={{textAlign: "center"}}>Sort By</p>
             <Form.Select aria-label="select-category" onChange={handleSortBy}>
               <option value="created_at" id="date">Date</option>
               <option value="comment_count" id="comment_count">Comment Count</option>
@@ -65,9 +66,9 @@ const Articles = () => {
             </Form.Select>
             </Form.Group>
           </Col>
-          <Col>
+          <Col md="auto" sm="auto" xs="auto">
             <Form.Group className="mb-3" onChange={handleOrderBy}>
-            <p>Order By</p>
+            <p style={{textAlign: "center"}}>Order By</p>
             <Form.Select aria-label="select-category">
               <option value="desc" id="descending">Descending (Default)</option>
               <option value="asc" id="ascending">Ascending</option>

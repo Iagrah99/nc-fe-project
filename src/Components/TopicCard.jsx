@@ -17,7 +17,7 @@ const TopicCard = ({topic}) => {
     <Card.Title style={{textAlign: "center"}}>{topic.slug}</Card.Title>
     <Card.Text style={{textAlign: "center"}}>{topic.description}</Card.Text>
     </Card.Body>
-    <Button variant="primary" onClick={handleClick}>View {topic.slug} Articles</Button>
+    <Button variant="primary" onClick={handleClick} style={{fontSize: "1rem"}}>View {topic.slug} Articles</Button>
     </Card>
     <div style={{marginBlock: "50px"}}></div>
     </Col>

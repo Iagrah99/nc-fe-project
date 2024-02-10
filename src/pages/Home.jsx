@@ -37,7 +37,7 @@ const Articles = () => {
       <Container fluid="xl">
         <NavigationBar/>
         <main style={{minHeight: "75vh"}}>
-        <h2 className={textStyles.center} style={{marginBlock: "2rem"}}>Hey {loggedInUser.username}!</h2>
+        <h1 className={textStyles.center} style={{marginBlock: "2rem"}}>Hey {loggedInUser.username}!</h1>
         <h2 className={textStyles.center} style={{marginBottom: "2rem"}}>Here Are Your Articles</h2>
 
         <Container fluid="xs">

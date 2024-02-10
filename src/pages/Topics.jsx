@@ -7,6 +7,7 @@ import NavigationBar from "../Components/Navbar";
 import PageLoading from "../Components/PageLoading";
 import TopicCard from "../Components/TopicCard";
 import PageError from "../Components/PageError";
+import styles from "../css/TextCSSModule.module.css"
 
 const Topics = () => {
   document.title = 'NC News | Topics';
@@ -21,6 +22,10 @@ const Topics = () => {
       setisError(false)
       setTopics(topics)
       setIsLoading(false)
+    }).catch((error) => {
+      setisError(true)
+      setIsLoading(false)
+      setError(error)
     })
   }, []); 
 
@@ -28,10 +33,10 @@ const Topics = () => {
   if (isError) return <PageError error={error}/>
 
     return (
-      <Container style={{minHeight: "100vh"}}>
+      <Container>
       <NavigationBar />
-      <h1 style={{textAlign: "center", marginBlock: "5rem"}}>Browse Topics</h1>
-      <main>
+      <main style={{minHeight: "100vh"}}>
+      <h1 className={styles.heading}>Browse Topics</h1>
         <Row>
           {topics.map((topic) => (
            <TopicCard topic={topic} key={topic.slug}/>

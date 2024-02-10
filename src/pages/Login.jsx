@@ -27,7 +27,7 @@ const Login = () => {
   return (
     <Container style={{minHeight: "100vh"}}>
     <NavigationBar />
-    <h1 style={{textAlign: "center", marginBlock: "5rem"}}>Select A User</h1>
+    <h1 style={{textAlign: "center", marginBlock: "2.5rem"}}>Select A User</h1>
     <main>
       <Row>
         {users.map((user) => (
