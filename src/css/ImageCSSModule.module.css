@@ -6,6 +6,18 @@
 }
 
 .userAvatar {
-  min-height: 20rem;
-  max-height: 20rem;
+  height: 20rem;
+  padding: 2.5rem 2.5rem 0 2.5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .userAvatar {
+    height: 20rem;
+    width: 20rem;
+    padding: 2.5rem 0 0 0;
+  }
+
+  .userTitle {
+    font-size: 2rem;
+  }
 }

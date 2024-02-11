@@ -8,10 +8,13 @@ const UserCard = ({user}) => {
   const { loggedInUser, setLoggedInUser} = useContext(UserContext)
   return (
     <Col xl="4" md="6" xs="12" key={user.username}>
-    <Card style={{ width: '100%', height: "30rem"}}>
+    <Card>
+    <figure style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
     <Card.Img src={user.avatar_url} className={imgStyles.userAvatar} />
-    <Card.Body >
-    <Card.Title className={txtStyles.heading}>{user.username}</Card.Title>
+     </figure>
+    <Card.Body>
+    <Card.Title className={`${txtStyles.heading} ${txtStyles.userTitle}`}>{user.username}</Card.Title>
+    <Card.Text className={txtStyles.userText}>{user.name}</Card.Text>
     </Card.Body>
     {user.username !== loggedInUser.username ?
     <Button variant="primary" id={user.username} style={{fontSize: "1rem"}} onClick={() => {

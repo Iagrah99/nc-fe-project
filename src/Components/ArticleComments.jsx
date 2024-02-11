@@ -8,7 +8,7 @@ const ArticleComments = ({ articleId, success }) => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setisError] = useState(false);
-  const [deleted, setDeleted] = useState(null)
+  const [deleted, setDeleted] = useState(false)
 
   useEffect(() => {
     fetchCommentsByArticleId(articleId)
@@ -29,7 +29,7 @@ const ArticleComments = ({ articleId, success }) => {
     <section>
       <Row>
         {comments.map((comment) => (
-          <CommentCard comment={comment} key={comment.comment_id} setDeleted={setDeleted}/>
+          <CommentCard comment={comment} key={comment.comment_id} setDeleted={setDeleted} deleted={deleted}/>
         ))}
       </Row>
     </section>

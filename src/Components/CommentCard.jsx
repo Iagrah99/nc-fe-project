@@ -4,7 +4,7 @@ import { useContext, useState } from 'react';
 import { removeComment } from "../utils/api";
 import { format } from 'date-fns'
 
-const CommentCard = ({comment, setDeleted}) => {  
+const CommentCard = ({comment, setDeleted, deleted}) => {  
   const { loggedInUser } = useContext(UserContext);
   const [deletingComment, setDeletingComment] = useState(false)
   const [deletingError, setDeletingError] = useState("")
@@ -23,11 +23,9 @@ const CommentCard = ({comment, setDeleted}) => {
       }
 
     removeComment(comment.comment_id, deletedComment).then(() => {
-      setDeleted(comment.comment_id)
-      setDeletingComment(false)
+      setDeleted(!deleted)
       setDeletingError("")
     }).catch((err) => {
-      setDeletingComment(false)
       setDeletingError("There was a problem deleting your comment, please try again.")
     })
   }

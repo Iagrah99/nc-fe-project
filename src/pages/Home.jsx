@@ -1,4 +1,4 @@
-import { Container, Row } from 'react-bootstrap';
+import { Card, Container, Row } from 'react-bootstrap';
 import Header from '../Components/Header';
 import NavigationBar from "../Components/Navbar";
 import Footer from '../Components/Footer';
@@ -30,6 +30,9 @@ const Articles = () => {
     })
   }, [isError]);
 
+  // Next feature to Include:
+  // Fetch User Comments, show which article each one belongs to with their votes.
+
   if (isLoading) return <PageLoading/>
   if (isError) return <PageError error={error}/>
 
@@ -37,12 +40,13 @@ const Articles = () => {
       <Container fluid="xl">
         <NavigationBar/>
         <main style={{minHeight: "75vh"}}>
-        <h1 className={textStyles.center} style={{marginBlock: "2rem"}}>Hey {loggedInUser.username}!</h1>
-        <h2 className={textStyles.center} style={{marginBottom: "2rem"}}>Here Are Your Articles</h2>
+        <h1 className={textStyles.center} style={{margin: "3rem 0 2.5rem 0"}}>Hey {loggedInUser.username}!</h1>
+        
 
         <Container fluid="xs">
         
             <Row>
+            <h2 className={textStyles.center} style={{marginBlock: "1.5rem"}}>Your Articles</h2>
               {articles.map((article) => (
                  article.author === loggedInUser.username ? (
                   <ArticleCard article={article} key={article.article_id} />
