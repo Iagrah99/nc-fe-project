@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { decrementArticleVotes, incrementArticleVotes} from "../utils/api"
 import CommentSection from "./CommentSection"
 import "../css/Voting.css"
+import imgStyles from "../css/ImageCSSModule.module.css"
 import { format } from 'date-fns'
 
 const ArticlePost = ({article, articleId}) => { 
@@ -79,13 +80,13 @@ const ArticlePost = ({article, articleId}) => {
 
   return ( 
     <Col xl="12" md="12" sm="12" xs="12">
-    <Card bg="red" style={{ width: '100%'}} >
+    <Card bg="red" style={{ width: '100%'}}>
     <Card.Body >
+    <Card.Title style={{marginBlock: "2rem", textAlign: "center", fontSize: "2rem"}}>{article.title}</Card.Title>
     <figure style={{display: "flex"}}>
-      <Card.Img src={article.article_img_url} style={{width: "100%", margin: "auto"}} alt={`An article image about ${article.topic}`} />
+      <Card.Img src={article.article_img_url} className={imgStyles.articleImg} alt={`An article image about ${article.topic}`} />
      </figure>
      <Button style={{display: "block", marginBottom: "15px"}} variant="danger" onClick={handleClick}>Go Back</Button>
-      <Card.Title style={{marginBlock: "1rem"}}>{article.title}</Card.Title>
       <Card.Text>Posted: {formattedDate} By {article.author}</Card.Text>   
       <Card.Text style={{marginBlock: "1rem"}}>{article.body}</Card.Text>
       {error ? <p>{error}</p> : null}
