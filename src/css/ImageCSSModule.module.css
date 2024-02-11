@@ -13,11 +13,7 @@
 @media only screen and (max-width: 600px) {
   .userAvatar {
     height: 20rem;
-    width: 20rem;
-    padding: 2.5rem 0 0 0;
-  }
-
-  .userTitle {
-    font-size: 2rem;
+    width: 100%; 
+    padding: 2.5rem 1rem 0 1rem; 
   }
 }
