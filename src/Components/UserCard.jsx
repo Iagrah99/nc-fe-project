@@ -8,7 +8,7 @@ const UserCard = ({user}) => {
   const { loggedInUser, setLoggedInUser} = useContext(UserContext)
   return (
     <Col xl="4" md="6" xs="12" key={user.username}>
-    <Card>
+    <Card style={{minHeight: "35rem", maxHeight: "35rem"}}>
     <figure style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
     <Card.Img src={user.avatar_url} className={imgStyles.userAvatar} />
      </figure>
