@@ -10,7 +10,7 @@ const TopicCard = ({topic}) => {
   }
 
   return (
-    <Col xl="4" md="6" xs="12">
+    <Col xl="3" md="6" sm="12" xs="12">
     <Card style={{ width: '100%', height: "30rem"}}>
     <Card.Img src={`http://tiny.cc/${topic.slug}1234`} style={{minHeight: "20rem", maxHeight: "20rem"}} />
     <Card.Body >

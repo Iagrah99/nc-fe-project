@@ -1,0 +1,24 @@
+.navLink {
+    color: #fff;
+    margin-right: 2rem;
+
+    transition: transform 0.15s;
+
+    @media (max-width: 500px) {
+        margin-left: 2rem;
+    }
+}
+
+.currentUser {
+
+    color: #fff;
+
+    @media (max-width: 500px) {
+        margin-left: 2rem;
+    }
+}
+
+.navLink:hover {
+   transform: scale(1.05);
+   color: red;
+}

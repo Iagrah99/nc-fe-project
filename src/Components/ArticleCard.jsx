@@ -13,7 +13,7 @@ const ArticleCard = ({article, topic}) => {
   }
 
   return ( 
-    <Col xl="4" md="6" sm="12" xs="12">
+    <Col xl="2" md="6" sm="12" xs="12">
       <article>
       <Card bg="dark" style={{ width: '100%', height: "41rem"}} >
         <Card.Img src={article.article_img_url} style={{maxHeight: "20rem", minHeight: "20rem"}} alt={`An article image about ${article.topic}`}/>

@@ -8,6 +8,8 @@ import PageLoading from "../Components/PageLoading";
 import TopicCard from "../Components/TopicCard";
 import PageError from "../Components/PageError";
 import styles from "../css/TextCSSModule.module.css"
+import Main from "../styled_components/StyledMain";
+import H2 from "../styled_components/StyledHeadings"
 
 const Topics = () => {
   document.title = 'NC News | Topics';
@@ -33,16 +35,18 @@ const Topics = () => {
   if (isError) return <PageError error={error}/>
 
     return (
-      <Container>
+      <Container fluid="xs">
       <NavigationBar />
-      <main style={{minHeight: "100vh"}}>
+      <Main>
       <h1 className={styles.heading}>Browse Topics</h1>
-        <Row>
+      <div >
+        <Row style={{display: "flex", justifyContent: "center"}}>
           {topics.map((topic) => (
            <TopicCard topic={topic} key={topic.slug}/>
           ))}
         </Row>
-    </main>
+      </div>
+    </Main>
     <Footer/>
   </Container>
     )

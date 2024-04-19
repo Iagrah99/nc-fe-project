@@ -1,11 +1,11 @@
 import { Container } from 'react-bootstrap';
 import textStyles from "../css/TextCSSModule.module.css"
 import Spinner from 'react-bootstrap/Spinner';
-const PageLoading = () => {
+const PageLoading = ({contentType}) => {
   return ( 
-    <Container fluid="xl">
+    <Container >
       <div style={{ marginBlock: '150px' }} className={textStyles.center}>
-      <h1 style={{ marginBlock: '15px' }}>Loading Content</h1>
+      <h1 style={{ marginBlock: '15px' }}>Loading {contentType}.</h1>
       <Spinner animation="border" role="status"/>
       </div>
     </Container>
