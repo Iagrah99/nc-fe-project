@@ -1,13 +1,15 @@
 import { Container } from 'react-bootstrap';
-import textStyles from "../css/TextCSSModule.module.css"
 import Spinner from 'react-bootstrap/Spinner';
+import { H1 } from "../styled_components/StyledHeadings"
+import { LoadingDiv } from "../styled_components/StyledLoading"
+
 const PageLoading = ({contentType}) => {
   return ( 
-    <Container >
-      <div style={{ marginBlock: '150px' }} className={textStyles.center}>
-      <h1 style={{ marginBlock: '15px' }}>Loading {contentType}.</h1>
+    <Container>
+      <LoadingDiv>
+      <H1>Loading {contentType}</H1>
       <Spinner animation="border" role="status"/>
-      </div>
+      </LoadingDiv>
     </Container>
    );
 }

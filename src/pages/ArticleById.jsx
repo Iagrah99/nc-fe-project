@@ -8,6 +8,7 @@ import PageError from "../Components/PageError"
 import ArticlePost from "../Components/ArticlePost"
 import NavigationBar from "../Components/Navbar"
 import Footer from "../Components/Footer"
+import Main from "../styled_components/StyledMain";
 
 const ViewArticle = () => {
 
@@ -31,19 +32,25 @@ const ViewArticle = () => {
     });
   }, [])
 
-  if (isLoading) return <PageLoading/>
-  if (isError) return <PageError error={error}/>
+  if (isError) return <PageError error={error} />
 
-  return ( 
-    <Container style={{minHeight: "100vh"}} fluid="xl">
-    <NavigationBar/>
-    <Header/>
-    <main>
-      <article style={{display: "flex", justifyContent: "center"}}> <ArticlePost article={article} articleId={articleId}/> </article>
-   </main>
-   <Footer/>
-   </Container>
-   )
+  return (
+    <Container fluid="xs">
+      <NavigationBar />
+      <Header />
+
+      <Main>
+        {isLoading ? (
+          <PageLoading contentType="Article" />
+        ) : (
+          <article>
+            <ArticlePost article={article} articleId={articleId} />
+          </article>
+        )}
+      </Main>
+      <Footer />
+    </Container>
+  )
 }
- 
+
 export default ViewArticle;

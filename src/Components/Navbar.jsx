@@ -1,8 +1,8 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
+import Span from "../styled_components/StyledSpan"
 import imageStyles from "../css/ImageCSSModule.module.css"
-import textStyles from "../css/TextCSSModule.module.css"
 import navLinkStyles from "../css/NavLinkCSSModule.module.css"
 import { UserContext } from '../contexts/UserContext';
 import { useContext } from 'react';
@@ -23,9 +23,8 @@ const NavigationBar = ({ error }) => {
   }
   return (
     <Navbar expand="lg" className="bg-body-tertiary " sticky='top' >
-      
       <Container>
-      <Navbar.Brand style={{ cursor: "pointer", marginLeft: "2rem" }} onClick={() => navigate("/home")}><span className={textStyles.red}>NC</span> News</Navbar.Brand>
+      <Navbar.Brand href='/'><Span>NC</Span> News</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="justify-content-center flex-grow-1">

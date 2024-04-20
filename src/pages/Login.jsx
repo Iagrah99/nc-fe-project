@@ -1,46 +1,47 @@
-import { useState, useEffect } from "react"
-import { fetchUsers } from '../utils/api';
-import Container from 'react-bootstrap/Container';
+import { useState, useEffect } from "react";
+import { fetchUsers } from "../utils/api";
+import Container from "react-bootstrap/Container";
 import { Row } from "react-bootstrap";
-import Footer from '../Components/Footer';
+import Footer from "../Components/Footer";
 import NavigationBar from "../Components/Navbar";
 import UserCard from "../Components/UserCard";
 import PageLoading from "../Components/PageLoading";
-import { format } from 'date-fns'
 import Main from "../styled_components/StyledMain";
+import { H1 } from "../styled_components/StyledHeadings";
 
 const Login = () => {
-  document.title = 'NC News | Login';
+  document.title = "NC News | Login";
 
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchUsers().then((users) => {
-      setUsers(users)
-      setIsLoading(false)
-    })
-
+      setUsers(users);
+      setIsLoading(false);
+    });
   }, []);
-
-  if (isLoading) return <PageLoading />
 
   return (
     <Container fluid="xs">
       <NavigationBar />
-      <h1 style={{ textAlign: "center", marginBlock: "2.5rem", fontSize: "3rem" }}>Select A User</h1>
-      <Container fluid="xs">
-        <Main>
-          <Row>
-            {users.map((user) => (
-              <UserCard user={user} key={user.username} />
-            ))}
-          </Row>
-        </Main>
-      </Container>
+      <Main>  
+        {isLoading ? (
+          <PageLoading contentType="Users" />
+        ) : (
+          <Container fluid="xs">
+            <H1>Select A User</H1>
+            <Row>
+              {users.map((user) => (
+                <UserCard user={user} key={user.username} />
+              ))}
+            </Row>
+          </Container>
+        )}
+      </Main>
       <Footer />
     </Container>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

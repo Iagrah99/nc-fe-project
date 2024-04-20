@@ -1,23 +1,28 @@
 import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
-import textStyles from "../css/TextCSSModule.module.css"
+import Span from "../styled_components/StyledSpan"
+import navLinkStyles from "../css/NavLinkCSSModule.module.css"
 import ScrollButton from './BackToTop';
 import { Link } from 'react-router-dom';
+import Footer from "../styled_components/StyledFooter"
 import '@fortawesome/fontawesome-free/css/all.css';
 
 
 const PageFooter = () => {
   return (
-    <footer style={{position: "sticky", bottom: 0}}>
-      <Navbar expand="lg" className="bg-body-tertiary">
-        <Container >
-          <Navbar.Brand href="/"><span className={textStyles.red}>NC</span> News</Navbar.Brand>
-            <Link to="https://github.com/Iagrah99"><i className="fab fa-github fa-2x"></i></Link>
-            <Link to="https://www.linkedin.com/in/ian-graham-357649223/"><i className="fab fa-linkedin fa-2x"></i></Link>
-            <ScrollButton/>
+    <Footer>
+      <Navbar className="bg-body-tertiary">
+        <Container>
+          <Navbar.Brand href="/"><Span>NC</Span> News</Navbar.Brand>
+          <Nav>
+            <Link className={navLinkStyles.footerLink} to="https://github.com/Iagrah99"><i className="fab fa-github fa-2x"></i></Link>
+            <Link className={navLinkStyles.footerLink} to="https://www.linkedin.com/in/ian-graham-357649223/"><i className="fab fa-linkedin fa-2x"></i></Link>
+          </Nav>
+          <ScrollButton />
         </Container>
       </Navbar>
-    </footer>
+    </Footer>
   );
 }
 

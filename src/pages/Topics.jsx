@@ -9,7 +9,7 @@ import TopicCard from "../Components/TopicCard";
 import PageError from "../Components/PageError";
 import styles from "../css/TextCSSModule.module.css"
 import Main from "../styled_components/StyledMain";
-import H2 from "../styled_components/StyledHeadings"
+import {H1, H2} from "../styled_components/StyledHeadings"
 
 const Topics = () => {
   document.title = 'NC News | Topics';
@@ -38,7 +38,7 @@ const Topics = () => {
       <Container fluid="xs">
       <NavigationBar />
       <Main>
-      <h1 className={styles.heading}>Browse Topics</h1>
+      <H1>Browse Topics</H1>
       <div >
         <Row style={{display: "flex", justifyContent: "center"}}>
           {topics.map((topic) => (
