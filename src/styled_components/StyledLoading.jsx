@@ -7,4 +7,5 @@ export const LoadingDiv = styled.div`
     justify-content: center;
     align-items: center;
     min-height: 50vh;
+    text-shadow: 1px 1px 5px black;
 `

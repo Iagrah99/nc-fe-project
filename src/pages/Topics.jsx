@@ -9,11 +9,11 @@ import TopicCard from "../Components/TopicCard";
 import PageError from "../Components/PageError";
 import styles from "../css/TextCSSModule.module.css"
 import Main from "../styled_components/StyledMain";
-import {H1, H2} from "../styled_components/StyledHeadings"
+import { H1, H2 } from "../styled_components/StyledHeadings"
 
 const Topics = () => {
   document.title = 'NC News | Topics';
-  
+
   const [topics, setTopics] = useState([])
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setisError] = useState(false)
@@ -29,27 +29,31 @@ const Topics = () => {
       setIsLoading(false)
       setError(error)
     })
-  }, []); 
+  }, []);
 
-  if (isLoading) return <PageLoading/>
-  if (isError) return <PageError error={error}/>
+  if (isError) return <PageError error={error} />
 
-    return (
-      <Container fluid="xs">
+  return (
+    <Container fluid="xs">
       <NavigationBar />
       <Main>
-      <H1>Browse Topics</H1>
-      <div >
-        <Row style={{display: "flex", justifyContent: "center"}}>
-          {topics.map((topic) => (
-           <TopicCard topic={topic} key={topic.slug}/>
-          ))}
-        </Row>
-      </div>
-    </Main>
-    <Footer/>
-  </Container>
-    )
+        {isLoading ? (
+          <PageLoading contentType="Topics..." />
+        ) : (
+          <article>
+            <H1>Browse Topics</H1>
+            <div >
+              <Row style={{ display: "flex", justifyContent: "center" }}>
+                {topics.map((topic) => (
+                  <TopicCard topic={topic} key={topic.slug} />
+                ))}
+              </Row>
+            </div>
+          </article>)}
+      </Main>
+      <Footer />
+    </Container>
+  )
 }
 
 export default Topics

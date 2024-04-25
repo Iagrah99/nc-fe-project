@@ -55,54 +55,55 @@ const Articles = () => {
         <NavigationBar error={error} />
 
         <Main>
-          <Header />
-          <Form style={{ marginBlock: "3rem" }}>
-            <Row className="justify-content-center">
-              <Col md="auto" sm="auto" xs="auto">
-                <Form.Group className="mb-3" controlId="SortByGroup">
-                  <p style={{ textAlign: "center" }}>Sort By</p>
-                  <Form.Select
-                    aria-label="select-category"
-                    onChange={handleSortBy}
-                  >
-                    <option value="created_at" id="date">
-                      Date
-                    </option>
-                    <option value="comment_count" id="comment_count">
-                      Comment Count
-                    </option>
-                    <option value="votes" id="votes">
-                      Votes
-                    </option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              <Col md="auto" sm="auto" xs="auto">
-                <Form.Group className="mb-3" onChange={handleOrderBy}>
-                  <p style={{ textAlign: "center" }}>Order By</p>
-                  <Form.Select aria-label="select-category">
-                    <option value="desc" id="descending">
-                      Descending (Default)
-                    </option>
-                    <option value="asc" id="ascending">
-                      Ascending
-                    </option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-            </Row>
-          </Form>
           {isLoading ? (
             <PageLoading contentType="All Articles" />
           ) : (
-            <Container fluid="xs">
-              <Row>
-                {articles.map((article) => (
-                  <ArticleCard article={article} key={article.article_id} />
-                ))}
-              </Row>
-            </Container>
-          )}
+            <section>
+              <Header />
+              <Form style={{ marginBlock: "3rem" }}>
+                <Row className="justify-content-center">
+                  <Col md="auto" sm="auto" xs="auto">
+                    <Form.Group className="mb-3" controlId="SortByGroup">
+                      <p style={{ textAlign: "center" }}>Sort By</p>
+                      <Form.Select
+                        aria-label="select-category"
+                        onChange={handleSortBy}
+                      >
+                        <option value="created_at" id="date">
+                          Date
+                        </option>
+                        <option value="comment_count" id="comment_count">
+                          Comment Count
+                        </option>
+                        <option value="votes" id="votes">
+                          Votes
+                        </option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                  <Col md="auto" sm="auto" xs="auto">
+                    <Form.Group className="mb-3" onChange={handleOrderBy}>
+                      <p style={{ textAlign: "center" }}>Order By</p>
+                      <Form.Select aria-label="select-category">
+                        <option value="desc" id="descending">
+                          Descending (Default)
+                        </option>
+                        <option value="asc" id="ascending">
+                          Ascending
+                        </option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                </Row>
+              </Form>
+              <Container fluid="xs">
+                <Row>
+                  {articles.map((article) => (
+                    <ArticleCard article={article} key={article.article_id} />
+                  ))}
+                </Row>
+              </Container>
+            </section>)}
         </Main>
         <Footer />
       </Container>

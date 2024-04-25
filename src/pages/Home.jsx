@@ -9,7 +9,7 @@ import { UserContext } from "../contexts/UserContext";
 import PageLoading from "../Components/PageLoading";
 import PageError from "../Components/PageError";
 import Main from "../styled_components/StyledMain";
-import {H1, H2} from "../styled_components/StyledHeadings"
+import { H1, H2 } from "../styled_components/StyledHeadings"
 
 const Articles = () => {
   const [articles, setArticles] = useState([]);
@@ -42,11 +42,11 @@ const Articles = () => {
     <Container fluid="xs">
       <NavigationBar />
       <Main>
-        <H1>Hey {loggedInUser.username}!</H1>
         {isLoading ? (
-          <PageLoading contentType="Your Articles" />
+          <PageLoading contentType={`${loggedInUser.username}'s Articles`} />
         ) : (
           <Container fluid="xs">
+            <H1>Hey {loggedInUser.username}!</H1>
             <H2>Here Are Your Articles...</H2>
             <Row>
               {articles.map((article) =>
