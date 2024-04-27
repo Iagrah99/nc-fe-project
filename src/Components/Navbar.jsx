@@ -18,13 +18,13 @@ const NavigationBar = ({ error }) => {
     if (e.target.id === "/") {
       navigate("/")
     } else {
-      navigate(`/${e.target.id}`) 
+      navigate(`/${e.target.id}`)
     }
   }
   return (
     <Navbar expand="lg" className="bg-body-tertiary " sticky='top' >
       <Container>
-      <Navbar.Brand href='/'><Span>NC</Span> News</Navbar.Brand>
+        <Navbar.Brand style={{ cursor: "pointer" }} onClick={handleLink} id='home'><Span>NC</Span> News</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="justify-content-center flex-grow-1">

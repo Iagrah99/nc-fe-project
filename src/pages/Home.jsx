@@ -55,6 +55,10 @@ const Articles = () => {
                 ) : null
               )}
             </Row>
+            <section>
+              <H2>Post Article</H2>
+
+            </section>
           </Container>
         )}
       </Main>
