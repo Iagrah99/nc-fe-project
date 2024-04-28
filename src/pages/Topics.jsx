@@ -7,7 +7,6 @@ import NavigationBar from "../Components/Navbar";
 import PageLoading from "../Components/PageLoading";
 import TopicCard from "../Components/TopicCard";
 import PageError from "../Components/PageError";
-import styles from "../css/TextCSSModule.module.css"
 import Main from "../styled_components/StyledMain";
 import { H1, H2 } from "../styled_components/StyledHeadings"
 

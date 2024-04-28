@@ -28,7 +28,15 @@
     }
 }
 
-.navLink:hover {
-   transform: scale(1.05);
+.navLink:hover, .activeLink {
    color: red;
+}
+
+.arrowIcon {
+    cursor: pointer;
+    font-size: 2rem;
+
+    @media screen and (max-width: 500px) {
+        display: none;
+    }
 }

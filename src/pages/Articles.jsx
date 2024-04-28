@@ -56,7 +56,7 @@ const Articles = () => {
 
         <Main>
           {isLoading ? (
-            <PageLoading contentType="All Articles" />
+            <PageLoading contentType={`All ${topic ? topic : ""} Articles`} />
           ) : (
             <section>
               <Header />

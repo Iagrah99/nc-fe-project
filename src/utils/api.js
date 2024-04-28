@@ -52,3 +52,8 @@ export const fetchTopics = async () => {
   const res = await ncNewsApi.get(`/topics`);
   return res.data;
 };
+
+export const addArticle = async (author, title, topic, body, article_img_url) => {
+  const res = await ncNewsApi.post("/articles", author, title, topic, body, article_img_url);
+  return res.data;
+}
