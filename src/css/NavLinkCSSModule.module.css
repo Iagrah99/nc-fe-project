@@ -36,3 +36,9 @@
     cursor: pointer;
     font-size: 2rem;
 }
+
+.linksContainer {
+    @media (max-width: 500px) {
+        margin-right: 2rem;
+    }
+}
