@@ -8,6 +8,7 @@ import UserCard from "../Components/UserCard";
 import PageLoading from "../Components/PageLoading";
 import Main from "../styled_components/StyledMain";
 import { H1 } from "../styled_components/StyledHeadings";
+import { ArticleCardStyled } from "../styled_components/StyledArticle";
 
 const Login = () => {
   document.title = "NC News | Login";
@@ -25,17 +26,17 @@ const Login = () => {
   return (
     <Container fluid="xs">
       <NavigationBar />
-      <Main>  
+      <Main>
         {isLoading ? (
           <PageLoading contentType="Users" />
         ) : (
           <Container fluid="xs">
             <H1>Select A User</H1>
-            <Row>
+            <ArticleCardStyled>
               {users.map((user) => (
                 <UserCard user={user} key={user.username} />
               ))}
-            </Row>
+            </ArticleCardStyled>
           </Container>
         )}
       </Main>

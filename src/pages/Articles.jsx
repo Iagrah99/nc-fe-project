@@ -9,6 +9,8 @@ import PageError from "../Components/PageError";
 import { useParams, useSearchParams } from "react-router-dom";
 import Header from "../Components/Header";
 import Main from "../styled_components/StyledMain";
+import { Div } from "../styled_components/StyledDiv";
+import { ArticleCardStyled } from "../styled_components/StyledArticle";
 
 const Articles = () => {
   document.title = "NC News | Articles";
@@ -53,7 +55,6 @@ const Articles = () => {
     return (
       <Container fluid="xs">
         <NavigationBar error={error} />
-
         <Main>
           {isLoading ? (
             <PageLoading contentType={`All ${topic ? topic : ""} Articles`} />
@@ -61,7 +62,7 @@ const Articles = () => {
             <section>
               <Header />
               <Form style={{ marginBlock: "3rem" }}>
-                <Row className="justify-content-center">
+                <Div>
                   <Col md="auto" sm="auto" xs="auto">
                     <Form.Group className="mb-3" controlId="SortByGroup">
                       <p style={{ textAlign: "center" }}>Sort By</p>
@@ -94,14 +95,14 @@ const Articles = () => {
                       </Form.Select>
                     </Form.Group>
                   </Col>
-                </Row>
+                </Div>
               </Form>
               <Container fluid="xs">
-                <Row>
+                <ArticleCardStyled>
                   {articles.map((article) => (
                     <ArticleCard article={article} key={article.article_id} />
                   ))}
-                </Row>
+                </ArticleCardStyled>
               </Container>
             </section>)}
         </Main>

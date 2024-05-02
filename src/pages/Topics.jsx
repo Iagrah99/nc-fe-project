@@ -9,6 +9,7 @@ import TopicCard from "../Components/TopicCard";
 import PageError from "../Components/PageError";
 import Main from "../styled_components/StyledMain";
 import { H1, H2 } from "../styled_components/StyledHeadings"
+import { ArticleCardStyled } from "../styled_components/StyledArticle";
 
 const Topics = () => {
   document.title = 'NC News | Topics';
@@ -39,16 +40,14 @@ const Topics = () => {
         {isLoading ? (
           <PageLoading contentType="Topics..." />
         ) : (
-          <article>
+          <section>
             <H1>Browse Topics</H1>
-            <div >
-              <Row style={{ display: "flex", justifyContent: "center" }}>
-                {topics.map((topic) => (
-                  <TopicCard topic={topic} key={topic.slug} />
-                ))}
-              </Row>
-            </div>
-          </article>)}
+            <ArticleCardStyled style={{ justifyContent: "center" }}>
+              {topics.map((topic) => (
+                <TopicCard topic={topic} key={topic.slug} />
+              ))}
+            </ArticleCardStyled>
+          </section>)}
       </Main>
       <Footer />
     </Container>
