@@ -118,7 +118,7 @@ function CreateArticle({ setSuccess }) {
           }} />
         </div>
         <div style={{ display: "flex", flexDirection: "column", width: "100%", justifyContent: "flex-start", alignItems: "flex-start", marginInline: "5px" }}>
-          <Button type="submit" variant="danger" className="mb-2">Post Comment</Button>
+          <Button type="submit" variant="danger" className="mb-5">Post Article</Button>
           {articlePosted ? <p style={{ marginBlock: "15px", color: "green" }}>Posted Successfully!</p> : null}
           {articlePosting & !articlePostingError ? <p style={{ marginBlock: "15px" }}>Posting Your Article...</p> : null}
           {articlePostingError ? <p style={{ marginBlock: "15px", color: "red" }}>Couldn't post article, try again later.</p> : null}
