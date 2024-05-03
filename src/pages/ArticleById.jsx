@@ -48,6 +48,7 @@ const ViewArticle = () => {
           </article>
         )}
       </Main>
+
       <Footer />
     </Container>
   )

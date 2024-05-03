@@ -2,15 +2,13 @@ import { Container } from "react-bootstrap";
 import NavigationBar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import { useState, useEffect, useContext } from "react";
-import { addArticle, fetchArticles } from "../utils/api";
-import ArticleCard from "../Components/ArticleCard";
+import { fetchArticles } from "../utils/api";
 import CreateArticle from "../Components/CreateArticle";
 import { UserContext } from "../contexts/UserContext";
 import PageLoading from "../Components/PageLoading";
 import PageError from "../Components/PageError";
 import Main from "../styled_components/StyledMain";
 import { H1 } from "../styled_components/StyledHeadings"
-
 
 const Home = () => {
   const [articles, setArticles] = useState([]);
@@ -48,15 +46,6 @@ const Home = () => {
         ) : (
           <Container fluid="xs">
             <H1>Welcome {loggedInUser.username}!</H1>
-            {/* <H2>Here Are Your Articles...</H2>
-            <Row>
-              {articles.map((article) =>
-                article.author === loggedInUser.username ? (
-                  <ArticleCard article={article} key={article.article_id} />
-                ) : null
-              )}
-            </Row> */}
-
             <article id="post-article">
               <CreateArticle />
             </article>
