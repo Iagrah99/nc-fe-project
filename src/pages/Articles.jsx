@@ -23,7 +23,7 @@ const Articles = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const sortByQuery = searchParams.get("sort_by");
   const orderByQuery = searchParams.get("order_by");
-  
+
   const { topic } = useParams();
   const navigate = useNavigate()
 
