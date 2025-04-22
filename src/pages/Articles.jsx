@@ -1,12 +1,12 @@
 import { Col, Container, Row, Form } from "react-bootstrap";
 import ArticleCard from "../Components/ArticleCard";
-import { fetchArticles } from "../utils/api";
+import { fetchArticles, fetchTopics } from "../utils/api";
 import { useEffect, useState } from "react";
 import PageLoading from "../Components/PageLoading";
 import NavigationBar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import PageError from "../Components/PageError";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import Main from "../styled_components/StyledMain";
 import { Div } from "../styled_components/StyledDiv";
@@ -16,13 +16,16 @@ const Articles = () => {
   document.title = "NC News | Articles";
 
   const [articles, setArticles] = useState([]);
+  const [topics, setTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setisError] = useState(false);
   const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const sortByQuery = searchParams.get("sort_by");
   const orderByQuery = searchParams.get("order_by");
+  
   const { topic } = useParams();
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchArticles(topic, sortByQuery, orderByQuery)
@@ -38,6 +41,21 @@ const Articles = () => {
       });
   }, [sortByQuery, orderByQuery, isError, topic]);
 
+  useEffect(() => {
+    fetchTopics()
+      .then((topics) => {
+        setisError(false);
+        setTopics(topics);
+        console.log(topics)
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setisError(true);
+        setIsLoading(false);
+        setError(error);
+      });
+  }, []);
+
   const handleSortBy = (e) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set("sort_by", e.target.value);
@@ -49,6 +67,11 @@ const Articles = () => {
     newParams.set("order_by", e.target.value);
     setSearchParams(newParams);
   };
+
+  const handleFilterBy = (e) => {
+    navigate(`/articles/${e.target.value}`)
+    console.log(e.target.value)
+  }
 
   if (isError) return <PageError error={error} />;
   else if (!isError) {
@@ -95,6 +118,19 @@ const Articles = () => {
                       </Form.Select>
                     </Form.Group>
                   </Col>
+                  <Col md="auto" sm="auto" xs="auto">
+                    <Form.Group className="mb-3" onChange={(e) => handleFilterBy(e)}>
+                      <p style={{ textAlign: "center" }}>Filter By</p>
+                      <Form.Select aria-label="select-category">
+                        {topics.map((topic) => (
+                          <option value={topic.slug} id={topic.slug} key={topic.slug}>
+                            {topic.slug[0].toUpperCase() + topic.slug.slice(1) + " Articles"}
+                            {console.log(topic.slug)}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
                 </Div>
               </Form>
               <Container fluid="xs">
@@ -104,7 +140,8 @@ const Articles = () => {
                   ))}
                 </ArticleCardStyled>
               </Container>
-            </section>)}
+            </section>
+          )}
         </Main>
         <Footer />
       </Container>

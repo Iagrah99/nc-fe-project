@@ -29,11 +29,10 @@ const NavigationBar = ({ error }) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="justify-content-center flex-grow-1">
             <Nav.Link className={navLinkStyles.navLink} onClick={handleLink} id='articles'>Articles</Nav.Link>
-            <Nav.Link className={navLinkStyles.navLink} onClick={handleLink} id='topics'>Topics</Nav.Link>
             <Nav.Link className={navLinkStyles.navLink} onClick={handleLink} id='login'>Switch User</Nav.Link>
           </Nav>
           <Navbar.Text className={navLinkStyles.currentUser}>
-            Logged in as: {loggedInUser.username} <img src={loggedInUser.avatar_url} className={`${imageStyles.avatar} ${navLinkStyles.currentUser}`} />
+            Logged in as: {loggedInUser.username}
           </Navbar.Text>
         </Navbar.Collapse>
       </Container>
