@@ -28,7 +28,7 @@ const ArticleCard = ({ article }) => {
           </Card.Body>
           <Button onClick={() => handleClick(article.article_id)} variant="danger" style={{ fontSize: "1rem" }}>Visit Article</Button>
         </Card>
-        <div style={{ marginBlock: "50px" }}></div>
+        <div className="mb-5"></div>
       </CardDiv>
     </Col>
   )
