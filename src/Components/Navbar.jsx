@@ -22,7 +22,7 @@ const NavigationBar = ({ error }) => {
           {/* Brand - Left */}
           <div
             onClick={handleLink}
-            id="home"
+            id="/"
             className="text-2xl font-bold cursor-pointer select-none"
           >
             <span className="text-red-500">NC</span> News

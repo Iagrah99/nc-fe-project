@@ -1,14 +1,9 @@
 import { useState, useEffect } from "react";
 import { fetchUsers } from "../utils/api";
-import Container from "react-bootstrap/Container";
-import { Row } from "react-bootstrap";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/Navbar";
 import UserCard from "../Components/UserCard";
 import PageLoading from "../Components/PageLoading";
-import Main from "../styled_components/StyledMain";
-import { H1 } from "../styled_components/StyledHeadings";
-import { ArticleCardStyled } from "../styled_components/StyledArticle";
 
 const Login = () => {
   document.title = "NC News | Login";
@@ -26,12 +21,12 @@ const Login = () => {
   return (
     <>
       <NavigationBar />
-      <main className="min-h-screen bg-slate-900 text-white px-4 py-8">
+      <div className="min-h-screen bg-slate-900 text-white px-4 py-8">
         {isLoading ? (
           <PageLoading contentType="Users" />
         ) : (
           <div className="max-w-5xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6">Select A User</h1>
+            <h1 className="text-3xl text-center font-bold mb-7">Select A User</h1>
 
             <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {users.map((user) => (
@@ -40,7 +35,7 @@ const Login = () => {
             </div>
           </div>
         )}
-      </main>
+      </div>
       <Footer />
     </>
   );

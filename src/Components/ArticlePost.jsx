@@ -89,7 +89,7 @@ const ArticlePost = ({article, articleId}) => {
             <img
               src={article.article_img_url}
               alt={`An article image about ${article.topic}`}
-              className="w-full max-w-3xl rounded"
+              className="w-full rounded"
             />
           </figure>
   
@@ -103,12 +103,12 @@ const ArticlePost = ({article, articleId}) => {
   
           {/* Article Info */}
           <p className="text-sm mb-4">
-            <span className="font-semibold">Posted:</span> {formattedDate} &nbsp;
-            <span className="font-semibold">By:</span> {article.author}
+            <span className="font-semibold"><i className="fa-solid fa-calendar text-green-400 w-5"></i></span> {formattedDate} &nbsp;
+            <span className="font-semibold"> <i className="fa-solid fa-user text-blue-400 w-5"></i></span> {article.author}
           </p>
   
           {/* Article Body */}
-          <p className="mb-6 text-base leading-relaxed">{article.body}</p>
+          <p className="text-base leading-relaxed">{article.body}</p>
   
           {error && <p className="text-red-300 text-sm">{error}</p>}
         </div>
@@ -119,7 +119,7 @@ const ArticlePost = ({article, articleId}) => {
             <span className="mr-4">💬 Comments: {article.comment_count}</span>
             👍 Votes: {articleVotes}
           </p>
-          <hr className="border-red-400 mb-4" />
+          <hr className="border-gray-400 mb-4" />
   
           <p className="mb-2">What did you think of it?</p>
   
