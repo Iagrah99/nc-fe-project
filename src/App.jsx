@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css';
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect } from 'react';
@@ -24,7 +23,7 @@ function App() {
     <>
       <ScrollToTopOnRouteChange />
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Articles />} />
         <Route path='/home' element={<Home />} />
         <Route path='/*' element={<PageError />} />
         <Route path='/login' element={<Login />} />

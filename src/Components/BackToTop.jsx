@@ -1,5 +1,4 @@
 import { FaArrowCircleUp } from 'react-icons/fa';
-import navLinkStyles from "../css/NavLinkCSSModule.module.css"
 
 const ScrollButton = () => {
 
@@ -11,7 +10,7 @@ const ScrollButton = () => {
   };
 
   return (
-    <FaArrowCircleUp onClick={scrollToTop} className={navLinkStyles.arrowIcon} />
+    <FaArrowCircleUp onClick={scrollToTop} className='fa-2x cursor-pointer'/>
   );
 }
 

@@ -9,33 +9,36 @@ import PageError from "../Components/PageError";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import Main from "../styled_components/StyledMain";
-import { Div } from "../styled_components/StyledDiv";
-import { ArticleCardStyled } from "../styled_components/StyledArticle";
 
 const Articles = () => {
   document.title = "NC News | Articles";
 
   const [articles, setArticles] = useState([]);
   const [topics, setTopics] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingTopics, setIsLoadingTopics] = useState([])
+  const [isLoadingArticles, setIsLoadingArticles] = useState(true);
   const [isError, setisError] = useState(false);
   const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [sortBy, setSortBy] = useState("sort_by");
+  const [orderBy, setOrderBy] = useState("order_by");
+
   const sortByQuery = searchParams.get("sort_by");
   const orderByQuery = searchParams.get("order_by");
 
   const { topic } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchArticles(topic, sortByQuery, orderByQuery)
       .then((articles) => {
         setisError(false);
         setArticles(articles);
-        setIsLoading(false);
+        setIsLoadingArticles(false);
       })
       .catch((error) => {
-        setIsLoading(false);
+        setIsLoadingArticles(false);
         setError(error);
         setisError(true);
       });
@@ -46,12 +49,11 @@ const Articles = () => {
       .then((topics) => {
         setisError(false);
         setTopics(topics);
-        console.log(topics)
-        setIsLoading(false);
+        setIsLoadingTopics(false);
       })
       .catch((error) => {
         setisError(true);
-        setIsLoading(false);
+        setIsLoadingTopics(false);
         setError(error);
       });
   }, []);
@@ -59,93 +61,100 @@ const Articles = () => {
   const handleSortBy = (e) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set("sort_by", e.target.value);
+    setSortBy(e.target.value)
     setSearchParams(newParams);
   };
 
   const handleOrderBy = (e) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set("order_by", e.target.value);
+    setOrderBy(e.target.value)
     setSearchParams(newParams);
   };
 
   const handleFilterBy = (e) => {
-    navigate(`/articles/${e.target.value}`)
-    console.log(e.target.value)
-  }
+    setSortBy("sort_by")
+    setOrderBy("order_by")
+    navigate(`/articles/${e.target.value}`);
+  };
 
   if (isError) return <PageError error={error} />;
   else if (!isError) {
     return (
-      <Container fluid="xs">
+      <div className="bg-black min-h-screen flex flex-col">
         <NavigationBar error={error} />
-        <Main>
-          {isLoading ? (
+    
+        <Main className="flex-grow">
+          {isLoadingArticles ? (
             <PageLoading contentType={`All ${topic ? topic : ""} Articles`} />
           ) : (
-            <section>
+            <section className="mt-6 px-4 sm:px-6 lg:px-8">
               <Header />
-              <Form style={{ marginBlock: "3rem" }}>
-                <Div>
-                  <Col md="auto" sm="auto" xs="auto">
-                    <Form.Group className="mb-3" controlId="SortByGroup">
-                      <p style={{ textAlign: "center" }}>Sort By</p>
-                      <Form.Select
-                        aria-label="select-category"
-                        onChange={handleSortBy}
-                      >
-                        <option value="created_at" id="date">
-                          Date
+    
+              {/* Filter Controls */}
+              <form className="mb-10">
+                <div className="flex flex-wrap gap-6 lg:justify-center sm:justify-between ">
+                  {/* Sort By */}
+                  <div className="flex flex-col items-center">
+                    <select
+                      onChange={handleSortBy}
+                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-28 border-r-12 border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      defaultValue={"sort_by"}
+                      value={sortBy}
+                    >
+                      <option value="sort_by" id="sort_by">Sort By</option>
+                      <option value="created_at" id="date">Date</option>
+                      <option value="comment_count" id="comment_count">Comment Count</option>
+                      <option value="votes" id="votes">Votes</option>
+                    </select>
+                  </div>
+    
+                  {/* Order By */}
+                  <div className="flex flex-col items-center">
+                    <select
+                      onChange={handleOrderBy}
+                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-28 border-r-12 border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      defaultValue={"order_by"}
+                      value={orderBy}
+                    >
+                      <option value="order_by" id="order_by" disabled>Order By</option>
+                      <option value="desc" id="descending">Descending (Default)</option>
+                      <option value="asc" id="ascending">Ascending</option>
+                    </select>
+                  </div>
+    
+                  {/* Filter By */}
+                  <div className="flex flex-col items-center">
+                    <select
+                      onChange={handleFilterBy}
+                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-28 border-r-12 border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      defaultValue={"filter_by"}
+                    >
+                      <option value="filter_by" id="filter_by" disabled>Filter By</option>
+                      {topics.map((topic) => (
+                        <option value={topic.slug} id={topic.slug} key={topic.slug}>
+                          {topic.slug[0].toUpperCase() + topic.slug.slice(1)} Articles
                         </option>
-                        <option value="comment_count" id="comment_count">
-                          Comment Count
-                        </option>
-                        <option value="votes" id="votes">
-                          Votes
-                        </option>
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                  <Col md="auto" sm="auto" xs="auto">
-                    <Form.Group className="mb-3" onChange={handleOrderBy}>
-                      <p style={{ textAlign: "center" }}>Order By</p>
-                      <Form.Select aria-label="select-category">
-                        <option value="desc" id="descending">
-                          Descending (Default)
-                        </option>
-                        <option value="asc" id="ascending">
-                          Ascending
-                        </option>
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                  <Col md="auto" sm="auto" xs="auto">
-                    <Form.Group className="mb-3" onChange={(e) => handleFilterBy(e)}>
-                      <p style={{ textAlign: "center" }}>Filter By</p>
-                      <Form.Select aria-label="select-category">
-                        {topics.map((topic) => (
-                          <option value={topic.slug} id={topic.slug} key={topic.slug}>
-                            {topic.slug[0].toUpperCase() + topic.slug.slice(1) + " Articles"}
-                            {console.log(topic.slug)}
-                          </option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                </Div>
-              </Form>
-              <Container fluid="xs">
-                <ArticleCardStyled>
-                  {articles.map((article) => (
-                    <ArticleCard article={article} key={article.article_id} />
-                  ))}
-                </ArticleCardStyled>
-              </Container>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </form>
+    
+              {/* Articles Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mb-24">
+                {articles.map((article) => (
+                  <ArticleCard article={article} key={article.article_id} />
+                ))}
+              </div>
             </section>
           )}
         </Main>
+    
         <Footer />
-      </Container>
+      </div>
     );
+    
   }
 };
 

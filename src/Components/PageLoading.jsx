@@ -1,17 +1,14 @@
-import { Container } from 'react-bootstrap';
-import Spinner from 'react-bootstrap/Spinner';
-import { H1 } from "../styled_components/StyledHeadings"
-import { LoadingDiv } from "../styled_components/StyledLoading"
+const PageLoading = ({ contentType }) => {
+  return (
+    <div className="flex flex-col items-center justify-evenly pt-48 px-4">
+      <div className="flex flex-col items-center justify-center">
+        <h1 className="lg:text-5xl text-2xl text-white mb-6 text-center">
+          Loading {contentType}
+        </h1>
+        <div className="w-12 h-12 border-4 border-t-transparent border-red-500 rounded-full animate-spin"></div>
+      </div>
+    </div>
+  );
+};
 
-const PageLoading = ({contentType}) => {
-  return ( 
-    <Container>
-      <LoadingDiv>
-      <H1>Loading {contentType}</H1>
-      <Spinner animation="border" role="status"/>
-      </LoadingDiv>
-    </Container>
-   );
-}
- 
 export default PageLoading;

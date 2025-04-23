@@ -1,9 +1,9 @@
-import { useState, useContext } from 'react';
+import { useState, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
-import { CustomForm } from "../styled_components/StyledForm"
-import { H2 } from '../styled_components/StyledHeadings';
+import { CustomForm } from "../styled_components/StyledForm";
+import { H2 } from "../styled_components/StyledHeadings";
 import { UserContext } from "../contexts/UserContext";
-import { addArticle } from '../utils/api';
+import { addArticle } from "../utils/api";
 
 function CreateArticle({ setSuccess }) {
   const [articlePosting, setArticlePosting] = useState(false);
@@ -18,31 +18,32 @@ function CreateArticle({ setSuccess }) {
   const { loggedInUser } = useContext(UserContext);
 
   const addNewArticle = (postedArticle, e) => {
-    addArticle(postedArticle).then((articleFromApi) => {
-      e.target[2].disabled = false
-      setArticlePosted(true)
-      setArticlePosting(false)
-      setArticleIsOnlySpaces(false);
-      setArticleBody("")
-      setSuccess(articleFromApi.article_id)
-
-    }).catch((error) => {
-      setArticlePosted(false)
-      setArticlePostingError(true)
-    })
+    addArticle(postedArticle)
+      .then((articleFromApi) => {
+        e.target[2].disabled = false;
+        setArticlePosted(true);
+        setArticlePosting(false);
+        setArticleIsOnlySpaces(false);
+        setArticleBody("");
+        setSuccess(articleFromApi.article_id);
+      })
+      .catch((error) => {
+        setArticlePosted(false);
+        setArticlePostingError(true);
+      });
   };
 
   const handleTopic = (e) => {
-    const selectedTopic = e.target.value
-    console.log(selectedTopic)
-    setArticleTopic(selectedTopic)
+    const selectedTopic = e.target.value;
+    console.log(selectedTopic);
+    setArticleTopic(selectedTopic);
   };
 
   const handleSubmitPost = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    e.target[5].disabled = true
-    setArticlePosting(true)
+    e.target[5].disabled = true;
+    setArticlePosting(true);
 
     const trimmedArticle = articleBody.trim();
     if (!trimmedArticle) {
@@ -54,78 +55,134 @@ function CreateArticle({ setSuccess }) {
         title: articleTitle,
         topic: articleTopic,
         body: articleBody,
-        article_img_url: articleImgUrl
-      }
-      console.log(newArticle)
-      addNewArticle(newArticle, e)
+        article_img_url: articleImgUrl,
+      };
+      console.log(newArticle);
+      addNewArticle(newArticle, e);
     }
-  }
+  };
 
   return (
     <>
-      <H2>Post An Article</H2>
-      <CustomForm onSubmit={handleSubmitPost}>
-        <div className="mb-3" style={{ width: "100%" }}>
-          <Form.Label>Username:</Form.Label>
-          <Form.Control type="text" value={loggedInUser.username} disabled />
-        </div>
-        <div className="mb-3" style={{ width: "100%" }}>
-          <Form.Label>Article Title:</Form.Label>
-          <Form.Control type="text" placeholder={`${loggedInUser.username}'s article`} required onChange={(e) => {
-            const titleValue = e.target.value;
-            setarticleTitle(titleValue)
-          }} />
-        </div>
-        <Form.Group controlId="TopicGroup" className="mb-3" style={{ width: "100%" }}>
-          <Form.Label>Article Topic:</Form.Label>
-          <Form.Select
-            aria-label="select-category" onChange={handleTopic}
-          >
-            <option value="cooking" id="cooking">
-              Cooking
-            </option>
-            <option value="coding" id="coding">
-              Coding
-            </option>
-            <option value="football" id="football">
-              Football
-            </option>
-          </Form.Select>
-        </Form.Group>
-        <div className="mb-3" style={{ width: "100%" }}>
-          <Form.Label>Article Body:</Form.Label>
-          <Form.Control as="textarea" rows={10} placeholder="What would you like to talk about?" maxLength={3000} value={articleBody} required onChange={(e) => {
-            const bodyValue = e.target.value;
-            setArticleBody(bodyValue);
+      <h2 className="text-4xl py-12 font-semibold text-white text-center">
+        Post Your Article
+      </h2>
 
-            bodyValue.trim().length === 0;
+      <div className="flex justify-center">
+        <form
+          onSubmit={handleSubmitPost}
+          className="w-full max-w-3xl bg-slate-800 p-6 rounded-lg shadow-md text-white"
+        >
+          {/* Username */}
+          <div className="mb-6 w-full">
+            <label className="block mb-2 text-sm font-medium">Username:</label>
+            <input
+              type="text"
+              value={loggedInUser.username}
+              disabled
+              className="w-full bg-slate-700 text-white rounded px-4 py-2 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-white"
+            />
+          </div>
 
-            const containsOnlySpaces = /^\s+$/.test(bodyValue);
-            setArticleIsOnlySpaces(containsOnlySpaces);
+          {/* Article Title */}
+          <div className="mb-6 w-full">
+            <label className="block mb-2 text-sm font-medium">
+              Article Title:
+            </label>
+            <input
+              type="text"
+              placeholder={`${loggedInUser.username}'s article`}
+              required
+              onChange={(e) => setarticleTitle(e.target.value)}
+              className="w-full bg-slate-700 text-white rounded px-4 py-2 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-white"
+            />
+          </div>
 
-            const disableButton = containsOnlySpaces || bodyValue.trim().length === 0;
-            e.target.form[5].disabled = disableButton;
+          {/* Article Topic */}
+          <div className="mb-6 w-full">
+            <label className="block mb-2 text-sm font-medium">
+              Article Topic:
+            </label>
+            <select
+              aria-label="select-category"
+              onChange={handleTopic}
+              className="w-full bg-slate-700 text-white rounded px-4 py-2 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-white"
+            >
+              <option value="cooking">Cooking</option>
+              <option value="coding">Coding</option>
+              <option value="football">Football</option>
+            </select>
+          </div>
 
-            setArticlePosted(false);
-          }} />
-          {articleIsOnlySpaces && articleBody.length > 0 ? <p style={{ marginBlock: "15px", color: "red" }}>Can't only use spaces!</p> : null}
-        </div>
-        <div className="mb-3" style={{ width: "100%" }}>
-          <Form.Label>Article Image URL (optional):</Form.Label>
-          <Form.Control type="text" placeholder={`Your image link`} className="mb-3" value={articleImgUrl} onChange={(e) => {
-            const imgUrlValue = e.target.value;
-            setArticleImgUrl(imgUrlValue);
-          }} />
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", width: "100%", justifyContent: "flex-start", alignItems: "flex-start", marginInline: "5px" }}>
-          <Button type="submit" variant="danger" className="mb-5">Post Article</Button>
-          {articlePosted ? <p style={{ marginBlock: "15px", color: "green" }}>Posted Successfully!</p> : null}
-          {articlePosting & !articlePostingError ? <p style={{ marginBlock: "15px" }}>Posting Your Article...</p> : null}
-          {articlePostingError ? <p style={{ marginBlock: "15px", color: "red" }}>Couldn't post article, try again later.</p> : null}
-        </div>
-      </CustomForm>
+          {/* Article Body */}
+          <div className="mb-6 w-full">
+            <label className="block mb-2 text-sm font-medium">
+              Article Body:
+            </label>
+            <textarea
+              rows={10}
+              placeholder="What would you like to talk about?"
+              maxLength={3000}
+              value={articleBody}
+              required
+              onChange={(e) => {
+                const bodyValue = e.target.value;
+                setArticleBody(bodyValue);
+
+                const containsOnlySpaces = /^\s+$/.test(bodyValue);
+                setArticleIsOnlySpaces(containsOnlySpaces);
+
+                const disableButton =
+                  containsOnlySpaces || bodyValue.trim().length === 0;
+                e.target.form[5].disabled = disableButton;
+
+                setArticlePosted(false);
+              }}
+              className="w-full bg-slate-700 text-white rounded px-4 py-2 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-white"
+            ></textarea>
+            {articleIsOnlySpaces && articleBody.length > 0 && (
+              <p className="text-red-400 mt-4">Can't only use spaces!</p>
+            )}
+          </div>
+
+          {/* Article Image URL */}
+          <div className="mb-6 w-full">
+            <label className="block mb-2 text-sm font-medium">
+              Article Image URL (optional):
+            </label>
+            <input
+              type="text"
+              placeholder="Your image link"
+              value={articleImgUrl}
+              onChange={(e) => setArticleImgUrl(e.target.value)}
+              className="w-full bg-slate-700 text-white rounded px-4 py-2 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-white"
+            />
+          </div>
+
+          {/* Submit and Feedback */}
+          <div className="flex flex-col items-start w-full mt-4">
+            <button
+              type="submit"
+              className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded mb-4 disabled:opacity-50"
+            >
+              Post Article
+            </button>
+            {articlePosted && (
+              <p className="text-green-400 mb-2">Posted Successfully!</p>
+            )}
+            {articlePosting && !articlePostingError && (
+              <p className="mb-2">Posting Your Article...</p>
+            )}
+            {articlePostingError && (
+              <p className="text-red-400 mb-2">
+                Couldn't post article, try again later.
+              </p>
+            )}
+          </div>
+        </form>
+      </div>
     </>
-  )
+  );
 }
 
-export default CreateArticle
+export default CreateArticle;

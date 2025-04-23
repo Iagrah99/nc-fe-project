@@ -1,7 +1,5 @@
-import { Card, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { CardDiv } from "../styled_components/StyledCardDiv";
 
 const ArticleCard = ({ article }) => {
   const postedDate = article.created_at;
@@ -9,35 +7,52 @@ const ArticleCard = ({ article }) => {
   const formattedDate = format(postedDate, "dd/MM/yyyy 'at' HH:mm");
 
   const navigate = useNavigate();
+
   const handleClick = (id) => {
     navigate(`/articles/article/${id}`);
   };
 
   return (
-    <div className="w-full sm:w-1/2 xl:w-1/4 p-2">
+    <div>
       <div className="bg-gray-900 text-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full">
         <div className="overflow-hidden">
           <img
             src={article.article_img_url}
             alt={`An article image about ${article.topic}`}
             onClick={() => handleClick(article.article_id)}
-            className="h-70 w-full object-cover cursor-pointer transition-transform duration-300 hover:scale-105"
+            className="h-70 w-full object-cover cursor-pointer transition-transform duration-300 hover:scale-105 hover:opacity-75"
           />
         </div>
-        <div className="p-4 flex-1 space-y-2">
-          <h2 className="text-xl font-semibold">{article.title}</h2>
-          <p>Topic: {article.topic}</p>
-          <p>Author: {article.author}</p>
-          <p>Posted On: {formattedDate}</p>
-          <p>Votes: {article.votes}</p>
-          <p>Comment Count: {article.comment_count}</p>
+        <div className="p-4 flex-1 space-y-3">
+          <h2 className="text-1xl mb-2">{article.title}</h2>
+
+          <div className="space-y-2">
+            <div className="flex items-center text-sm">
+              <i className="fa-solid fa-tag text-yellow-400 w-5 mr-2"></i>
+              <span>{article.topic}</span>
+            </div>
+
+            <div className="flex items-center text-sm">
+              <i className="fa-solid fa-user text-blue-400 w-5 mr-2"></i>
+              <span>{article.author}</span>
+            </div>
+
+            <div className="flex items-center text-sm">
+              <i className="fa-solid fa-calendar-days text-green-400 w-5 mr-2"></i>
+              <span>{formattedDate}</span>
+            </div>
+
+            <div className="flex items-center text-sm">
+              <i className="fa-solid fa-thumbs-up text-pink-500 w-5 mr-2"></i>
+              <span>{article.votes}</span>
+            </div>
+
+            <div className="flex items-center text-sm">
+              <i className="fa-solid fa-comments text-purple-400 w-5 mr-2"></i>
+              <span>{article.comment_count}</span>
+            </div>
+          </div>
         </div>
-        {/* <button
-        onClick={() => handleClick(article.article_id)}
-        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-base w-full"
-      >
-        Visit Article
-      </button> */}
       </div>
     </div>
   );

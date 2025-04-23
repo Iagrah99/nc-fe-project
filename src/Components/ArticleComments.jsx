@@ -27,11 +27,11 @@ const ArticleComments = ({ articleId, success }) => {
 
   return (
     <section>
-      <Row>
+      <div>
         {comments.map((comment) => (
           <CommentCard comment={comment} key={comment.comment_id} setDeleted={setDeleted} deleted={deleted}/>
         ))}
-      </Row>
+      </div>
     </section>
   );
   

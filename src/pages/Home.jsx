@@ -38,23 +38,22 @@ const Home = () => {
   if (isError) return <PageError error={error} />;
 
   return (
-    <Container fluid="xs">
+    <>
       <NavigationBar />
       <Main>
         {isLoading ? (
-          <PageLoading contentType={`${loggedInUser.username}'s Homepage`} />
+          <PageLoading contentType="Your Homepage" />
         ) : (
-          <Container fluid="xs">
-            <H1>Welcome {loggedInUser.username}!</H1>
+          <div>
             <article id="post-article">
               <CreateArticle />
             </article>
-          </Container>
+          </div>
         )
         }
       </Main >
       <Footer />
-    </Container >
+    </>
   );
 };
 
