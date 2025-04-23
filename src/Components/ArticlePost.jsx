@@ -144,7 +144,7 @@ const ArticlePost = ({article, articleId}) => {
           {/* Show/Hide Comments Button */}
           <button
             onClick={handleDisplayComments}
-            className="block mt-6 bg-gray-900 cursor-pointer text-white font-medium px-4 py-2 rounded hover:bg-gray-700 transition"
+            className="block mt-6 bg-blue-600 cursor-pointer text-white font-medium px-4 py-2 rounded hover:bg-blue-700 transition"
           >
             Hide Comments
           </button>

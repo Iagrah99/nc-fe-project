@@ -38,17 +38,21 @@ const ViewArticle = () => {
   return (
     <>
       <NavigationBar />
-      <Header />
 
-      <Main>
-        {isLoading ? (
-          <PageLoading contentType="Article" />
-        ) : (
-          <article className="pb-40 bg-black">
-            <ArticlePost article={article} articleId={articleId} />
-          </article>
-        )}
-      </Main>
+      <>
+        <Main>
+          {isLoading ? (
+            <PageLoading contentType="Article" />
+          ) : (
+            <>
+              <Header />
+              <article className="pb-40 bg-black">
+                <ArticlePost article={article} articleId={articleId} />
+              </article>
+            </>
+          )}
+        </Main>
+      </>
 
       <Footer />
     </>

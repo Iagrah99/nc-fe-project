@@ -52,7 +52,7 @@ const CreateComment = ({ articleId, setSuccess }) => {
 
   return (
 <div className="w-full xl:col-span-12 md:col-span-12 sm:col-span-12">
-  <div className="w-full bg-slate-800 rounded-lg shadow-md p-6 text-white">
+  <div className="w-full p-6 text-white">
     <form onSubmit={handleSubmit}>
       <h3 className="text-center text-xl font-semibold mb-6">Join The Discussion</h3>
 
