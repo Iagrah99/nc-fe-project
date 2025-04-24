@@ -1,4 +1,3 @@
-import { Container } from "react-bootstrap";
 import NavigationBar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import { useState, useEffect, useContext } from "react";
@@ -8,7 +7,6 @@ import { UserContext } from "../contexts/UserContext";
 import PageLoading from "../Components/PageLoading";
 import PageError from "../Components/PageError";
 import Main from "../styled_components/StyledMain";
-import { H1 } from "../styled_components/StyledHeadings"
 
 const Home = () => {
   const [articles, setArticles] = useState([]);

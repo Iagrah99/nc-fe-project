@@ -1,4 +1,3 @@
-import { Col, Container, Row, Form } from "react-bootstrap";
 import ArticleCard from "../Components/ArticleCard";
 import { fetchArticles, fetchTopics } from "../utils/api";
 import { useEffect, useState } from "react";
@@ -81,10 +80,10 @@ const Articles = () => {
   if (isError) return <PageError error={error} />;
   else if (!isError) {
     return (
-      <div className="bg-black min-h-screen flex flex-col">
+      <div className="bg-slate-950 min-h-screen flex flex-col">
         <NavigationBar error={error} />
     
-        <Main className="flex-grow">
+        <main className="flex-grow">
           {isLoadingArticles ? (
             <PageLoading contentType={`All ${topic ? topic : ""} Articles`} />
           ) : (
@@ -149,7 +148,7 @@ const Articles = () => {
               </div>
             </section>
           )}
-        </Main>
+        </main>
     
         <Footer />
       </div>

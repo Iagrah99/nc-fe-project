@@ -39,6 +39,13 @@ const NavigationBar = ({ error }) => {
             </button>
             <button
               onClick={handleLink}
+              id="post-article"
+              className="text-sm font-medium cursor-pointer hover:text-red-400 transition"
+            >
+              Post Article
+            </button>
+            <button
+              onClick={handleLink}
               id="login"
               className="text-sm font-medium cursor-pointer hover:text-red-400 transition"
             >

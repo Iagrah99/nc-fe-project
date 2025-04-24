@@ -1,4 +1,3 @@
-import { Card, Col, Button } from "react-bootstrap"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { decrementArticleVotes, incrementArticleVotes} from "../utils/api"
@@ -79,7 +78,7 @@ const ArticlePost = ({article, articleId}) => {
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 py-8 max-w-5xl mx-auto bg-gray-800 text-white ">
-      <div className="bg-gray-800 text-white overflow-hidden">
+      <div className="text-white overflow-hidden">
         <div className="p-6">
           {/* Title */}
           <h1 className="text-2xl font-semibold text-center mb-8">{article.title}</h1>

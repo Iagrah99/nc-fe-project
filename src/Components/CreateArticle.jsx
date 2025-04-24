@@ -64,7 +64,7 @@ function CreateArticle({ setSuccess }) {
 
   return (
     <>
-      <h2 className="text-4xl py-12 font-semibold text-white text-center">
+      <h2 className="text-3xl py-12 text-white text-center">
         Post Your Article
       </h2>
 

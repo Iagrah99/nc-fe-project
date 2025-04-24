@@ -40,18 +40,18 @@ const ViewArticle = () => {
       <NavigationBar />
 
       <>
-        <Main>
+        <main className="flex-1 min-h-screen bg-slate-950">
           {isLoading ? (
             <PageLoading contentType="Article" />
           ) : (
             <>
               <Header />
-              <article className="pb-40 bg-black">
+              <article className="pb-40 bg-slate-950">
                 <ArticlePost article={article} articleId={articleId} />
               </article>
             </>
           )}
-        </Main>
+        </main>
       </>
 
       <Footer />
