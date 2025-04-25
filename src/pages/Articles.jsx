@@ -1,5 +1,5 @@
 import ArticleCard from "../Components/ArticleCard";
-import { fetchArticles, fetchTopics } from "../utils/api";
+import { fetchArticles, fetchTopics, removeArticleById } from "../utils/api";
 import { useEffect, useState } from "react";
 import PageLoading from "../Components/PageLoading";
 import NavigationBar from "../Components/Navbar";
@@ -7,17 +7,18 @@ import Footer from "../Components/Footer";
 import PageError from "../Components/PageError";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
-import Main from "../styled_components/StyledMain";
+import DeleteArticleModal from "../Components/DeleteArticleModal";
 
 const Articles = () => {
   document.title = "NC News | Articles";
 
   const [articles, setArticles] = useState([]);
   const [topics, setTopics] = useState([]);
-  const [isLoadingTopics, setIsLoadingTopics] = useState([])
+  const [isLoadingTopics, setIsLoadingTopics] = useState([]);
   const [isLoadingArticles, setIsLoadingArticles] = useState(true);
   const [isError, setisError] = useState(false);
   const [error, setError] = useState(null);
+  const [isArticleDeleted, setIsArticleDeleted] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [sortBy, setSortBy] = useState("sort_by");
@@ -41,7 +42,7 @@ const Articles = () => {
         setError(error);
         setisError(true);
       });
-  }, [sortByQuery, orderByQuery, isError, topic]);
+  }, [sortByQuery, orderByQuery, isError, topic, isArticleDeleted]);
 
   useEffect(() => {
     fetchTopics()
@@ -60,21 +61,35 @@ const Articles = () => {
   const handleSortBy = (e) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set("sort_by", e.target.value);
-    setSortBy(e.target.value)
+    setSortBy(e.target.value);
     setSearchParams(newParams);
   };
 
   const handleOrderBy = (e) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set("order_by", e.target.value);
-    setOrderBy(e.target.value)
+    setOrderBy(e.target.value);
     setSearchParams(newParams);
   };
 
   const handleFilterBy = (e) => {
-    setSortBy("sort_by")
-    setOrderBy("order_by")
+    setSortBy("sort_by");
+    setOrderBy("order_by");
     navigate(`/articles/${e.target.value}`);
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedArticleId, setSelectedArticleId] = useState(null);
+
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
+
+  const handleDeleteArticle = async () => {
+    try {
+      const articleDeletedStatusCode = await removeArticleById(selectedArticleId);
+      articleDeletedStatusCode === 204 && setIsArticleDeleted(true)
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   if (isError) return <PageError error={error} />;
@@ -82,14 +97,14 @@ const Articles = () => {
     return (
       <div className="bg-slate-950 min-h-screen flex flex-col">
         <NavigationBar error={error} />
-    
+
         <main className="flex-grow">
           {isLoadingArticles ? (
             <PageLoading contentType={`All ${topic ? topic : ""} Articles`} />
           ) : (
             <section className="mt-6 px-4 sm:px-6 lg:px-8">
               <Header />
-    
+
               {/* Filter Controls */}
               <form className="mb-10">
                 <div className="flex flex-wrap gap-6 lg:justify-center sm:justify-between ">
@@ -101,13 +116,21 @@ const Articles = () => {
                       defaultValue={"sort_by"}
                       value={sortBy}
                     >
-                      <option value="sort_by" id="sort_by">Sort By</option>
-                      <option value="created_at" id="date">Date</option>
-                      <option value="comment_count" id="comment_count">Comment Count</option>
-                      <option value="votes" id="votes">Votes</option>
+                      <option value="sort_by" id="sort_by">
+                        Sort By
+                      </option>
+                      <option value="created_at" id="date">
+                        Date
+                      </option>
+                      <option value="comment_count" id="comment_count">
+                        Comment Count
+                      </option>
+                      <option value="votes" id="votes">
+                        Votes
+                      </option>
                     </select>
                   </div>
-    
+
                   {/* Order By */}
                   <div className="flex flex-col items-center">
                     <select
@@ -116,12 +139,18 @@ const Articles = () => {
                       defaultValue={"order_by"}
                       value={orderBy}
                     >
-                      <option value="order_by" id="order_by" disabled>Order By</option>
-                      <option value="desc" id="descending">Descending (Default)</option>
-                      <option value="asc" id="ascending">Ascending</option>
+                      <option value="order_by" id="order_by" disabled>
+                        Order By
+                      </option>
+                      <option value="desc" id="descending">
+                        Descending (Default)
+                      </option>
+                      <option value="asc" id="ascending">
+                        Ascending
+                      </option>
                     </select>
                   </div>
-    
+
                   {/* Filter By */}
                   <div className="flex flex-col items-center">
                     <select
@@ -129,31 +158,50 @@ const Articles = () => {
                       className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-28 border-r-12 border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                       defaultValue={"filter_by"}
                     >
-                      <option value="filter_by" id="filter_by" disabled>Filter By</option>
+                      <option value="filter_by" id="filter_by" disabled>
+                        Filter By
+                      </option>
                       {topics.map((topic) => (
-                        <option value={topic.slug} id={topic.slug} key={topic.slug}>
-                          {topic.slug[0].toUpperCase() + topic.slug.slice(1)} Articles
+                        <option
+                          value={topic.slug}
+                          id={topic.slug}
+                          key={topic.slug}
+                        >
+                          {topic.slug[0].toUpperCase() + topic.slug.slice(1)}{" "}
+                          Articles
                         </option>
                       ))}
                     </select>
                   </div>
                 </div>
               </form>
-    
+
               {/* Articles Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mb-24">
                 {articles.map((article) => (
-                  <ArticleCard article={article} key={article.article_id} />
+                  <ArticleCard
+                    article={article}
+                    key={article.article_id}
+                    toggleModal={toggleModal}
+                    setSelectedArticleId={setSelectedArticleId}
+                  />
                 ))}
               </div>
             </section>
           )}
         </main>
-    
+
+        {isModalOpen && (
+          <DeleteArticleModal
+            toggleModal={toggleModal}
+            handleDeleteArticle={handleDeleteArticle}
+            selectedArticleId={selectedArticleId}
+          />
+        )}
+
         <Footer />
       </div>
     );
-    
   }
 };
 

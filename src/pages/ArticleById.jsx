@@ -1,6 +1,5 @@
-import { Container } from "react-bootstrap";
 import Header from "../Components/Header";
-import { fetchArticleById } from "../utils/api";
+import { fetchArticleById} from "../utils/api";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PageLoading from "../Components/PageLoading";
@@ -8,7 +7,6 @@ import PageError from "../Components/PageError";
 import ArticlePost from "../Components/ArticlePost";
 import NavigationBar from "../Components/Navbar";
 import Footer from "../Components/Footer";
-import Main from "../styled_components/StyledMain";
 
 const ViewArticle = () => {
   const [article, setArticle] = useState({});

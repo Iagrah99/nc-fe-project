@@ -36,20 +36,32 @@ const CommentCard = ({ comment, setDeleted, deleted }) => {
 
   return (
     <div className="w-full xl:col-span-12 md:col-span-12 sm:col-span-12">
-      <div className="bg-gray-900 w-full rounded-lg shadow-md my-6 p-6 text-white">
-        <h2 className="text-lg font-semibold mb-2"><i className="fa-solid fa-user text-blue-400 w-5 mr-2"></i> {comment.author}</h2>
+      <div className="bg-gray-900 w-full rounded-lg shadow-md my-6 p-6 text-white flex flex-col justify-between relative">
+        <h2 className="text-lg font-semibold mb-2">
+          <i className="fa-solid fa-user text-blue-400 w-5 mr-2"></i>{" "}
+          {comment.author}
+        </h2>
         <p className="mb-2">{comment.body}</p>
-        <p className="mb-2"><i className="fa-solid fa-thumbs-up text-pink-500 w-5 mr-2"></i> {comment.votes}</p>
-        <p className="mb-4"><i className="fa-solid fa-calendar text-green-400 w-5 mr-2"></i> {formattedDate}</p>
+        <p className="mb-2">
+          <i className="fa-solid fa-thumbs-up text-pink-500 w-5 mr-2"></i>{" "}
+          {comment.votes}
+        </p>
+        <div className="flex justify-between items-center mb-4">
+          <p>
+            <i className="fa-solid fa-calendar text-green-400 w-5 mr-2"></i>
+            {formattedDate}
+          </p>
 
-        {loggedInUser.username === comment.author && (
-          <button
-            onClick={handleDelete}
-            className="bg-red-600 hover:bg-red-700 cursor-pointer text-white font-medium py-2 px-4 rounded"
-          >
-            Delete Comment
-          </button>
-        )}
+          {loggedInUser.username === comment.author && (
+            <button
+              onClick={handleDelete}
+              title="Delete Comment"
+              className="text-red-500 hover:text-red-600 transition text-xl scale-110 cursor-pointer"
+            >
+              <i className="fa-solid fa-trash"></i>
+            </button>
+          )}
+        </div>
 
         {deletingComment && (
           <p className="mt-4 mb-4">Deleting Your Comment...</p>

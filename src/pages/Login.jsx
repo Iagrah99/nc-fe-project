@@ -4,7 +4,6 @@ import Footer from "../Components/Footer";
 import NavigationBar from "../Components/Navbar";
 import UserCard from "../Components/UserCard";
 import PageLoading from "../Components/PageLoading";
-import Header from "../Components/Header";
 
 const Login = () => {
   document.title = "NC News | Switch User";

@@ -57,3 +57,8 @@ export const addArticle = async (author, title, topic, body, article_img_url) =>
   const res = await ncNewsApi.post("/articles", author, title, topic, body, article_img_url);
   return res.data;
 }
+
+export const removeArticleById = async (articleId) => {
+  const res = await ncNewsApi.delete(`/articles/${articleId}`)
+  return res.status;
+}
