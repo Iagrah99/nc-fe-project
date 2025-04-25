@@ -86,7 +86,9 @@ const Articles = () => {
   const handleDeleteArticle = async () => {
     try {
       const articleDeletedStatusCode = await removeArticleById(selectedArticleId);
-      articleDeletedStatusCode === 204 && setIsArticleDeleted(true)
+      if (articleDeletedStatusCode === 204) {
+        setIsArticleDeleted(!isArticleDeleted)
+      }
     } catch (error) {
       console.log(error)
     }

@@ -1,34 +1,39 @@
 import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import { addArticle } from "../utils/api";
 
-function CreateArticle({ setSuccess }) {
+function CreateArticle() {
   const [articlePosting, setArticlePosting] = useState(false);
   const [articlePosted, setArticlePosted] = useState(false);
   const [articlePostingError, setArticlePostingError] = useState(false);
   const [articleIsOnlySpaces, setArticleIsOnlySpaces] = useState(false);
   const [articleTitle, setarticleTitle] = useState("");
   const [articleBody, setArticleBody] = useState("");
-  const [articleTopic, setArticleTopic] = useState("");
+  const [articleTopic, setArticleTopic] = useState("cooking");
   const [articleImgUrl, setArticleImgUrl] = useState("");
 
+  const navigate = useNavigate();
   const { loggedInUser } = useContext(UserContext);
 
-  const addNewArticle = (postedArticle, e) => {
-    addArticle(postedArticle)
-      .then((articleFromApi) => {
-        e.target[2].disabled = false;
-        setArticlePosted(true);
-        setArticlePosting(false);
-        setArticleIsOnlySpaces(false);
-        setArticleBody("");
-        setSuccess(articleFromApi.article_id);
-      })
-      .catch((error) => {
-        setArticlePosted(false);
-        setArticlePostingError(true);
-      });
+  const addNewArticle = async (postedArticle) => {
+    setArticlePosting(true);
+    try {
+      const { article } = await addArticle(postedArticle);
+      setArticlePosted(true);
+      setArticlePosting(false);
+      setArticleIsOnlySpaces(false);
+      setArticleBody("");
+      setArticlePostingError(false); // ✅ Reset any previous error
+      navigate(`/articles/article/${article.article_id}`);
+    } catch (error) {
+      console.log(error);
+      setArticlePosted(false);
+      setArticlePosting(false);
+      setArticlePostingError(true);
+    }
   };
+  
 
   const handleTopic = (e) => {
     const selectedTopic = e.target.value;
@@ -54,7 +59,6 @@ function CreateArticle({ setSuccess }) {
         body: articleBody,
         article_img_url: articleImgUrl,
       };
-      console.log(newArticle);
       addNewArticle(newArticle, e);
     }
   };
@@ -166,7 +170,7 @@ function CreateArticle({ setSuccess }) {
             >
               Post Article
             </button>
-            {articlePosted && (
+            {articlePosted && !articlePostingError && (
               <p className="text-green-400 mb-2">Posted Successfully!</p>
             )}
             {articlePosting && !articlePostingError && (

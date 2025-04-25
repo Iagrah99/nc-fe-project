@@ -1,8 +1,6 @@
 import NavigationBar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import CreateArticle from "../Components/CreateArticle";
-import Header from "../Components/Header";
-
 const PostArticle = () => {
   document.title = "NC News | Post Article";
 
@@ -18,7 +16,7 @@ const PostArticle = () => {
 
           <div>
             <article id="post-article">
-              <CreateArticle />
+              <CreateArticle/>
             </article>
           </div>
         </section>
