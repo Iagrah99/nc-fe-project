@@ -1,9 +1,10 @@
 import { UserContext } from "../contexts/UserContext";
-import { useContext, useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   removeComment,
   incrementCommentVotes,
   decrementCommentVotes,
+  fetchUsers,
 } from "../utils/api";
 import { format } from "date-fns";
 
@@ -14,10 +15,21 @@ const CommentCard = ({ comment, setDeleted, deleted }) => {
   const [commentVotes, setCommentVotes] = useState(comment.votes);
   const [activeBtn, setActiveBtn] = useState("none");
   const [voteError, setVoteError] = useState("");
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const datePosted = comment.created_at;
 
   const formattedDate = format(datePosted, "dd/MM/yyyy 'at' HH:mm");
+
+  useEffect(() => {
+    fetchUsers().then((users) => {
+      setUsers(users);
+      setIsLoading(false);
+      setUser(users.find((user) => user.username === comment.author));
+    });
+  }, []);
 
   const handleDelete = (e) => {
     e.preventDefault();
@@ -59,11 +71,11 @@ const CommentCard = ({ comment, setDeleted, deleted }) => {
     const newActive = activeBtn === reaction ? "none" : reaction;
     const voteAPI =
       reaction === "like" ? incrementCommentVotes : decrementCommentVotes;
-  
+
     // 💡 Optimistically update UI
     setCommentVotes((votes) => votes + delta);
     setActiveBtn(newActive);
-  
+
     voteAPI(comment.comment_id, Math.abs(delta)).catch(() => {
       setVoteError("Error updating vote");
       // Revert on failure
@@ -71,15 +83,22 @@ const CommentCard = ({ comment, setDeleted, deleted }) => {
       setActiveBtn(activeBtn); // Revert to previous state
     });
   };
-  
 
   return (
     <div className="w-full xl:col-span-12 md:col-span-12 sm:col-span-12">
       <div className="bg-gray-900 w-full rounded-lg shadow-md my-6 p-6 text-white flex flex-col justify-between relative">
-        <h2 className="text-lg font-semibold mb-2">
-          <i className="fa-solid fa-user text-blue-400 w-5 mr-2"></i>{" "}
-          {comment.author}
-        </h2>
+        <div className="flex items-center gap-3 mb-4">
+          <img
+            src={user?.avatar_url}
+            width="1024"
+            height="1024"
+            alt="User Avatar"
+            loading="lazy"
+            className="w-10 h-10 rounded-full border-2 border-gray-700 shadow-md object-cover"
+          />
+          <h2 className="text-lg font-semibold text-white">{comment.author}</h2>
+        </div>
+
         <p className="mb-2">{comment.body}</p>
         <div className="mb-2 flex items-center gap-4">
           <span>

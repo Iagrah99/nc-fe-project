@@ -15,7 +15,7 @@ const ViewArticle = () => {
   const [error, setError] = useState(null);
   const { articleId } = useParams();
 
-  document.title = `NC News | ${article.title}`;
+  
 
   useEffect(() => {
     fetchArticleById(articleId)
@@ -23,6 +23,7 @@ const ViewArticle = () => {
         setIsError(false);
         setArticle(article);
         setIsLoading(false);
+        document.title = `NC News | ${article.title}`;
       })
       .catch((error) => {
         setIsLoading(false);
@@ -30,6 +31,8 @@ const ViewArticle = () => {
         setIsError(true);
       });
   }, []);
+
+ 
 
   if (isError) return <PageError error={error} />;
 

@@ -2,7 +2,7 @@ import { UserContext } from "../contexts/UserContext";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-const NavigationBar = ({ error }) => {
+const NavigationBar = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 

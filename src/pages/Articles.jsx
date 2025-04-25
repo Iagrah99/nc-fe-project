@@ -104,17 +104,17 @@ const Articles = () => {
           {isLoadingArticles ? (
             <PageLoading contentType={`All ${topic ? topic : ""} Articles`} />
           ) : (
-            <section className="mt-6 px-4 sm:px-6 lg:px-8">
+            <section className="mt-6 sm:px-6 lg:px-8">
               <Header />
 
               {/* Filter Controls */}
               <form className="mb-10">
-                <div className="flex flex-wrap gap-6 lg:justify-center sm:justify-between ">
+                <div className="flex flex-wrap gap-6 lg:justify-center sm:justify-between justify-center ">
                   {/* Sort By */}
                   <div className="flex flex-col items-center">
                     <select
                       onChange={handleSortBy}
-                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-28 border-r-12 border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                       defaultValue={"sort_by"}
                       value={sortBy}
                     >
@@ -137,7 +137,7 @@ const Articles = () => {
                   <div className="flex flex-col items-center">
                     <select
                       onChange={handleOrderBy}
-                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-28 border-r-12 border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                       defaultValue={"order_by"}
                       value={orderBy}
                     >
@@ -157,7 +157,7 @@ const Articles = () => {
                   <div className="flex flex-col items-center">
                     <select
                       onChange={handleFilterBy}
-                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-28 border-r-12 border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                       defaultValue={"filter_by"}
                     >
                       <option value="filter_by" id="filter_by" disabled>
@@ -179,7 +179,7 @@ const Articles = () => {
               </form>
 
               {/* Articles Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mb-24">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 lg:gap-6 mb-24">
                 {articles.map((article) => (
                   <ArticleCard
                     article={article}
