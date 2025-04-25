@@ -3,7 +3,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 
 const PageFooter = () => {
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-slate-800 text-white py-4">
+    <footer className="fixed bottom-0 left-0 w-full bg-slate-900 text-white py-4">
       <div className="max-w-6xl mx-auto px-4 flex flex-row sm:flex-row justify-between items-center sm:space-y-0">
         
         {/* Social Links */}
