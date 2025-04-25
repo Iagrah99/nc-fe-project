@@ -62,3 +62,15 @@ export const removeArticleById = async (articleId) => {
   const res = await ncNewsApi.delete(`/articles/${articleId}`)
   return res.status;
 }
+
+export const incrementCommentVotes = async (articleId, voteChange = 1) => {
+  const res = await ncNewsApi.patch(`/comments/${articleId}`, {
+    inc_votes: voteChange
+  })
+}
+
+export const decrementCommentVotes = async (articleId, voteChange = 1) => {
+  const res = await ncNewsApi.patch(`/comments/${articleId}`, {
+    inc_votes: -voteChange
+  })
+}

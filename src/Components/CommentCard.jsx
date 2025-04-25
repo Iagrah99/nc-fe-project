@@ -1,13 +1,20 @@
-import { Button, Card, Col } from "react-bootstrap";
 import { UserContext } from "../contexts/UserContext";
 import { useContext, useState } from "react";
-import { removeComment } from "../utils/api";
+import {
+  removeComment,
+  incrementCommentVotes,
+  decrementCommentVotes,
+} from "../utils/api";
 import { format } from "date-fns";
 
 const CommentCard = ({ comment, setDeleted, deleted }) => {
   const { loggedInUser } = useContext(UserContext);
   const [deletingComment, setDeletingComment] = useState(false);
   const [deletingError, setDeletingError] = useState("");
+  const [commentVotes, setCommentVotes] = useState(comment.votes);
+  const [activeBtn, setActiveBtn] = useState("none");
+  const [voteError, setVoteError] = useState("");
+
   const datePosted = comment.created_at;
 
   const formattedDate = format(datePosted, "dd/MM/yyyy 'at' HH:mm");
@@ -34,6 +41,38 @@ const CommentCard = ({ comment, setDeleted, deleted }) => {
       });
   };
 
+  const voteDeltaMap = {
+    like: {
+      like: -1,
+      none: 1,
+      dislike: 2,
+    },
+    dislike: {
+      like: -2,
+      none: -1,
+      dislike: 1,
+    },
+  };
+
+  const handleReactionClick = (reaction) => {
+    const delta = voteDeltaMap[reaction][activeBtn];
+    const newActive = activeBtn === reaction ? "none" : reaction;
+    const voteAPI =
+      reaction === "like" ? incrementCommentVotes : decrementCommentVotes;
+  
+    // 💡 Optimistically update UI
+    setCommentVotes((votes) => votes + delta);
+    setActiveBtn(newActive);
+  
+    voteAPI(comment.comment_id, Math.abs(delta)).catch(() => {
+      setVoteError("Error updating vote");
+      // Revert on failure
+      setCommentVotes((votes) => votes - delta);
+      setActiveBtn(activeBtn); // Revert to previous state
+    });
+  };
+  
+
   return (
     <div className="w-full xl:col-span-12 md:col-span-12 sm:col-span-12">
       <div className="bg-gray-900 w-full rounded-lg shadow-md my-6 p-6 text-white flex flex-col justify-between relative">
@@ -42,10 +81,33 @@ const CommentCard = ({ comment, setDeleted, deleted }) => {
           {comment.author}
         </h2>
         <p className="mb-2">{comment.body}</p>
-        <p className="mb-2">
-          <i className="fa-solid fa-thumbs-up text-pink-500 w-5 mr-2"></i>{" "}
-          {comment.votes}
-        </p>
+        <div className="mb-2 flex items-center gap-4">
+          <span>
+            <i className="fa-solid fa-thumbs-up text-pink-500 w-5 mr-2"></i>
+            {commentVotes}
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => handleReactionClick("like")}
+              className={`btn like-btn cursor-pointer ${
+                activeBtn === "like" ? "like-active" : ""
+              }`}
+              title="Upvote"
+            >
+              <span className="material-symbols-outlined">thumb_up</span>
+            </button>
+            <button
+              onClick={() => handleReactionClick("dislike")}
+              className={`btn dislike-btn cursor-pointer ${
+                activeBtn === "dislike" ? "dislike-active" : ""
+              }`}
+              title="Downvote"
+            >
+              <span className="material-symbols-outlined">thumb_down</span>
+            </button>
+          </div>
+        </div>
+
         <div className="flex justify-between items-center mb-4">
           <p>
             <i className="fa-solid fa-calendar text-green-400 w-5 mr-2"></i>

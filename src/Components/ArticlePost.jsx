@@ -21,55 +21,27 @@ const ArticlePost = ({ article, articleId }) => {
   };
 
   const handleReactionClick = (reaction) => {
-    if (activeBtn === "none") {
-      if (reaction === "like") {
-        setArticleVotes((currentVotes) => currentVotes + 1);
-        setActiveBtn("like");
-        incrementArticleVotes(articleId).catch((err) => {
-          setError("Error updating vote");
-          setArticleVotes((currentVotes) => currentVotes - 1);
-        });
-      } else if (reaction === "dislike") {
-        setArticleVotes((currentVotes) => currentVotes - 1);
-        setActiveBtn("dislike");
-        decrementArticleVotes(articleId).catch((err) => {
-          setError("Error updating vote");
-          setArticleVotes((currentVotes) => currentVotes + 1);
-        });
-      }
-    } else if (activeBtn === reaction) {
-      if (reaction === "like") {
-        setArticleVotes((currentVotes) => currentVotes - 1);
-        decrementArticleVotes(articleId).catch((err) => {
-          setError("Error updating vote");
-          setArticleVotes((currentVotes) => currentVotes + 1);
-        });
-      } else if (reaction === "dislike") {
-        setArticleVotes((currentVotes) => currentVotes + 1);
-        incrementArticleVotes(articleId).catch((err) => {
-          setError("Error updating vote");
-          setArticleVotes((currentVotes) => currentVotes - 1);
-        });
-      }
-      setActiveBtn("none");
-    } else if (activeBtn !== reaction) {
-      if (reaction === "like") {
-        setArticleVotes((currentVotes) => currentVotes + 2);
-        setActiveBtn("like");
-        incrementArticleVotes(articleId, 2).catch((err) => {
-          setError("Error updating vote");
-          setArticleVotes((currentVotes) => currentVotes - 2);
-        });
-      } else if (reaction === "dislike") {
-        setArticleVotes((currentVotes) => currentVotes - 2);
-        setActiveBtn("dislike");
-        decrementArticleVotes(articleId, 2).catch((err) => {
-          setError("Error updating vote");
-          setArticleVotes((currentVotes) => currentVotes + 2);
-        });
-      }
-    }
+    const isSameReaction = activeBtn === reaction;
+    const isNewReaction = activeBtn === "none";
+    const voteChange = isNewReaction ? 1 : isSameReaction ? -1 : 2;
+    const voteAPI = reaction === "like" ? incrementArticleVotes : decrementArticleVotes;
+    const voteDelta = reaction === "like" ? voteChange : -voteChange;
+    const newActiveBtn = isSameReaction ? "none" : reaction;
+    const previousActiveBtn = activeBtn; // Save previous state
+  
+    // 💡 Optimistically update both votes and active button
+    setArticleVotes((votes) => votes + voteDelta);
+    setActiveBtn(newActiveBtn);
+  
+    voteAPI(articleId, Math.abs(voteChange)).catch(() => {
+      setError("Error updating vote");
+      // Revert state if API call fails
+      setArticleVotes((votes) => votes - voteDelta);
+      setActiveBtn(previousActiveBtn);
+    });
   };
+  
+  
 
   if (isError) return <PageError error={error} />;
 

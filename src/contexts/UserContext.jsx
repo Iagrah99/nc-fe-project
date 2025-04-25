@@ -7,7 +7,7 @@ export const UserProvider = ({children}) => {
   const [loggedInUser, setLoggedInUser] = useState({
     username:	"tickle122",
     name:	"Tom Tickle",
-    avatar_url:	"https://vignette.wikia.nocookie.net/mrmen/images/d/d6/Mr-Tickle-9a.png/revision/latest?cb=20180127221953"
+    avatar_url:	"https://res.cloudinary.com/dafsdsmus/image/upload/v1745597600/tomtickle_l7hyac_gq6mrf.png"
   })
 
   return (

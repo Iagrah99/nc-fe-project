@@ -7,6 +7,8 @@ const NavigationBar = ({ error }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { loggedInUser } = useContext(UserContext);
+
+  console.log(loggedInUser);
   const handleLink = (e) => {
     e.preventDefault();
     if (e.target.id === "/") {
@@ -54,10 +56,17 @@ const NavigationBar = ({ error }) => {
           </div>
 
           {/* Logged-in Status - Right */}
-          <div className="hidden lg:block text-sm text-gray-300">
-            Logged in as:{" "}
-            <span className="font-semibold text-white">
-              {loggedInUser.username}
+          <div className="hidden lg:flex items-center gap-3 text-sm text-gray-300">
+            <span className="flex items-center gap-2 px-3 py-1 rounded-full">
+              <span>Logged in as</span>
+              <span className="font-semibold text-white">
+                {loggedInUser.username}
+              </span>
+              <img
+                src={loggedInUser.avatar_url}
+                alt="User Avatar"
+                className="w-8 h-8 rounded-full border border-gray-600 shadow-sm"
+              />
             </span>
           </div>
 
@@ -75,7 +84,7 @@ const NavigationBar = ({ error }) => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="lg:hidden px-4 pb-4 bg-gray-800 space-y-3">
+        <div className="lg:hidden pt-2 px-4 pb-4 bg-gray-800 space-y-3">
           <button
             onClick={handleLink}
             id="articles"
@@ -84,6 +93,13 @@ const NavigationBar = ({ error }) => {
             Articles
           </button>
           <button
+              onClick={handleLink}
+              id="post-article"
+              className="text-sm font-medium cursor-pointer hover:text-red-400 transition"
+            >
+              Post Article
+            </button>
+          <button
             onClick={handleLink}
             id="login"
             className="block w-full text-left text-sm font-medium hover:text-red-400"
@@ -91,9 +107,16 @@ const NavigationBar = ({ error }) => {
             Switch User
           </button>
           <div className="text-xs text-gray-300">
-            Logged in as:{" "}
-            <span className="font-semibold text-white">
-              {loggedInUser.username}
+          <span className="flex items-center gap-2 rounded-full">
+              <span>Logged in as</span>
+              <span className="font-semibold text-white">
+                {loggedInUser.username}
+              </span>
+              <img
+                src={loggedInUser.avatar_url}
+                alt="User Avatar"
+                className="w-8 h-8 rounded-full border border-gray-600 shadow-sm"
+              />
             </span>
           </div>
         </div>
