@@ -9,8 +9,8 @@ const DeleteArticleModal = ({ toggleModal, handleDeleteArticle, selectedArticleI
           <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
             Confirm Article Deletion
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
-            Are you sure you want to delete your article?
+          <p className="text-gray-600 dark:text-gray-300 mb-6 text-sm">
+           Are you sure you want to delete this article?
           </p>
           <div className="flex justify-end space-x-4">
             <button

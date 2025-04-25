@@ -14,6 +14,9 @@ const UserCard = ({ user }) => {
           src={user.avatar_url}
           alt={`${user.username}'s avatar`}
           className="w-24 h-24 rounded-full object-fit mb-4"
+          loading="lazy"
+          width="1024"
+          height="1024"
         />
 
         {/* User Info */}

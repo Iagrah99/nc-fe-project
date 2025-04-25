@@ -145,7 +145,7 @@ const Articles = () => {
                         Order By
                       </option>
                       <option value="desc" id="descending">
-                        Descending (Default)
+                        Descending
                       </option>
                       <option value="asc" id="ascending">
                         Ascending
