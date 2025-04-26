@@ -1,8 +1,15 @@
-import { useContext } from "react";
+import { useEffect, useContext  } from "react";
 import { UserContext } from "../contexts/UserContext";
 
 const UserCard = ({ user }) => {
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+
+    const handleLoginUser = () => {
+      setLoggedInUser(user)
+      localStorage.setItem("currentUser", JSON.stringify(user))
+    }
+      
+   
   return (
     <div
       key={user.username}
@@ -26,7 +33,7 @@ const UserCard = ({ user }) => {
         {user.username !== loggedInUser.username ? (
           <button
             id={user.username}
-            onClick={() => setLoggedInUser(user)}
+            onClick={handleLoginUser}
             className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 w-32 rounded text-base cursor-pointer"
           >
             Login
