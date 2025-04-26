@@ -2,9 +2,17 @@
 
 ## Project Summary
 
-Welcome to my Northcoders News Frontend Project! The project was mostly built in React, and uses some React libraries such as React Bootstrap & Styled Components. It also uses some good old vanilla CSS as well! 
+Welcome to NC News! The project was built in React and styled using TailwindCSS.
 
-The project itself serves as the frontend for my backend restful API project. Users are currently able to browse & filter articles by their topic, sort them by date, comment count and the number of votes they have. They can also order them either by descending (default) or ascending order. Clicking on any article will take the user to the article page itself, where it can be viewed in full. Users may upvote or downvote the article, and are able to post their own comments, and even delete them so long as the comment was made by the user that is currently signed in. Users are also able to sign in as a different user from a pre-defined list of users. 
+This project was built using React and styled with TailwindCSS.
+
+NC News serves as the frontend for my backend RESTful API project. Users can browse and filter articles by topic, and sort them by date, comment count, or the number of votes. Articles can be ordered in either descending (default) or ascending order.
+
+Clicking on any article takes the user to a full view of the article, where they can upvote or downvote it, post comments, edit or delete their own comments (provided they are the signed-in user), and join discussions.
+
+Users can also switch accounts by signing in as a different predefined user from a preset list.
+
+The project showcases a user-centred design with dynamic, interactive functionality, seamless API integration, and responsive styling for an accessible browsing experience.
 
 ## Hosted Live Version
 
