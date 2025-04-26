@@ -1,8 +1,8 @@
-# Northcoders News Frontend Project
+# NC News Web App
 
 ## Project Summary
 
-Welcome to NC News! The project was built in React and styled using TailwindCSS.
+Welcome to NC News!
 
 This project was built using React and styled with TailwindCSS.
 
