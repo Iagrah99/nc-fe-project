@@ -8,7 +8,6 @@ const NavigationBar = () => {
 
   const { loggedInUser } = useContext(UserContext);
 
-  console.log(loggedInUser);
   const handleLink = (e) => {
     e.preventDefault();
     if (e.target.id === "/") {

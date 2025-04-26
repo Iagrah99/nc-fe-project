@@ -8,6 +8,7 @@ const ArticleComments = ({ articleId, success }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setisError] = useState(false);
   const [deleted, setDeleted] = useState(false)
+  const [isCommentUpdated, setIsCommentUpdated] = useState(false)
 
   useEffect(() => {
     fetchCommentsByArticleId(articleId)
@@ -19,7 +20,7 @@ const ArticleComments = ({ articleId, success }) => {
         setIsLoading(false);
         setisError(true);
       });
-  }, [success, deleted]);
+  }, [success, deleted, isCommentUpdated]);
 
   if (isLoading) return <CommentsLoading />;
   if (isError) return <PageError />;
@@ -28,7 +29,7 @@ const ArticleComments = ({ articleId, success }) => {
     <section>
       <div>
         {comments.map((comment) => (
-          <CommentCard comment={comment} key={comment.comment_id} setDeleted={setDeleted} deleted={deleted}/>
+          <CommentCard comment={comment} key={comment.comment_id} setDeleted={setDeleted} deleted={deleted} setIsCommentUpdated={setIsCommentUpdated} isCommentUpdated={isCommentUpdated} setIsLoading={setIsLoading}/>
         ))}
       </div>
     </section>

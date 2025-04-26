@@ -63,14 +63,22 @@ export const removeArticleById = async (articleId) => {
   return res.status;
 }
 
-export const incrementCommentVotes = async (articleId, voteChange = 1) => {
-  const res = await ncNewsApi.patch(`/comments/${articleId}`, {
+export const incrementCommentVotes = async (commentId, voteChange = 1) => {
+  const res = await ncNewsApi.patch(`/comments/${commentId}`, {
     inc_votes: voteChange
   })
 }
 
-export const decrementCommentVotes = async (articleId, voteChange = 1) => {
-  const res = await ncNewsApi.patch(`/comments/${articleId}`, {
+export const decrementCommentVotes = async (commentId, voteChange = 1) => {
+  const res = await ncNewsApi.patch(`/comments/${commentId}`, {
     inc_votes: -voteChange
   })
+}
+
+export const updateCommentBody = async (commentId, body) => {
+  const res = await ncNewsApi.patch(`/comments/${commentId}`, {
+    inc_votes: 0,
+    body
+  });
+  return res.data;
 }

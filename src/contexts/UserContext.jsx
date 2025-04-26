@@ -5,9 +5,9 @@ export const UserContext = createContext()
 
 export const UserProvider = ({children}) => {
   const [loggedInUser, setLoggedInUser] = useState({
-    username:	"guest",
-    name:	"Guy Guest",
-    avatar_url:	"https://res-console.cloudinary.com/dafsdsmus/thumbnails/v1/image/upload/v1745620542/R3Vlc3RfVXNlcl9ha3lkdTQ=/drilldown"
+    username:	"tickle122",
+    name:	"Tom Tickle",
+    avatar_url:	"https://res.cloudinary.com/dafsdsmus/image/upload/v1745597600/tomtickle_l7hyac_gq6mrf.png"
   })
 
   return (
