@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState } from "react";
 import { decrementArticleVotes, incrementArticleVotes } from "../utils/api";
 import CommentSection from "./CommentSection";
 import "../css/Voting.css";
@@ -24,15 +24,16 @@ const ArticlePost = ({ article, articleId }) => {
     const isSameReaction = activeBtn === reaction;
     const isNewReaction = activeBtn === "none";
     const voteChange = isNewReaction ? 1 : isSameReaction ? -1 : 2;
-    const voteAPI = reaction === "like" ? incrementArticleVotes : decrementArticleVotes;
+    const voteAPI =
+      reaction === "like" ? incrementArticleVotes : decrementArticleVotes;
     const voteDelta = reaction === "like" ? voteChange : -voteChange;
     const newActiveBtn = isSameReaction ? "none" : reaction;
     const previousActiveBtn = activeBtn; // Save previous state
-  
+
     // 💡 Optimistically update both votes and active button
     setArticleVotes((votes) => votes + voteDelta);
     setActiveBtn(newActiveBtn);
-  
+
     voteAPI(articleId, Math.abs(voteChange)).catch(() => {
       setError("Error updating vote");
       // Revert state if API call fails
@@ -40,13 +41,11 @@ const ArticlePost = ({ article, articleId }) => {
       setActiveBtn(previousActiveBtn);
     });
   };
-  
-  
 
   if (isError) return <PageError error={error} />;
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 py-8 max-w-5xl mx-auto bg-gray-800 text-white ">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-8 max-w-7xl mx-auto bg-gray-800 text-white ">
       <div className="text-white overflow-hidden">
         <div className="p-6">
           <div className="flex justify-between items-center mb-8">
@@ -60,7 +59,7 @@ const ArticlePost = ({ article, articleId }) => {
             <img
               src={article.article_img_url}
               alt={`An article image about ${article.topic}`}
-              className="w-full rounded"
+              className="w-full max-w-7xl aspect-[22/9] object-cover rounded"
             />
           </figure>
 

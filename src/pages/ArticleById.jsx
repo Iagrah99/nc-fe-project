@@ -15,7 +15,6 @@ const ViewArticle = () => {
   const [error, setError] = useState(null);
   const { articleId } = useParams();
 
-  
 
   useEffect(() => {
     fetchArticleById(articleId)

@@ -29,7 +29,7 @@ const ArticleComments = ({ articleId, success }) => {
     <section>
       <div>
         {comments.map((comment) => (
-          <CommentCard comment={comment} key={comment.comment_id} setDeleted={setDeleted} deleted={deleted} setIsCommentUpdated={setIsCommentUpdated} isCommentUpdated={isCommentUpdated} setIsLoading={setIsLoading}/>
+          <CommentCard comment={comment} key={comment.comment_id} setDeleted={setDeleted} deleted={deleted} setIsCommentUpdated={setIsCommentUpdated} isCommentUpdated={isCommentUpdated} />
         ))}
       </div>
     </section>

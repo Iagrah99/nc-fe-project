@@ -9,10 +9,6 @@ const EditCommentModal = ({ toggleModal, handleUpdateBody, updatedComment, setUp
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">
             Edit Comment
           </h2>
-  
-          {/* <label htmlFor="comment" className="block text-gray-700 dark:text-gray-300 mb-2 text-sm font-medium">
-            Your Comment
-          </label> */}
           <textarea
             name="comment"
             id="comment"

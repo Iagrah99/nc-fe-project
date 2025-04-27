@@ -78,22 +78,6 @@ const Articles = () => {
     navigate(`/articles/${e.target.value}`);
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedArticleId, setSelectedArticleId] = useState(null);
-
-  const toggleModal = () => setIsModalOpen(!isModalOpen);
-
-  const handleDeleteArticle = async () => {
-    try {
-      const articleDeletedStatusCode = await removeArticleById(selectedArticleId);
-      if (articleDeletedStatusCode === 204) {
-        setIsArticleDeleted(!isArticleDeleted)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  };
-
   if (isError) return <PageError error={error} />;
   else if (!isError) {
     return (
@@ -183,24 +167,12 @@ const Articles = () => {
                 {articles.map((article) => (
                   <ArticleCard
                     article={article}
-                    key={article.article_id}
-                    toggleModal={toggleModal}
-                    setSelectedArticleId={setSelectedArticleId}
                   />
                 ))}
               </div>
             </section>
           )}
         </main>
-
-        {isModalOpen && (
-          <DeleteArticleModal
-            toggleModal={toggleModal}
-            handleDeleteArticle={handleDeleteArticle}
-            selectedArticleId={selectedArticleId}
-          />
-        )}
-
         <Footer />
       </div>
     );

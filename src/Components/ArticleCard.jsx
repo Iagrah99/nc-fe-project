@@ -3,7 +3,7 @@ import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 
-const ArticleCard = ({ article, key, toggleModal, setSelectedArticleId }) => {
+const ArticleCard = ({ article }) => {
   const { loggedInUser } = useContext(UserContext);
 
   const postedDate = article.created_at;
@@ -63,20 +63,6 @@ const ArticleCard = ({ article, key, toggleModal, setSelectedArticleId }) => {
                 <span>{article.comment_count}</span>
               </div>
             </div>
-
-            {/* Trash Icon */}
-            {loggedInUser.username === article.author && (
-              <button
-                title="Delete Article"
-                className="text-red-600 hover:text-red-700 text-lg transition cursor-pointer"
-                onClick={() => {
-                  setSelectedArticleId(article.article_id);
-                  toggleModal();
-                }}
-              >
-                <i className="fa-solid fa-trash"></i>
-              </button>
-            )}
           </div>
         </div>
       </div>

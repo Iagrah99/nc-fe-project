@@ -9,12 +9,14 @@ import {
   updateCommentBody
 } from "../utils/api";
 import { format } from "date-fns";
+import DeleteCommentModal from "./DeleteCommentModal";
 
-const CommentCard = ({ comment, setDeleted, deleted, setIsCommentUpdated, isCommentUpdated, setIsLoading }) => {
+const CommentCard = ({ comment, setDeleted, deleted, setIsCommentUpdated, isCommentUpdated }) => {
   const { loggedInUser } = useContext(UserContext);
   const [deletingComment, setDeletingComment] = useState(false);
   const [deletingError, setDeletingError] = useState("");
   const [updatedComment, setUpdatedComment] = useState(comment.body || updatedComment)
+  const [isCommentUpdating, setIsCommentUpdating] = useState(false)
   const [commentVotes, setCommentVotes] = useState(comment.votes);
   const [activeBtn, setActiveBtn] = useState("none");
   const [voteError, setVoteError] = useState("");
@@ -24,6 +26,9 @@ const CommentCard = ({ comment, setDeleted, deleted, setIsCommentUpdated, isComm
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const toggleDeleteModal = () => setIsDeleteModalOpen(!isDeleteModalOpen);
+
   const datePosted = comment.created_at;
 
   const formattedDate = format(datePosted, "dd/MM/yyyy 'at' HH:mm");
@@ -31,12 +36,12 @@ const CommentCard = ({ comment, setDeleted, deleted, setIsCommentUpdated, isComm
   useEffect(() => {
     fetchUsers().then((users) => {
       setUsers(users);
-      setIsLoading(false);
+      // setIsLoading(false);
       setUser(users.find((user) => user.username === comment.author));
     });
   }, []);
 
-  const handleDelete = (e) => {
+  const handleDeleteComment = (e) => {
     e.preventDefault();
     setDeletingComment(comment.comment_id);
 
@@ -60,14 +65,15 @@ const CommentCard = ({ comment, setDeleted, deleted, setIsCommentUpdated, isComm
   const handleUpdateBody = async (e) => {
     e.preventDefault();
     e.target.disabled = true;
-
+    setIsCommentUpdating(true)
     try {
-      setIsLoading(true)
+      
       await updateCommentBody(comment.comment_id, updatedComment);
       setIsCommentUpdated(!isCommentUpdated)
-      // setIsLoading(false)
+      setIsCommentUpdating(false)
     } catch (error) {
       console.log(error.response.data.msg)
+      setIsCommentUpdating(false)
     }
    
   };
@@ -104,9 +110,16 @@ const CommentCard = ({ comment, setDeleted, deleted, setIsCommentUpdated, isComm
   };
 
   return (
-    <>
-      <div className="w-full xl:col-span-12 md:col-span-12 sm:col-span-12">
-        <div className="bg-gray-900 w-full rounded-lg shadow-md my-6 p-6 text-white flex flex-col justify-between relative">
+<>
+  <div className="w-full xl:col-span-12 md:col-span-12 sm:col-span-12">
+    <div className="bg-gray-900 w-full rounded-lg shadow-md my-6 p-6 text-white flex flex-col justify-between relative">
+      {isCommentUpdating || deletingComment ? (
+        <div className="flex flex-col items-center justify-center w-full h-48">
+          <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p className="text-white text-sm">{isCommentUpdating ? "Updating" : "Deleting"} comment...</p>
+        </div>
+      ) : (
+        <>
           <div className="flex items-center gap-3 mb-4">
             <img
               src={user?.avatar_url}
@@ -122,6 +135,7 @@ const CommentCard = ({ comment, setDeleted, deleted, setIsCommentUpdated, isComm
           </div>
 
           <p className="mb-2">{comment.body}</p>
+
           <div className="mb-2 flex items-center gap-4">
             <span>
               <i className="fa-solid fa-thumbs-up text-pink-500 w-5 mr-2"></i>
@@ -160,14 +174,14 @@ const CommentCard = ({ comment, setDeleted, deleted, setIsCommentUpdated, isComm
                 <button
                   onClick={() => toggleModal()}
                   title="Edit Comment"
-                  className="text-blue-500 hover:text-blue-600 transition text-xl scale-110 cursor-pointer shadow-lg  p-4"
+                  className="text-blue-500 hover:text-blue-600 transition text-xl scale-110 cursor-pointer shadow-lg p-4"
                 >
                   <i className="fa-solid fa-pen"></i>
                 </button>
                 <button
-                  onClick={handleDelete}
+                  onClick={() => toggleDeleteModal()}
                   title="Delete Comment"
-                  className="text-red-500 hover:text-red-600 transition text-xl scale-110 cursor-pointer shadow-lg  p-4"
+                  className="text-red-500 hover:text-red-600 transition text-xl scale-110 cursor-pointer shadow-lg p-4"
                 >
                   <i className="fa-solid fa-trash"></i>
                 </button>
@@ -175,25 +189,29 @@ const CommentCard = ({ comment, setDeleted, deleted, setIsCommentUpdated, isComm
             )}
           </div>
 
-          {deletingComment && (
-            <p className="mt-4 mb-4">Deleting Your Comment...</p>
-          )}
-
+         
           {deletingError && (
             <p className="mt-4 mb-4 text-red-400">{deletingError}</p>
           )}
-        </div>
-      </div>
-
-      {isModalOpen && (
-        <EditCommentModal
-          toggleModal={toggleModal}
-          handleUpdateBody={handleUpdateBody}
-          updatedComment={updatedComment}
-          setUpdatedComment={setUpdatedComment}
-        />
+        </>
       )}
-    </>
+    </div>
+  </div>
+
+  {isDeleteModalOpen && (
+    <DeleteCommentModal toggleDeleteModal={toggleDeleteModal} handleDeleteComment={handleDeleteComment} />
+  )}
+
+  {isModalOpen && (
+    <EditCommentModal
+      toggleModal={toggleModal}
+      handleUpdateBody={handleUpdateBody}
+      updatedComment={updatedComment}
+      setUpdatedComment={setUpdatedComment}
+    />
+  )}
+</>
+
   );
 };
 

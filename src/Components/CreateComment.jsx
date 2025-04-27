@@ -66,18 +66,12 @@ const CreateComment = ({ articleId, setSuccess }) => {
 
           {/* Username */}
           <div className="mb-6">
-            <label
-              htmlFor="username"
-              className="block mb-2 text-sm font-medium"
-            >
-              Username
-            </label>
             <input
               type="text"
               id="username"
               value={loggedInUser.username}
               disabled
-              className="w-full bg-slate-700 text-white rounded px-4 py-2 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-white"
+              className=" bg-slate-700 text-white rounded px-4 py-2 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-white hidden"
             />
           </div>
 
@@ -106,7 +100,7 @@ const CreateComment = ({ articleId, setSuccess }) => {
 
                 setCommentPosted(false);
               }}
-              className="w-full bg-slate-700 text-white rounded px-4 py-2 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-white"
+              className="w-full bg-slate-700 text-white rounded lg:h-40 px-4 py-2 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-white resize-none"
             ></textarea>
           </div>
 
