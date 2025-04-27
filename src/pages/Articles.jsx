@@ -1,5 +1,5 @@
 import ArticleCard from "../Components/ArticleCard";
-import { fetchArticles, fetchTopics, removeArticleById } from "../utils/api";
+import { fetchArticles, fetchTopics } from "../utils/api";
 import { useEffect, useState } from "react";
 import PageLoading from "../Components/PageLoading";
 import NavigationBar from "../Components/Navbar";
@@ -7,7 +7,7 @@ import Footer from "../Components/Footer";
 import PageError from "../Components/PageError";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
-import DeleteArticleModal from "../Components/DeleteArticleModal";
+import ArticlesPagination from "../Components/ArticlesPagination";
 
 const Articles = () => {
   document.title = "NC News | Articles";
@@ -19,6 +19,10 @@ const Articles = () => {
   const [isError, setisError] = useState(false);
   const [error, setError] = useState(null);
   const [isArticleDeleted, setIsArticleDeleted] = useState(false)
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const [postsPerPage] = useState(8)
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [sortBy, setSortBy] = useState("sort_by");
@@ -75,8 +79,18 @@ const Articles = () => {
   const handleFilterBy = (e) => {
     setSortBy("sort_by");
     setOrderBy("order_by");
+    setCurrentPage(1)
     navigate(`/articles/${e.target.value}`);
   };
+
+  // Get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = articles.slice(indexOfFirstPost, indexOfLastPost)
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber)
+  
 
   if (isError) return <PageError error={error} />;
   else if (!isError) {
@@ -92,7 +106,7 @@ const Articles = () => {
               <Header />
 
               {/* Filter Controls */}
-              <form className="mb-10">
+              <form className="mb-8">
                 <div className="flex flex-wrap gap-6 lg:justify-center sm:justify-between justify-center ">
                   {/* Sort By */}
                   <div className="flex flex-col items-center">
@@ -100,9 +114,8 @@ const Articles = () => {
                       onChange={handleSortBy}
                       className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                       defaultValue={"sort_by"}
-                      value={sortBy}
                     >
-                      <option value="sort_by" id="sort_by">
+                      <option value="sort_by" id="sort_by" disabled>
                         Sort By
                       </option>
                       <option value="created_at" id="date">
@@ -123,7 +136,6 @@ const Articles = () => {
                       onChange={handleOrderBy}
                       className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                       defaultValue={"order_by"}
-                      value={orderBy}
                     >
                       <option value="order_by" id="order_by" disabled>
                         Order By
@@ -159,17 +171,22 @@ const Articles = () => {
                       ))}
                     </select>
                   </div>
+                 
                 </div>
               </form>
 
+              <ArticlesPagination postsPerPage={postsPerPage} totalPosts={articles.length} paginate={paginate} currentPage={currentPage} />
+
               {/* Articles Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 lg:gap-6 mb-24">
-                {articles.map((article) => (
+                {currentPosts.map((article) => (
                   <ArticleCard
-                    article={article}
+                    article={article} key={article.article_id}
                   />
                 ))}
+                
               </div>
+              
             </section>
           )}
         </main>

@@ -83,7 +83,9 @@ export const updateCommentBody = async (commentId, body) => {
   return res.data;
 }
 
-export const fetchUserComments = async (username) => {
-  const res = await ncNewsApi.get(`/comments/${username}`)
+export const fetchUserComments = async (username, sort_by) => {
+  const res = await ncNewsApi.get(`/comments/${username}`, {
+    params: {sort_by}
+  })
   return res.data
 }
