@@ -84,7 +84,7 @@ const Articles = () => {
       <div className="bg-slate-950 min-h-screen flex flex-col">
         <NavigationBar error={error} />
 
-        <main className="flex-grow">
+        <main>
           {isLoadingArticles ? (
             <PageLoading contentType={`All ${topic ? topic : ""} Articles`} />
           ) : (

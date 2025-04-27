@@ -82,3 +82,8 @@ export const updateCommentBody = async (commentId, body) => {
   });
   return res.data;
 }
+
+export const fetchUserComments = async (username) => {
+  const res = await ncNewsApi.get(`/comments/${username}`)
+  return res.data
+}

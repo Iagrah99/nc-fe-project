@@ -24,8 +24,7 @@ function App() {
     <>
       <ScrollToTopOnRouteChange />
       <Routes>
-        <Route path='/' element={<Articles />} />
-        <Route path='/home' element={<Home />} />
+        <Route path='/' element={<Home />} />
         <Route path='/*' element={<PageError />} />
         <Route path='/login' element={<Login />} />
         <Route path='/topics/*' element={<PageError />} />

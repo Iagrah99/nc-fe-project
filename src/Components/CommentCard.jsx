@@ -111,7 +111,7 @@ const CommentCard = ({ comment, setDeleted, deleted, setIsCommentUpdated, isComm
 
   return (
 <>
-  <div className="w-full xl:col-span-12 md:col-span-12 sm:col-span-12">
+  <div className="w-full xl:col-span-12 md:col-span-12 sm:col-span-12" id={comment.comment_id}>
     <div className="bg-gray-900 w-full rounded-lg shadow-md my-6 p-6 text-white flex flex-col justify-between relative">
       {isCommentUpdating || deletingComment ? (
         <div className="flex flex-col items-center justify-center w-full h-48">
