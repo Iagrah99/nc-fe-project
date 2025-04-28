@@ -34,7 +34,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchArticles()
-      .then((articles) => {
+      .then(({articles}) => {
         setisError(false);
         setArticles(articles);
         setIsLoading(false);
@@ -52,7 +52,6 @@ const Home = () => {
         setisError(false);
         setComments(comments);
         setIsLoading(false);
-        console.log(comments);
       })
       .catch((error) => {
         setIsLoading(false);

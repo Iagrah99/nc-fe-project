@@ -4,12 +4,16 @@ const ncNewsApi = axios.create({
   baseURL: `https://nc-news-project-imqq.onrender.com/api`,
 });
 
-export const fetchArticles = async (topic, sort_by, order_by) => {
-  const res = await ncNewsApi.get(`/articles`, {
-    params: { topic: topic, sort_by: sort_by, order_by: order_by },
+export const fetchArticles = async (topic, sort_by, order_by, p) => {
+  const res = await ncNewsApi.get('/articles', {
+    params: { topic, sort_by, order_by, p },
   });
-  return res.data.articles;
+  return { 
+    articles: res.data.articles,
+    total_count: res.data.total_count,
+  };
 };
+
 
 export const fetchArticleById = async (articleId = '') => {
   const res = await ncNewsApi.get(`/articles/${articleId}`);

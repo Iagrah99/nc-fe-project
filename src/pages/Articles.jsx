@@ -5,23 +5,24 @@ import PageLoading from "../Components/PageLoading";
 import NavigationBar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import PageError from "../Components/PageError";
-import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import {
+  useParams,
+  useSearchParams,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import Header from "../Components/Header";
-import ArticlesPagination from "../Components/ArticlesPagination";
+import LoadingSpinner from "../Components/LoadingSpinner";
 
 const Articles = () => {
   document.title = "NC News | Articles";
 
   const [articles, setArticles] = useState([]);
   const [topics, setTopics] = useState([]);
-  const [isLoadingTopics, setIsLoadingTopics] = useState([]);
-  const [isLoadingArticles, setIsLoadingArticles] = useState(true);
+  const [isLoadingTopics, setIsLoadingTopics] = useState(false);
+  const [isLoadingArticles, setIsLoadingArticles] = useState(false);
   const [isError, setisError] = useState(false);
   const [error, setError] = useState(null);
-  const [isArticleDeleted, setIsArticleDeleted] = useState(false)
-
-  const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage] = useState(8)
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -31,24 +32,34 @@ const Articles = () => {
   const sortByQuery = searchParams.get("sort_by");
   const orderByQuery = searchParams.get("order_by");
 
+  const [page, setPage] = useState(1);
+  const [loadingNextPage, setLoadingNextPage] = useState(false);
+
+  const [totalCount, setTotalCount] = useState(0);
+
   const { topic } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    fetchArticles(topic, sortByQuery, orderByQuery)
-      .then((articles) => {
+    fetchArticles(topic, sortByQuery, orderByQuery, page)
+      .then(({ articles: newArticles, total_count }) => {
         setisError(false);
-        setArticles(articles);
+        setArticles((prevArticles) => [...prevArticles, ...newArticles]);
+        setTotalCount(total_count);
         setIsLoadingArticles(false);
+        setLoadingNextPage(false);
       })
       .catch((error) => {
         setIsLoadingArticles(false);
         setError(error);
         setisError(true);
+        setLoadingNextPage(false);
       });
-  }, [sortByQuery, orderByQuery, isError, topic, isArticleDeleted]);
+  }, [sortByQuery, orderByQuery, topic, page]);
 
   useEffect(() => {
+    setIsLoadingTopics(true);
     fetchTopics()
       .then((topics) => {
         setisError(false);
@@ -62,7 +73,20 @@ const Articles = () => {
       });
   }, []);
 
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setArticles([]);
+    setPage(1);
+    setIsLoadingArticles(true);
+  }, [location.key]);
+
   const handleSortBy = (e) => {
+    setArticles([]);
+    setPage(1);
     const newParams = new URLSearchParams(searchParams);
     newParams.set("sort_by", e.target.value);
     setSortBy(e.target.value);
@@ -70,6 +94,8 @@ const Articles = () => {
   };
 
   const handleOrderBy = (e) => {
+    setArticles([]);
+    setPage(1);
     const newParams = new URLSearchParams(searchParams);
     newParams.set("order_by", e.target.value);
     setOrderBy(e.target.value);
@@ -77,20 +103,21 @@ const Articles = () => {
   };
 
   const handleFilterBy = (e) => {
+    setArticles([]);
+    setPage(1);
     setSortBy("sort_by");
     setOrderBy("order_by");
-    setCurrentPage(1)
+    setIsLoadingArticles(true);
     navigate(`/articles/${e.target.value}`);
   };
 
-  // Get current posts
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = articles.slice(indexOfFirstPost, indexOfLastPost)
-
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber)
-  
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight - 5) {
+      setLoadingNextPage(true);
+      setPage((prevPage) => prevPage + 1); // Increment page
+    }
+  };
 
   if (isError) return <PageError error={error} />;
   else if (!isError) {
@@ -99,7 +126,7 @@ const Articles = () => {
         <NavigationBar error={error} />
 
         <main>
-          {isLoadingArticles ? (
+          {isLoadingArticles || isLoadingTopics ? (
             <PageLoading contentType={`All ${topic ? topic : ""} Articles`} />
           ) : (
             <section className="mt-6 sm:px-6 lg:px-8">
@@ -171,22 +198,21 @@ const Articles = () => {
                       ))}
                     </select>
                   </div>
-                 
                 </div>
               </form>
 
-              <ArticlesPagination postsPerPage={postsPerPage} totalPosts={articles.length} paginate={paginate} currentPage={currentPage} />
-
               {/* Articles Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 lg:gap-6 mb-24">
-                {currentPosts.map((article) => (
-                  <ArticleCard
-                    article={article} key={article.article_id}
-                  />
+                {articles.map((article) => (
+                  <ArticleCard article={article} key={article.title} />
                 ))}
-                
               </div>
-              
+
+              {loadingNextPage && articles.length < totalCount && (
+                <div className="flex justify-center mb-24">
+                  <LoadingSpinner />
+                </div>
+              )}
             </section>
           )}
         </main>
