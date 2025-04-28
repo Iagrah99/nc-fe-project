@@ -1,20 +1,28 @@
 import React from "react";
 
-function CommentPreviewCard({comment, user}) {
+function CommentPreviewCard({ comment, user, handleVisitComment }) {
   return (
     <div key={comment.comment_id} className="w-full">
-      <div className="bg-gray-900 w-full rounded-lg shadow-md p-6 text-white flex flex-col justify-between relative">
+      <div className="bg-gray-900 w-full rounded-lg shadow-md p-6 text-white flex flex-col justify-between relative min-h-60">
         {/* Top Row: Avatar + Author */}
-        <div className="flex items-center gap-3 mb-4">
-          <img
-            src={user?.avatar_url}
-            width="1024"
-            height="1024"
-            alt="User Avatar"
-            loading="lazy"
-            className="w-10 h-10 rounded-full border-2 border-gray-700 shadow-md object-cover"
-          />
-          <h2 className="text-lg font-semibold">{comment.author}</h2>
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center gap-3 ">
+            <img
+              src={user?.avatar_url}
+              width="1024"
+              height="1024"
+              alt="User Avatar"
+              loading="lazy"
+              className="w-10 h-10 rounded-full border-2 border-gray-700 shadow-md object-cover"
+            />
+            <h2 className="text-lg font-semibold">{comment.author}</h2>
+          </div>
+          <button
+            onClick={() => handleVisitComment(comment)}
+            className="text-blue-400 hover:text-blue-300 font-semibold text-sm px-3 py-1 rounded transition cursor-pointer"
+          >
+            Visit Comment
+          </button>
         </div>
 
         {/* Comment Body */}

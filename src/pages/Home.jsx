@@ -4,7 +4,7 @@ import ArticleCard from "../Components/ArticleCard";
 import { useState, useEffect, useContext } from "react";
 import { fetchArticles, fetchUserComments } from "../utils/api";
 import { UserContext } from "../contexts/UserContext";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import PageLoading from "../Components/PageLoading";
 import PageError from "../Components/PageError";
 import Header from "../Components/Header";
@@ -14,6 +14,8 @@ const Home = () => {
   const [articles, setArticles] = useState([]);
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [articlesLoading, setArticlesLoading] = useState(true);
+  const [commentsLoading, setCommentsLoading] = useState(true);
   const [isError, setisError] = useState(false);
   const [error, setError] = useState(null);
 
@@ -21,26 +23,27 @@ const Home = () => {
 
   document.title = "NC News | Home";
 
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortBy, setSortBy] = useState("sort_by");
   const sortByQuery = searchParams.get("sort_by");
 
-  const handleSortBy = (e) => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("sort_by", e.target.value);
-    setSortBy(e.target.value);
-    setSearchParams(newParams);
-  };
+  // const handleSortBy = (e) => {
+  //   const newParams = new URLSearchParams(searchParams);
+  //   newParams.set("sort_by", e.target.value);
+  //   setSortBy(e.target.value);
+  //   setSearchParams(newParams);
+  // };
 
   useEffect(() => {
     fetchArticles()
-      .then(({articles}) => {
+      .then(({ articles }) => {
         setisError(false);
         setArticles(articles);
-        setIsLoading(false);
+        setArticlesLoading(false);
       })
       .catch((error) => {
-        setIsLoading(false);
+        setArticlesLoading(false);
         setError(error);
         setisError(true);
       });
@@ -51,17 +54,25 @@ const Home = () => {
       .then(({ comments }) => {
         setisError(false);
         setComments(comments);
-        setIsLoading(false);
+        setCommentsLoading(false);
       })
       .catch((error) => {
-        setIsLoading(false);
+        setCommentsLoading(false);
         setError(error);
         setisError(error);
       });
   }, [sortByQuery]);
 
-  // Next feature to Include:
-  // Fetch User Comments, show which article each one belongs to with their votes.
+  useEffect(() => {
+    if (!articlesLoading && !commentsLoading) {
+      setIsLoading(false);
+    }
+  }, [articlesLoading, commentsLoading]);
+
+  const handleVisitComment = (comment) => {
+    console.log(comment)
+    navigate(`/articles/article/${comment.article_id}#${comment.comment_id}`);
+  }
 
   if (isError) return <PageError error={error} />;
 
@@ -81,9 +92,7 @@ const Home = () => {
                 </h1>
               </section>
 
-              
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 lg:gap-6 mb-24">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 lg:gap-6 mb-12">
                 {articles.map(
                   (article) =>
                     loggedInUser.username === article.author && (
@@ -94,36 +103,43 @@ const Home = () => {
 
               <section>
                 <h1 className="bg-slate-950 text-center text-3xl py-10 text-white">
+                  {/* Your {sortBy === "votes" ? "Top" : "Latest"} Comments */}
                   Your Top Comments
                 </h1>
               </section>
 
-              <div className="flex flex-col items-center mb-10">
-                    <select
-                      onChange={handleSortBy}
-                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
-                      defaultValue={"sort_by"}
-                    >
-                      <option value="sort_by" id="sort_by" disabled>
-                        Sort By
-                      </option>
-                      <option value="created_at" id="date">
-                        Date
-                      </option>
-                      <option value="votes" id="votes">
-                        Votes
-                      </option>
-                    </select>
-                  </div>
+              {/* <div className="flex flex-col items-center mb-10">
+                <select
+                  onChange={handleSortBy}
+                  className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                  defaultValue={"sort_by"}
+                >
+                  <option value="sort_by" id="sort_by" disabled>
+                    Sort By
+                  </option>
+                  <option value="created_at" id="date">
+                    Date
+                  </option>
+                  <option value="votes" id="votes">
+                    Votes
+                  </option>
+                </select>
+              </div> */}
 
               <div className="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-6 gap-6 mb-24">
-                {comments.map(
-                  (comment) =>
-                    loggedInUser.username === comment.author &&
-                    comment.votes > 15 && (
-                      <CommentPreviewCard comment={comment} user={loggedInUser} key={comment.comment_id} />
-                    )
-                )}
+                {comments
+                  .slice(0, 6)
+                  .map(
+                    (comment) =>
+                      loggedInUser.username === comment.author && (
+                        <CommentPreviewCard
+                          comment={comment}
+                          user={loggedInUser}
+                          handleVisitComment={handleVisitComment}
+                          key={comment.comment_id}
+                        />
+                      )
+                  )}
               </div>
             </article>
           )}
