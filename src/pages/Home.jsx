@@ -2,7 +2,7 @@ import NavigationBar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import ArticleCard from "../Components/ArticleCard";
 import { useState, useEffect, useContext } from "react";
-import { fetchArticles, fetchUserComments } from "../utils/api";
+import { fetchArticles, fetchArticlesByUsername, fetchUserComments } from "../utils/api";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import PageLoading from "../Components/PageLoading";
@@ -21,6 +21,10 @@ const Home = () => {
 
   const { loggedInUser } = useContext(UserContext);
 
+  const userArticles = articles.filter(
+    (article) => article.author === loggedInUser.username
+  );
+
   document.title = "NC News | Home";
 
   const navigate = useNavigate();
@@ -36,7 +40,7 @@ const Home = () => {
   // };
 
   useEffect(() => {
-    fetchArticles()
+    fetchArticlesByUsername(loggedInUser.username)
       .then(({ articles }) => {
         setisError(false);
         setArticles(articles);
@@ -70,9 +74,9 @@ const Home = () => {
   }, [articlesLoading, commentsLoading]);
 
   const handleVisitComment = (comment) => {
-    console.log(comment)
-    navigate(`/articles/article/${comment.article_id}#${comment.comment_id}`);
-  }
+    console.log(comment);
+    navigate(`/articles/article/${comment.article_id}#comment_id=${comment.comment_id}`);
+  };
 
   if (isError) return <PageError error={error} />;
 
@@ -88,17 +92,22 @@ const Home = () => {
               <Header />
               <section>
                 <h1 className="bg-slate-950 text-center text-3xl py-10 text-white">
-                  Your Articles
+                  Your Top Articles
                 </h1>
               </section>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 lg:gap-6 mb-12">
-                {articles.map(
-                  (article) =>
-                    loggedInUser.username === article.author && (
-                      <ArticleCard article={article} key={article.article_id} />
-                    )
-                )}
+              <div
+                className={`${
+                  userArticles.length < 4
+                    ? "flex justify-center gap-6 mb-12"
+                    : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 lg:gap-6 mb-12"
+                }`}
+              >
+                {userArticles.slice(0, 8).map((article) => (
+                  <div className={`${userArticles.length < 4 ? 'w-2xl' : ''}`} key={article.article_id}>
+                    <ArticleCard article={article} />
+                  </div>
+                ))}
               </div>
 
               <section>

@@ -37,7 +37,8 @@ const CommentCard = ({
 
   useEffect(() => {
     if (location.hash) {
-      const commentId = location.hash.substring(1); // remove #
+      const commentId = String(location.hash.split("=")[1]);
+      console.log(commentId)
       setHighlightedCommentId(commentId); // ✅ just set ID
       const element = document.getElementById(commentId);
       if (element) {
@@ -134,7 +135,7 @@ const CommentCard = ({
     <>
       <div
         className="w-full xl:col-span-12 md:col-span-12 sm:col-span-12 scroll-mt-72"
-        id={comment.comment_id}
+        id={`${comment.comment_id}`}
       >
         <div
           className={`bg-gray-900 w-full rounded-lg shadow-md my-6 p-6 text-white flex flex-col justify-between relative 

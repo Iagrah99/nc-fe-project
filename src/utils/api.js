@@ -14,6 +14,13 @@ export const fetchArticles = async (topic, sort_by, order_by, p) => {
   };
 };
 
+export const fetchArticlesByUsername = async (username) => {
+  const res = await ncNewsApi.get(`/users/${username}/articles`);
+  return { 
+    articles: res.data.articles,
+    total_count: res.data.total_count,
+  };
+}
 
 export const fetchArticleById = async (articleId = '') => {
   const res = await ncNewsApi.get(`/articles/${articleId}`);
