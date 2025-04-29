@@ -1,4 +1,4 @@
-const DeleteArticleModal = ({ toggleModal, handleDeleteArticle, selectedArticleId }) => {
+const DeleteArticleModal = ({ toggleDeleteModal, handleDeleteArticle, selectedArticleId }) => {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
         {/* Backdrop */}
@@ -14,7 +14,7 @@ const DeleteArticleModal = ({ toggleModal, handleDeleteArticle, selectedArticleI
           </p>
           <div className="flex justify-end space-x-4">
             <button
-              onClick={toggleModal}
+              onClick={toggleDeleteModal}
               className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 cursor-pointer rounded-lg shadow hover:bg-gray-400 dark:hover:bg-gray-600 transition"
             >
               Cancel
@@ -22,7 +22,7 @@ const DeleteArticleModal = ({ toggleModal, handleDeleteArticle, selectedArticleI
             <button
                onClick={() => {
                 handleDeleteArticle(selectedArticleId);
-                toggleModal(null);
+                toggleDeleteModal(null);
               }}
               className="bg-red-500 text-white px-4 py-2 cursor-pointer rounded-lg shadow hover:bg-red-600 transition"
             >

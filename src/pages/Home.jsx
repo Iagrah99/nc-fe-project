@@ -14,6 +14,7 @@ import PageError from "../Components/PageError";
 import Header from "../Components/Header";
 import CommentPreviewCard from "../Components/CommentPreviewCard";
 import CreateArticleModal from "../Components/CreateArticleModal";
+import DeleteArticleModal from "../Components/DeleteArticleModal";
 
 const Home = () => {
   const [articles, setArticles] = useState([]);
@@ -26,10 +27,20 @@ const Home = () => {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
   const [isArticleDeleted, setIsArticleDeleted] = useState(false);
+  const [selectedArticleId, setSelectedArticleId] = useState(null);
 
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(4);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
+  const toggleDeleteModal = (articleId) => {
+    setSelectedArticleId(articleId);
+    setIsDeleteModalOpen((prev) => !prev);
+  };
+
+  // const [page, setPage] = useState(1);
+  // const [limit, setLimit] = useState(4);
   const [totalCount, setTotalCount] = useState(0);
+  const [slideIndex, setSlideIndex] = useState(0);
 
   const { loggedInUser } = useContext(UserContext);
   const { topic } = useParams();
@@ -59,27 +70,26 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log("Fetching articles for page:", page);
     fetchArticlesByUsername(
       topic,
       sortByQuery,
       orderByQuery,
-      page,
-      limit,
+      1,
+      1000,
       loggedInUser.username
     )
       .then(({ articles, total_count }) => {
         setIsError(false);
         setArticles(articles);
         setArticlesLoading(false);
-        setTotalCount(total_count)
+        setTotalCount(total_count);
       })
       .catch((error) => {
         setArticlesLoading(false);
         setError(error);
         setIsError(true);
       });
-  }, [isError, isArticleDeleted, sortByQuery, orderByQuery, topic, page]);
+  }, [isError, isArticleDeleted, sortByQuery, orderByQuery, topic]);
 
   useEffect(() => {
     fetchUserComments(loggedInUser.username)
@@ -123,8 +133,15 @@ const Home = () => {
     );
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const toggleModal = () => setIsModalOpen(!isModalOpen);
+  const handleDeleteArticle = async () => {
+    try {
+      const articleDeleted = await removeArticleById(article.article_id);
+      articleDeleted && setIsArticleDeleted(true);
+    } catch (error) {
+      setIsError(true);
+      setError(error);
+    }
+  };
 
   if (isError) return <PageError error={error} />;
 
@@ -223,48 +240,63 @@ const Home = () => {
                 </div>
               </form>
 
-              <div
-                className={`${
-                  articles.length < 4
-                    ? "flex justify-center gap-6 mb-12"
-                    : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 lg:gap-6 mb-12"
-                }`}
-              >
-                {articles.map((article) => (
-                  <div
-                    className={`${articles.length < 4 ? "w-2xl" : ""}`}
-                    key={article.article_id}
-                  >
-                    <ArticleCard
-                      article={article}
-                      setIsError={setIsError}
-                      setError={setError}
-                      setIsArticleDeleted={setIsArticleDeleted}
-                    />
-                  </div>
-                ))}
+              <div className="overflow-hidden relative w-full">
+                <div
+                  className="flex transition-transform duration-500 ease-in-out"
+                  style={{
+                    transform: `translateX(-${slideIndex * 25}%)`, // 25% if 4 cards visible (100% / 4)
+                  }}
+                >
+                  {articles.map((article) => (
+                    <div
+                      key={article.article_id}
+                      className="min-w-[25%] px-2" // 25% width per card for 4-per-view
+                    >
+                      <ArticleCard
+                        article={article}
+                        toggleDeleteModal={toggleDeleteModal}
+                        setSelectedArticleId={setSelectedArticleId}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              {totalCount > limit && (
-                <div className="flex justify-center mb-16">
-                  <div className="flex flex-wrap gap-2">
-                    {Array.from(
-                      { length: Math.ceil(totalCount / limit) },
-                      (_, i) => (
-                        <button
-                          key={i + 1}
-                          onClick={() => setPage(i + 1)}
-                          className={`px-4 py-2 rounded-md text-sm font-medium transition ${
-                            page === i + 1
-                              ? "bg-red-600 text-white"
-                              : "bg-slate-800 text-slate-300 hover:bg-slate-700"
-                          }`}
-                        >
-                          {i + 1}
-                        </button>
+              {totalCount > 4 && (
+                <div className="flex justify-center items-center gap-4 mb-16">
+                  <button
+                    onClick={() =>
+                      setSlideIndex((prev) => Math.max(prev - 1, 0))
+                    }
+                    disabled={slideIndex === 0}
+                    className={`px-4 py-2 text-xl rounded-full transition ${
+                      slideIndex === 0
+                        ? "text-slate-500 cursor-not-allowed"
+                        : "text-white hover:bg-slate-700 cursor-pointer"
+                    }`}
+                  >
+                    ←
+                  </button>
+
+                  <span className="text-slate-300 text-sm">
+                    {slideIndex + 1} of {totalCount - 3}
+                  </span>
+
+                  <button
+                    onClick={() =>
+                      setSlideIndex((prev) =>
+                        prev < totalCount - 4 ? prev + 1 : prev
                       )
-                    )}
-                  </div>
+                    }
+                    disabled={slideIndex >= totalCount - 4}
+                    className={`px-4 py-2 text-xl rounded-full transition ${
+                      slideIndex >= totalCount - 4
+                        ? "text-slate-500 cursor-not-allowed"
+                        : "text-white hover:bg-slate-700 cursor-pointer"
+                    }`}
+                  >
+                    →
+                  </button>
                 </div>
               )}
 
@@ -292,6 +324,14 @@ const Home = () => {
             </article>
           )}
           {isModalOpen && <CreateArticleModal toggleModal={toggleModal} />}
+
+          {isDeleteModalOpen && (
+            <DeleteArticleModal
+              toggleDeleteModal={toggleDeleteModal}
+              handleDeleteArticle={handleDeleteArticle}
+              selectedArticleId={selectedArticleId}
+            />
+          )}
         </main>
         <Footer />
       </div>
