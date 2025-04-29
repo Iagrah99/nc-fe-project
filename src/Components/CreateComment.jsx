@@ -31,7 +31,7 @@ const CreateComment = ({ articleId, setSuccess }) => {
       const timer = setTimeout(() => {
         setCommentPosted(false);
       }, 3000);
-  
+
       // Cleanup in case component unmounts early
       return () => clearTimeout(timer);
     }
@@ -123,9 +123,14 @@ const CreateComment = ({ articleId, setSuccess }) => {
             </button>
 
             {commentPosted && (
-              <p className="text-green-400 mt-4">Posted Successfully!</p>
+              <p className="text-green-400 mt-4">✅ Posted Successfully!</p>
             )}
-            {commentPosting && <p className="mt-4">Posting Your Comment...</p>}
+            {commentPosting && (
+              <div className="flex gap-3 mt-7">
+                <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                <p className="text-white text-sm">Posting comment...</p>
+              </div>
+            )}
             {commentPostingError && (
               <p className="mt-4 text-red-400">
                 Couldn't post comment, try again later.

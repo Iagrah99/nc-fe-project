@@ -2,13 +2,17 @@ import NavigationBar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import ArticleCard from "../Components/ArticleCard";
 import { useState, useEffect, useContext } from "react";
-import { fetchArticles, fetchArticlesByUsername, fetchUserComments } from "../utils/api";
+import {
+  fetchArticlesByUsername,
+  fetchUserComments,
+} from "../utils/api";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import PageLoading from "../Components/PageLoading";
 import PageError from "../Components/PageError";
 import Header from "../Components/Header";
 import CommentPreviewCard from "../Components/CommentPreviewCard";
+import CreateArticleModal from "../Components/CreateArticleModal";
 
 const Home = () => {
   const [articles, setArticles] = useState([]);
@@ -75,8 +79,13 @@ const Home = () => {
 
   const handleVisitComment = (comment) => {
     console.log(comment);
-    navigate(`/articles/article/${comment.article_id}#comment_id=${comment.comment_id}`);
+    navigate(
+      `/articles/article/${comment.article_id}#comment_id=${comment.comment_id}`
+    );
   };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   if (isError) return <PageError error={error} />;
 
@@ -90,10 +99,20 @@ const Home = () => {
           ) : (
             <article className="flex flex-col justify-center mt-6 sm:px-6 lg:px-8">
               <Header />
+
               <section>
-                <h1 className="bg-slate-950 text-center text-3xl py-10 text-white">
+                <div
+                  onClick={toggleModal}
+                  className="cursor-pointer bg-slate-800 text-slate-400 hover:text-white px-6 py-4 rounded-lg border-1 shadow-md w-full max-w-3xl mx-auto transition duration-200 ease-in-out hover:bg-slate-700"
+                >
+                  Compose an article...
+                </div>
+              </section>
+
+              <section>
+                <h2 className="bg-slate-950 text-center text-3xl py-10 text-white">
                   Your Top Articles
-                </h1>
+                </h2>
               </section>
 
               <div
@@ -104,36 +123,20 @@ const Home = () => {
                 }`}
               >
                 {userArticles.slice(0, 8).map((article) => (
-                  <div className={`${userArticles.length < 4 ? 'w-2xl' : ''}`} key={article.article_id}>
+                  <div
+                    className={`${userArticles.length < 4 ? "w-2xl" : ""}`}
+                    key={article.article_id}
+                  >
                     <ArticleCard article={article} />
                   </div>
                 ))}
               </div>
 
               <section>
-                <h1 className="bg-slate-950 text-center text-3xl py-10 text-white">
-                  {/* Your {sortBy === "votes" ? "Top" : "Latest"} Comments */}
+                <h2 className="bg-slate-950 text-center text-3xl py-10 text-white">
                   Your Top Comments
-                </h1>
+                </h2>
               </section>
-
-              {/* <div className="flex flex-col items-center mb-10">
-                <select
-                  onChange={handleSortBy}
-                  className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
-                  defaultValue={"sort_by"}
-                >
-                  <option value="sort_by" id="sort_by" disabled>
-                    Sort By
-                  </option>
-                  <option value="created_at" id="date">
-                    Date
-                  </option>
-                  <option value="votes" id="votes">
-                    Votes
-                  </option>
-                </select>
-              </div> */}
 
               <div className="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-4 gap-6 mb-24">
                 {comments
@@ -152,6 +155,7 @@ const Home = () => {
               </div>
             </article>
           )}
+          {isModalOpen && <CreateArticleModal toggleModal={toggleModal} />}
         </main>
         <Footer />
       </div>

@@ -46,7 +46,7 @@ const ViewArticle = () => {
           ) : (
             <>
               <Header />
-              <article className="pb-40 bg-slate-950">
+              <article className="pb-13 lg:pb-40 bg-slate-950">
                 <ArticlePost article={article} articleId={articleId} />
               </article>
             </>

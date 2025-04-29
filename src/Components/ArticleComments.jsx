@@ -10,6 +10,8 @@ const ArticleComments = ({ articleId, success }) => {
   const [deleted, setDeleted] = useState(false)
   const [isCommentUpdated, setIsCommentUpdated] = useState(false)
 
+  // Work on implementing comment sorting by newest, most popular.
+
   useEffect(() => {
     fetchCommentsByArticleId(articleId)
       .then((comments) => {

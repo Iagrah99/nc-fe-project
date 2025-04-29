@@ -6,7 +6,6 @@ import Login from "./pages/Login"
 import ArticleById from "./pages/ArticleById"
 import PageError from './Components/PageError'
 import Home from "./pages/Home"
-import PostArticle from './pages/PostArticle';
 
 function App() {
 
@@ -28,7 +27,6 @@ function App() {
         <Route path='/*' element={<PageError />} />
         <Route path='/login' element={<Login />} />
         <Route path='/topics/*' element={<PageError />} />
-        <Route path='/post-article' element={<PostArticle />}/>
         <Route path='/articles' element={<Articles />} />
         <Route path='/articles/:topic' element={<Articles />} />
         <Route path='/articles/*' element={<PageError />} />

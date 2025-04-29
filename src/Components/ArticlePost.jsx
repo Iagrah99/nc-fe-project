@@ -49,7 +49,7 @@ const ArticlePost = ({ article, articleId }) => {
       <div className="text-white overflow-hidden">
         <div className="p-6">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-2xl font-semibold text-center w-full">
+            <h1 className="lg:text-2xl font-semibold text-center w-full">
               {article.title}
             </h1>
           </div>
@@ -77,7 +77,7 @@ const ArticlePost = ({ article, articleId }) => {
           </p>
 
           {/* Article Body */}
-          <p className="text-base leading-relaxed">{article.body}</p>
+          <p className="text-sm lg:text-base leading-relaxed">{article.body}</p>
 
           {error && <p className="text-red-300 text-sm">{error}</p>}
         </div>

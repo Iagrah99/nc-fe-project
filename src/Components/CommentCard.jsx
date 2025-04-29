@@ -38,8 +38,7 @@ const CommentCard = ({
   useEffect(() => {
     if (location.hash) {
       const commentId = String(location.hash.split("=")[1]);
-      console.log(commentId)
-      setHighlightedCommentId(commentId); // ✅ just set ID
+      setHighlightedCommentId(commentId);
       const element = document.getElementById(commentId);
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -119,7 +118,7 @@ const CommentCard = ({
     const voteAPI =
       reaction === "like" ? incrementCommentVotes : decrementCommentVotes;
 
-    // 💡 Optimistically update UI
+    // Optimistically update UI
     setCommentVotes((votes) => votes + delta);
     setActiveBtn(newActive);
 
@@ -148,7 +147,7 @@ const CommentCard = ({
 
           {isCommentUpdating || deletingComment ? (
             <div className="flex flex-col items-center justify-center w-full h-48">
-              <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
+              <div className={`w-8 h-8 border-4 ${deletingComment ? 'border-red-500' : 'border-blue-500'} border-t-transparent rounded-full animate-spin mb-4`}></div>
               <p className="text-white text-sm">
                 {isCommentUpdating ? "Updating" : "Deleting"} comment...
               </p>
@@ -165,11 +164,11 @@ const CommentCard = ({
                   className="w-10 h-10 rounded-full border-2 border-gray-700 shadow-md object-cover"
                 />
                 <h2 className="text-lg font-semibold text-white">
-                  {comment.author}
+                  {comment.author} 
                 </h2>
               </div>
 
-              <p className="mb-2">{comment.body}</p>
+              <p className="mb-2 text-sm lg:text-base">{comment.body}</p>
 
               <div className="mb-2 flex items-center gap-4">
                 <span>
