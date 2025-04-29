@@ -86,7 +86,7 @@ const Home = () => {
         <NavigationBar />
         <main>
           {isLoading ? (
-            <PageLoading contentType="Your Homepage" />
+            <PageLoading contentType="Homepage" />
           ) : (
             <article className="flex flex-col justify-center mt-6 sm:px-6 lg:px-8">
               <Header />
