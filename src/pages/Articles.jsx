@@ -1,7 +1,6 @@
 import ArticleCard from "../Components/ArticleCard";
 import { fetchArticles, fetchTopics } from "../utils/api";
 import { useEffect, useState } from "react";
-import PageLoading from "../Components/PageLoading";
 import NavigationBar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import PageError from "../Components/PageError";
@@ -36,9 +35,8 @@ const Articles = () => {
   const orderByQuery = searchParams.get("order_by");
 
   const [page, setPage] = useState(1);
-  const [loadingNextPage, setLoadingNextPage] = useState(false);
-
   const [totalCount, setTotalCount] = useState(0);
+  const [loadingNextPage, setLoadingNextPage] = useState(false);
 
   const { topic } = useParams();
   const navigate = useNavigate();
@@ -46,7 +44,7 @@ const Articles = () => {
 
   useEffect(() => {
     if (page === 1 && hasLoadedOnce) {
-      setRefreshingArticles(true); // Only show "Reloading..." if not the first load
+      setRefreshingArticles(true);
     }
 
     fetchArticles(topic, sortByQuery, orderByQuery, page)
@@ -142,114 +140,116 @@ const Articles = () => {
   if (isError) return <PageError error={error} />;
   else if (!isError) {
     return (
-      <div className="bg-slate-950 min-h-screen flex flex-col">
+      <>
         <NavigationBar error={error} />
-
-        <main>
-          <section className="mt-6 sm:px-6 lg:px-8">
-            {hasLoadedOnce && (
-              <>
-                <Header />
-                <form className="mb-8">
-                  <div className="flex flex-wrap gap-6 lg:justify-center sm:justify-between justify-center ">
-                    {/* Sort By */}
-                    <div className="flex flex-col items-center">
-                      <select
-                        onChange={handleSortBy}
-                        className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
-                        defaultValue={"sort_by"}
-                      >
-                        <option value="sort_by" id="sort_by" disabled>
-                          Sort By
-                        </option>
-                        <option value="created_at" id="date">
-                          Date
-                        </option>
-                        <option value="comment_count" id="comment_count">
-                          Comment Count
-                        </option>
-                        <option value="votes" id="votes">
-                          Votes
-                        </option>
-                      </select>
-                    </div>
-
-                    {/* Order By */}
-                    <div className="flex flex-col items-center">
-                      <select
-                        onChange={handleOrderBy}
-                        className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
-                        defaultValue={"order_by"}
-                      >
-                        <option value="order_by" id="order_by" disabled>
-                          Order By
-                        </option>
-                        <option value="desc" id="descending">
-                          Descending
-                        </option>
-                        <option value="asc" id="ascending">
-                          Ascending
-                        </option>
-                      </select>
-                    </div>
-
-                    {/* Filter By */}
-                    <div className="flex flex-col items-center">
-                      <select
-                        onChange={handleFilterBy}
-                        className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
-                        defaultValue={"filter_by"}
-                      >
-                        <option value="filter_by" id="filter_by" disabled>
-                          Filter By
-                        </option>
-                        {topics.map((topic) => (
-                          <option
-                            value={topic.slug}
-                            id={topic.slug}
-                            key={topic.slug}
-                          >
-                            {topic.slug[0].toUpperCase() + topic.slug.slice(1)}{" "}
-                            Articles
+        <div className="bg-slate-950 min-h-screen flex flex-col">
+          <main>
+            <section className="mt-6 sm:px-6 lg:px-8">
+              {hasLoadedOnce && (
+                <>
+                  <Header />
+                  <form className="mb-8">
+                    <div className="flex flex-wrap gap-6 lg:justify-center sm:justify-between justify-center ">
+                      {/* Sort By */}
+                      <div className="flex flex-col items-center">
+                        <select
+                          onChange={handleSortBy}
+                          className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                          defaultValue={"sort_by"}
+                        >
+                          <option value="sort_by" id="sort_by" disabled>
+                            Sort By
                           </option>
-                        ))}
-                      </select>
+                          <option value="created_at" id="date">
+                            Date
+                          </option>
+                          <option value="comment_count" id="comment_count">
+                            Comment Count
+                          </option>
+                          <option value="votes" id="votes">
+                            Votes
+                          </option>
+                        </select>
+                      </div>
+
+                      {/* Order By */}
+                      <div className="flex flex-col items-center">
+                        <select
+                          onChange={handleOrderBy}
+                          className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                          defaultValue={"order_by"}
+                        >
+                          <option value="order_by" id="order_by" disabled>
+                            Order By
+                          </option>
+                          <option value="desc" id="descending">
+                            Descending
+                          </option>
+                          <option value="asc" id="ascending">
+                            Ascending
+                          </option>
+                        </select>
+                      </div>
+
+                      {/* Filter By */}
+                      <div className="flex flex-col items-center">
+                        <select
+                          onChange={handleFilterBy}
+                          className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                          defaultValue={"filter_by"}
+                        >
+                          <option value="filter_by" id="filter_by" disabled>
+                            Filter By
+                          </option>
+                          {topics.map((topic) => (
+                            <option
+                              value={topic.slug}
+                              id={topic.slug}
+                              key={topic.slug}
+                            >
+                              {topic.slug[0].toUpperCase() +
+                                topic.slug.slice(1)}{" "}
+                              Articles
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
-                  </div>
-                </form>
-              </>
-            )}
+                  </form>
+                </>
+              )}
 
-            {/* Articles Grid */}
-            <div
-              className={`transition-opacity duration-300 ${
-                refreshingArticles ? "opacity-30" : "opacity-100"
-              }`}
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 lg:gap-6 mb-24">
-                {articles.map((article) => (
-                  <ArticleCard article={article} key={article.title} />
-                ))}
+              {/* Articles Grid */}
+              <div
+                className={`transition-opacity duration-300 ${
+                  refreshingArticles ? "opacity-30" : "opacity-100"
+                }`}
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 lg:gap-6 mb-24">
+                  {articles.map((article) => (
+                    <ArticleCard article={article} key={article.title} />
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {loadingNextPage && articles.length < totalCount && (
-              <div className="flex justify-center mb-24">
-                <LoadingSpinner />
-              </div>
+              {loadingNextPage && articles.length < totalCount && (
+                <div className="flex justify-center mb-24">
+                  <LoadingSpinner />
+                </div>
+              )}
+            </section>
+
+            {(isLoadingArticles || isLoadingTopics) && (
+              <FullscreenLoadingSpinner
+                message={`${
+                  refreshingArticles && hasLoadedOnce ? "Reloading" : "Loading"
+                } articles...`}
+              />
             )}
-          </section>
-
-          {(isLoadingArticles || isLoadingTopics) && (
-            <FullscreenLoadingSpinner
-              message={`${
-                refreshingArticles && hasLoadedOnce ? "Reloading" : "Loading"
-              } articles...`}
-            />
-          )}
-        </main>
-        <Footer />
-      </div>
+          </main>
+          <Footer />
+        </div>
+      </>
     );
   }
 };

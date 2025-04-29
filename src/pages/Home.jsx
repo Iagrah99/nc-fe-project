@@ -3,11 +3,12 @@ import Footer from "../Components/Footer";
 import ArticleCard from "../Components/ArticleCard";
 import { useState, useEffect, useContext } from "react";
 import {
-  fetchArticlesByUsername,
   fetchUserComments,
+  fetchTopics,
+  fetchArticlesByUsername,
 } from "../utils/api";
 import { UserContext } from "../contexts/UserContext";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import PageLoading from "../Components/PageLoading";
 import PageError from "../Components/PageError";
 import Header from "../Components/Header";
@@ -17,17 +18,21 @@ import CreateArticleModal from "../Components/CreateArticleModal";
 const Home = () => {
   const [articles, setArticles] = useState([]);
   const [comments, setComments] = useState([]);
+  const [topics, setTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [articlesLoading, setArticlesLoading] = useState(true);
   const [commentsLoading, setCommentsLoading] = useState(true);
-  const [isError, setisError] = useState(false);
+  const [isLoadingTopics, setIsLoadingTopics] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
+  const [isArticleDeleted, setIsArticleDeleted] = useState(false);
+
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(4);
+  const [totalCount, setTotalCount] = useState(0);
 
   const { loggedInUser } = useContext(UserContext);
-
-  const userArticles = articles.filter(
-    (article) => article.author === loggedInUser.username
-  );
+  const { topic } = useParams();
 
   document.title = "NC News | Home";
 
@@ -36,40 +41,74 @@ const Home = () => {
   const [sortBy, setSortBy] = useState("sort_by");
   const sortByQuery = searchParams.get("sort_by");
 
-  // const handleSortBy = (e) => {
-  //   const newParams = new URLSearchParams(searchParams);
-  //   newParams.set("sort_by", e.target.value);
-  //   setSortBy(e.target.value);
-  //   setSearchParams(newParams);
-  // };
+  const [orderBy, setOrderBy] = useState("order_by");
+  const orderByQuery = searchParams.get("order_by");
+
+  const handleSortBy = (e) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("sort_by", e.target.value);
+    setSortBy(e.target.value);
+    setSearchParams(newParams);
+  };
+
+  const handleOrderBy = (e) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("order_by", e.target.value);
+    setOrderBy(e.target.value);
+    setSearchParams(newParams);
+  };
 
   useEffect(() => {
-    fetchArticlesByUsername(loggedInUser.username)
-      .then(({ articles }) => {
-        setisError(false);
+    console.log("Fetching articles for page:", page);
+    fetchArticlesByUsername(
+      topic,
+      sortByQuery,
+      orderByQuery,
+      page,
+      limit,
+      loggedInUser.username
+    )
+      .then(({ articles, total_count }) => {
+        setIsError(false);
         setArticles(articles);
         setArticlesLoading(false);
+        setTotalCount(total_count)
       })
       .catch((error) => {
         setArticlesLoading(false);
         setError(error);
-        setisError(true);
+        setIsError(true);
       });
-  }, [isError]);
+  }, [isError, isArticleDeleted, sortByQuery, orderByQuery, topic, page]);
 
   useEffect(() => {
-    fetchUserComments(loggedInUser.username, sortByQuery)
+    fetchUserComments(loggedInUser.username)
       .then(({ comments }) => {
-        setisError(false);
+        setIsError(false);
         setComments(comments);
         setCommentsLoading(false);
       })
       .catch((error) => {
         setCommentsLoading(false);
         setError(error);
-        setisError(error);
+        setIsError(true);
       });
-  }, [sortByQuery]);
+  }, []);
+
+  useEffect(() => {
+    setIsLoadingTopics(true);
+    fetchTopics()
+      .then((topics) => {
+        setIsError(false);
+        setTopics(topics);
+        setIsLoadingTopics(false);
+      })
+      .catch((error) => {
+        setIsError(true);
+        setIsLoadingTopics(false);
+        setError(error);
+      });
+  }, []);
 
   useEffect(() => {
     if (!articlesLoading && !commentsLoading) {
@@ -111,26 +150,123 @@ const Home = () => {
 
               <section>
                 <h2 className="bg-slate-950 text-center text-3xl py-10 text-white">
-                  Your Top Articles
+                  Your Articles
                 </h2>
               </section>
 
+              <form className="mb-8">
+                <div className="flex flex-wrap gap-6 lg:justify-center sm:justify-between justify-center ">
+                  {/* Sort By */}
+                  <div className="flex flex-col items-center">
+                    <select
+                      onChange={handleSortBy}
+                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      defaultValue={"sort_by"}
+                    >
+                      <option value="sort_by" id="sort_by" disabled>
+                        Sort By
+                      </option>
+                      <option value="created_at" id="date">
+                        Date
+                      </option>
+                      <option value="comment_count" id="comment_count">
+                        Comment Count
+                      </option>
+                      <option value="votes" id="votes">
+                        Votes
+                      </option>
+                    </select>
+                  </div>
+
+                  {/* Order By */}
+                  <div className="flex flex-col items-center">
+                    <select
+                      onChange={handleOrderBy}
+                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      defaultValue={"order_by"}
+                    >
+                      <option value="order_by" id="order_by" disabled>
+                        Order By
+                      </option>
+                      <option value="desc" id="descending">
+                        Descending
+                      </option>
+                      <option value="asc" id="ascending">
+                        Ascending
+                      </option>
+                    </select>
+                  </div>
+
+                  {/* Filter By */}
+                  {/* <div className="flex flex-col items-center">
+                        <select
+                          onChange={handleFilterBy}
+                          className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                          defaultValue={"filter_by"}
+                        >
+                          <option value="filter_by" id="filter_by" disabled>
+                            Filter By
+                          </option>
+                          {topics.map((topic) => (
+                            <option
+                              value={topic.slug}
+                              id={topic.slug}
+                              key={topic.slug}
+                            >
+                              {topic.slug[0].toUpperCase() +
+                                topic.slug.slice(1)}{" "}
+                              Articles
+                            </option>
+                          ))}
+                        </select>
+                      </div> */}
+                </div>
+              </form>
+
               <div
                 className={`${
-                  userArticles.length < 4
+                  articles.length < 4
                     ? "flex justify-center gap-6 mb-12"
                     : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 lg:gap-6 mb-12"
                 }`}
               >
-                {userArticles.slice(0, 8).map((article) => (
+                {articles.map((article) => (
                   <div
-                    className={`${userArticles.length < 4 ? "w-2xl" : ""}`}
+                    className={`${articles.length < 4 ? "w-2xl" : ""}`}
                     key={article.article_id}
                   >
-                    <ArticleCard article={article} />
+                    <ArticleCard
+                      article={article}
+                      setIsError={setIsError}
+                      setError={setError}
+                      setIsArticleDeleted={setIsArticleDeleted}
+                    />
                   </div>
                 ))}
               </div>
+
+              {totalCount > limit && (
+                <div className="flex justify-center mb-16">
+                  <div className="flex flex-wrap gap-2">
+                    {Array.from(
+                      { length: Math.ceil(totalCount / limit) },
+                      (_, i) => (
+                        <button
+                          key={i + 1}
+                          onClick={() => setPage(i + 1)}
+                          className={`px-4 py-2 rounded-md text-sm font-medium transition ${
+                            page === i + 1
+                              ? "bg-red-600 text-white"
+                              : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                          }`}
+                        >
+                          {i + 1}
+                        </button>
+                      )
+                    )}
+                  </div>
+                </div>
+              )}
 
               <section>
                 <h2 className="bg-slate-950 text-center text-3xl py-10 text-white">

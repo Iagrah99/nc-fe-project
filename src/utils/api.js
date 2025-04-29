@@ -6,7 +6,7 @@ const ncNewsApi = axios.create({
 
 export const fetchArticles = async (topic, sort_by, order_by, p) => {
   const res = await ncNewsApi.get('/articles', {
-    params: { topic, sort_by, order_by, p },
+    params: { topic, sort_by, order_by, p},
   });
   return { 
     articles: res.data.articles,
@@ -14,13 +14,15 @@ export const fetchArticles = async (topic, sort_by, order_by, p) => {
   };
 };
 
-export const fetchArticlesByUsername = async (username) => {
-  const res = await ncNewsApi.get(`/users/${username}/articles`);
+export const fetchArticlesByUsername = async (topic, sort_by, order_by, p, limit, author) => {
+  const res = await ncNewsApi.get('/articles', {
+    params: { topic, sort_by, order_by, p, limit, author },
+  });
   return { 
     articles: res.data.articles,
     total_count: res.data.total_count,
   };
-}
+};
 
 export const fetchArticleById = async (articleId = '') => {
   const res = await ncNewsApi.get(`/articles/${articleId}`);

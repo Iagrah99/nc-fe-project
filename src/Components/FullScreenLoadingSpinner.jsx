@@ -1,6 +1,6 @@
 const FullscreenLoadingSpinner = ({ message = "Loading..." }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 flex items-center justify-center">
       {/* Backdrop (transparent black) */}
       <div className="absolute inset-0 bg-black opacity-15"></div>
 
@@ -14,3 +14,4 @@ const FullscreenLoadingSpinner = ({ message = "Loading..." }) => {
 };
 
 export default FullscreenLoadingSpinner;
+

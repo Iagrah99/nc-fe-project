@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import { addArticle } from "../utils/api";
@@ -15,6 +15,17 @@ function CreateArticleModal({toggleModal}) {
 
   const navigate = useNavigate();
   const { loggedInUser } = useContext(UserContext);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") toggleModal(); 
+    };
+  
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const addNewArticle = async (postedArticle) => {
     setArticlePosting(true);
@@ -93,6 +104,7 @@ function CreateArticleModal({toggleModal}) {
               <select
                 className="w-full bg-slate-700 border border-slate-600 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white"
                 onChange={handleTopic}
+                defaultValue="coding"
               >
                 <option value="coding">Coding</option>
                 <option value="football">Football</option>
