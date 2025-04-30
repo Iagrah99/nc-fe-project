@@ -7,7 +7,7 @@ const DeleteCommentModal = ({ toggleDeleteModal, handleDeleteComment }) => {
         {/* Modal Content */}
         <div className="relative bg-slate-50 dark:bg-gray-800 rounded-lg shadow-lg p-6 w-96 z-10">
           <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
-            Confirm Comment Deletion
+            Confirm Deletion
           </h2>
           <p className="text-gray-600 dark:text-gray-300 mb-6 text-sm">
            Are you sure you want to delete this comment?
