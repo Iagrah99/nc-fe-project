@@ -60,7 +60,7 @@ const ArticleComments = ({
               id="sort-comments"
               onChange={handleSortBy}
               className="text-white px-3 text-base py-2 focus:outline-none cursor-pointer bg-slate-800"
-              value={sortBy}
+              defaultValue={sortBy}
             >
               <option value="sort_by" disabled>
                 Sort By

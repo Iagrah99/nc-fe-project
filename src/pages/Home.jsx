@@ -29,7 +29,7 @@ const Home = () => {
   const [isLoadingTopics, setIsLoadingTopics] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
-  const [isArticleDeleting, setIsArticleDeleting] = useState(false)
+  const [isArticleDeleting, setIsArticleDeleting] = useState(false);
   const [isArticleDeleted, setIsArticleDeleted] = useState(false);
   const [selectedArticleId, setSelectedArticleId] = useState(null);
   const [selectedArticle, setSelectedArticle] = useState(null);
@@ -75,6 +75,13 @@ const Home = () => {
   const [orderBy, setOrderBy] = useState("order_by");
   const orderByQuery = searchParams.get("order_by");
 
+  const greeting = greetingTime(new Date());
+  const greetingsMap = {
+    "Good morning": "Good Morning☀️",
+    "Good afternoon": "Good Afternoon☀️",
+    "Good evening": "Good Evening🌙",
+  };
+
   const handleSortBy = (e) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set("sort_by", e.target.value);
@@ -109,7 +116,14 @@ const Home = () => {
         setError(error);
         setIsError(true);
       });
-  }, [isError, isArticleDeleted, sortByQuery, orderByQuery, topic, articleUpdated]);
+  }, [
+    isError,
+    isArticleDeleted,
+    sortByQuery,
+    orderByQuery,
+    topic,
+    articleUpdated,
+  ]);
 
   useEffect(() => {
     fetchUserComments(loggedInUser.username)
@@ -153,11 +167,11 @@ const Home = () => {
   };
 
   const handleDeleteArticle = async (articleId) => {
-    setIsArticleDeleting(true)
+    setIsArticleDeleting(true);
     try {
       const articleDeleted = await removeArticleById(articleId);
       articleDeleted && setIsArticleDeleted(true);
-      setIsArticleDeleting(false)
+      setIsArticleDeleting(false);
       toggleDeleteModal(null);
     } catch (error) {
       setIsError(true);
@@ -180,8 +194,9 @@ const Home = () => {
 
               <header className="text-center py-12 bg-slate-950">
                 <h1 className="text-4xl sm:text-5xl font-bold text-white mb-2">
-                  {greetingTime(new Date())}
+                  {greetingsMap[greeting] || ""}
                 </h1>
+
                 <p className="text-xl sm:text-2xl text-slate-400">
                   Welcome back,{" "}
                   <span className="text-white font-semibold">
@@ -376,7 +391,6 @@ const Home = () => {
               articleUpdating={articleUpdating}
               setArticleUpdating={setArticleUpdating}
               setArticleUpdated={setArticleUpdated}
-
             />
           )}
         </main>
