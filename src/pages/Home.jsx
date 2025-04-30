@@ -6,6 +6,7 @@ import {
   fetchUserComments,
   fetchTopics,
   fetchArticlesByUsername,
+  removeArticleById
 } from "../utils/api";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
@@ -30,8 +31,9 @@ const Home = () => {
   const [selectedArticleId, setSelectedArticleId] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const toggleModal = () => setIsModalOpen(!isModalOpen);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const toggleDeleteModal = (articleId) => {
     setSelectedArticleId(articleId);
     setIsDeleteModalOpen((prev) => !prev);
@@ -133,11 +135,13 @@ const Home = () => {
     );
   };
 
-  const handleDeleteArticle = async () => {
+  const handleDeleteArticle = async (articleId) => {
     try {
-      const articleDeleted = await removeArticleById(article.article_id);
+      const articleDeleted = await removeArticleById(articleId);
+      console.log(articleDeleted)
       articleDeleted && setIsArticleDeleted(true);
     } catch (error) {
+      console.log(error)
       setIsError(true);
       setError(error);
     }
