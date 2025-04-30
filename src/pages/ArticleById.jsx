@@ -1,7 +1,6 @@
-import Header from "../Components/Header";
 import { fetchArticleById} from "../utils/api";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import PageLoading from "../Components/PageLoading";
 import PageError from "../Components/PageError";
 import ArticlePost from "../Components/ArticlePost";
@@ -15,6 +14,7 @@ const ViewArticle = () => {
   const [error, setError] = useState(null);
   const { articleId } = useParams();
 
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     fetchArticleById(articleId)
@@ -45,9 +45,9 @@ const ViewArticle = () => {
             <PageLoading contentType="Article" />
           ) : (
             <>
-              <Header />
-              <article className="pb-13 lg:pb-40 bg-slate-950">
-                <ArticlePost article={article} articleId={articleId} />
+              {/* <Header /> */}
+              <article className="py-13 lg:pb-40 bg-slate-950">
+                <ArticlePost article={article} articleId={articleId} searchParams={searchParams} setSearchParams={setSearchParams} />
               </article>
             </>
           )}

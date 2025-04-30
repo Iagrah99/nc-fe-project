@@ -29,8 +29,10 @@ export const fetchArticleById = async (articleId = '') => {
   return res.data.article;
 };
 
-export const fetchCommentsByArticleId = async (articleId = '') => {
-  const res = await ncNewsApi.get(`/articles/${articleId}/comments`);
+export const fetchCommentsByArticleId = async (articleId = '', sort_by) => {
+  const res = await ncNewsApi.get(`/articles/${articleId}/comments`, {
+    params: { sort_by }
+  });
   return res.data;
 };
 

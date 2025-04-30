@@ -5,7 +5,7 @@ import "../css/Voting.css";
 import { format } from "date-fns";
 import PageError from "./PageError";
 
-const ArticlePost = ({ article, articleId }) => {
+const ArticlePost = ({ article, articleId, searchParams, setSearchParams }) => {
   const [showComments, setShowComments] = useState(true);
   const [articleVotes, setArticleVotes] = useState(article.votes);
   const [activeBtn, setActiveBtn] = useState("none");
@@ -129,7 +129,7 @@ const ArticlePost = ({ article, articleId }) => {
       </div>
 
       {/* Comments Section */}
-      {showComments && <CommentSection articleId={articleId} />}
+      {showComments && <CommentSection articleId={articleId} searchParams={searchParams} setSearchParams={setSearchParams} />}
     </div>
   );
 };
