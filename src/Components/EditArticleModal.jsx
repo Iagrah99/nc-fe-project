@@ -174,7 +174,7 @@ function EditArticleModal({ toggleEditModal, selectedArticle, articleUpdating, s
               className="bg-blue-600 hover:bg-blue-700 mb-2 text-white px-6 py-2 rounded font-semibold cursor-pointer"
             >
               {articleUpdating && !articleUpdatingError
-                ? "Updating article"
+                ? "Updating article..."
                 : " Update Article"}
             </button>
             {articleUpdatingError && (

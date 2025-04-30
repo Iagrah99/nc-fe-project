@@ -29,6 +29,7 @@ const Home = () => {
   const [isLoadingTopics, setIsLoadingTopics] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
+  const [isArticleDeleting, setIsArticleDeleting] = useState(false)
   const [isArticleDeleted, setIsArticleDeleted] = useState(false);
   const [selectedArticleId, setSelectedArticleId] = useState(null);
   const [selectedArticle, setSelectedArticle] = useState(null);
@@ -133,7 +134,6 @@ const Home = () => {
         setIsLoadingTopics(false);
       })
       .catch((error) => {
-        console.log(error);
         setIsError(true);
         setIsLoadingTopics(false);
         setError(error);
@@ -147,19 +147,19 @@ const Home = () => {
   }, [articlesLoading, commentsLoading]);
 
   const handleVisitComment = (comment) => {
-    console.log(comment);
     navigate(
       `/articles/article/${comment.article_id}#comment_id=${comment.comment_id}`
     );
   };
 
   const handleDeleteArticle = async (articleId) => {
+    setIsArticleDeleting(true)
     try {
       const articleDeleted = await removeArticleById(articleId);
-      console.log(articleDeleted);
       articleDeleted && setIsArticleDeleted(true);
+      setIsArticleDeleting(false)
+      toggleDeleteModal(null);
     } catch (error) {
-      console.log(error);
       setIsError(true);
       setError(error);
     }
@@ -365,6 +365,7 @@ const Home = () => {
               toggleDeleteModal={toggleDeleteModal}
               handleDeleteArticle={handleDeleteArticle}
               selectedArticleId={selectedArticleId}
+              isArticleDeleting={isArticleDeleting}
             />
           )}
 

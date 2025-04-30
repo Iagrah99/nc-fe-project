@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import { addArticle } from "../utils/api";
 
-function CreateArticleModal({toggleModal}) {
+function CreateArticleModal({ toggleModal }) {
   const [articlePosting, setArticlePosting] = useState(false);
   const [articlePosted, setArticlePosted] = useState(false);
   const [articlePostingError, setArticlePostingError] = useState(false);
@@ -18,9 +18,9 @@ function CreateArticleModal({toggleModal}) {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") toggleModal(); 
+      if (e.key === "Escape") toggleModal();
     };
-  
+
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
@@ -38,7 +38,6 @@ function CreateArticleModal({toggleModal}) {
       setArticlePostingError(false);
       navigate(`/articles/article/${article.article_id}`);
     } catch (error) {
-      console.log(error);
       setArticlePosted(false);
       setArticlePosting(false);
       setArticlePostingError(true);
@@ -47,14 +46,12 @@ function CreateArticleModal({toggleModal}) {
 
   const handleTopic = (e) => {
     const selectedTopic = e.target.value;
-    console.log(selectedTopic);
     setArticleTopic(selectedTopic);
   };
 
   const handleSubmitPost = (e) => {
     e.preventDefault();
 
-    e.target[4].disabled = true;
     setArticlePosting(true);
 
     const trimmedArticle = articleBody.trim();
@@ -75,7 +72,7 @@ function CreateArticleModal({toggleModal}) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <div className="absolute inset-0 bg-[rgba(0,0,0,0.50)]"></div>
+      <div className="absolute inset-0 bg-[rgba(0,0,0,0.50)]"></div>
       <div className="bg-slate-900 text-white rounded-lg shadow-xl w-full max-w-3xl p-8 relative">
         <h2 className="text-xl font-semibold mb-4">Create a New Article</h2>
 
@@ -135,11 +132,9 @@ function CreateArticleModal({toggleModal}) {
                 setArticleBody(bodyValue);
 
                 const containsOnlySpaces = /^\s+$/.test(bodyValue);
-                setArticleIsOnlySpaces(containsOnlySpaces);
-
-                const disableButton =
-                  containsOnlySpaces || bodyValue.trim().length === 0;
-                e.target.form[5].disabled = disableButton;
+                setArticleIsOnlySpaces(
+                  containsOnlySpaces || bodyValue.trim().length === 0
+                );
 
                 setArticlePosted(false);
               }}
@@ -152,13 +147,18 @@ function CreateArticleModal({toggleModal}) {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-semibold cursor-pointer"
+              className={`px-6 py-2 rounded font-semibold ${
+                articleBody.trim().length === 0
+                  ? "bg-blue-600 hover:bg-blue-700 text-white cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700 cursor-pointer text-white"
+              }`}
+              disabled={articleBody.trim().length === 0}
             >
-                  {articlePosting && !articlePostingError && (
-            " Posting your article"
-            )}
-              Post Article
+              {articlePosting && !articlePostingError
+                ? "Posting your article"
+                : "Post Article"}
             </button>
+
             {articlePosted && !articlePostingError && (
               <p className="text-green-400 mt-2">Posted Successfully!</p>
             )}
