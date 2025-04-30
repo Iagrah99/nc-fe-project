@@ -6,7 +6,7 @@ import {
   fetchUserComments,
   fetchTopics,
   fetchArticlesByUsername,
-  removeArticleById
+  removeArticleById,
 } from "../utils/api";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
@@ -16,6 +16,7 @@ import Header from "../Components/Header";
 import CommentPreviewCard from "../Components/CommentPreviewCard";
 import CreateArticleModal from "../Components/CreateArticleModal";
 import DeleteArticleModal from "../Components/DeleteArticleModal";
+import greetingTime from "greeting-time";
 
 const Home = () => {
   const [articles, setArticles] = useState([]);
@@ -138,10 +139,10 @@ const Home = () => {
   const handleDeleteArticle = async (articleId) => {
     try {
       const articleDeleted = await removeArticleById(articleId);
-      console.log(articleDeleted)
+      console.log(articleDeleted);
       articleDeleted && setIsArticleDeleted(true);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setIsError(true);
       setError(error);
     }
@@ -158,7 +159,20 @@ const Home = () => {
             <PageLoading contentType="Homepage" />
           ) : (
             <article className="flex flex-col justify-center mt-6 sm:px-6 lg:px-8">
-              <Header />
+              {/* <Header /> */}
+
+              <header className="text-center py-12 bg-slate-950">
+                <h1 className="text-4xl sm:text-5xl font-bold text-white mb-2">
+                  {greetingTime(new Date())}
+                </h1>
+                <p className="text-xl sm:text-2xl text-slate-400">
+                  Welcome back,{" "}
+                  <span className="text-white font-semibold">
+                    {loggedInUser.username}
+                  </span>
+                  !
+                </p>
+              </header>
 
               <section>
                 <div
@@ -267,7 +281,7 @@ const Home = () => {
               </div>
 
               {totalCount > 4 && (
-                <div className="flex justify-center items-center gap-4 mb-16">
+                <div className="flex justify-center items-center gap-4 mt-4 mb-8">
                   <button
                     onClick={() =>
                       setSlideIndex((prev) => Math.max(prev - 1, 0))
@@ -310,9 +324,9 @@ const Home = () => {
                 </h2>
               </section>
 
-              <div className="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-4 gap-6 mb-24">
+              <div className="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-4 gap-6 lg:mb-32">
                 {comments
-                  .slice(0, 8)
+                  .slice(0, 4)
                   .map(
                     (comment) =>
                       loggedInUser.username === comment.author && (
