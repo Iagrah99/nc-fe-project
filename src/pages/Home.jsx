@@ -17,6 +17,7 @@ import CommentPreviewCard from "../Components/CommentPreviewCard";
 import CreateArticleModal from "../Components/CreateArticleModal";
 import DeleteArticleModal from "../Components/DeleteArticleModal";
 import greetingTime from "greeting-time";
+import EditArticleModal from "../Components/EditArticleModal";
 
 const Home = () => {
   const [articles, setArticles] = useState([]);
@@ -30,6 +31,10 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [isArticleDeleted, setIsArticleDeleted] = useState(false);
   const [selectedArticleId, setSelectedArticleId] = useState(null);
+  const [selectedArticle, setSelectedArticle] = useState(null);
+
+  const [articleUpdating, setArticleUpdating] = useState(false);
+  const [articleUpdated, setArticleUpdated] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleModal = () => setIsModalOpen(!isModalOpen);
@@ -38,6 +43,17 @@ const Home = () => {
   const toggleDeleteModal = (articleId) => {
     setSelectedArticleId(articleId);
     setIsDeleteModalOpen((prev) => !prev);
+  };
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const openEditModal = (article) => {
+    setSelectedArticle(article);
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedArticle(null);
   };
 
   // const [page, setPage] = useState(1);
@@ -92,7 +108,7 @@ const Home = () => {
         setError(error);
         setIsError(true);
       });
-  }, [isError, isArticleDeleted, sortByQuery, orderByQuery, topic]);
+  }, [isError, isArticleDeleted, sortByQuery, orderByQuery, topic, articleUpdated]);
 
   useEffect(() => {
     fetchUserComments(loggedInUser.username)
@@ -117,6 +133,7 @@ const Home = () => {
         setIsLoadingTopics(false);
       })
       .catch((error) => {
+        console.log(error);
         setIsError(true);
         setIsLoadingTopics(false);
         setError(error);
@@ -273,7 +290,7 @@ const Home = () => {
                       <ArticleCard
                         article={article}
                         toggleDeleteModal={toggleDeleteModal}
-                        setSelectedArticleId={setSelectedArticleId}
+                        toggleEditModal={() => openEditModal(article)}
                       />
                     </div>
                   ))}
@@ -348,6 +365,17 @@ const Home = () => {
               toggleDeleteModal={toggleDeleteModal}
               handleDeleteArticle={handleDeleteArticle}
               selectedArticleId={selectedArticleId}
+            />
+          )}
+
+          {isEditModalOpen && selectedArticle && (
+            <EditArticleModal
+              toggleEditModal={closeEditModal}
+              selectedArticle={selectedArticle}
+              articleUpdating={articleUpdating}
+              setArticleUpdating={setArticleUpdating}
+              setArticleUpdated={setArticleUpdated}
+
             />
           )}
         </main>

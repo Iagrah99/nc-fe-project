@@ -64,16 +64,19 @@ const ArticlePost = ({ article, articleId }) => {
           </figure>
 
           {/* Article Info */}
-          <p className="text-sm mb-4">
-            <span className="font-semibold">
-              <i className="fa-solid fa-calendar text-green-400 w-5"></i>
-            </span>{" "}
-            {formattedDate} &nbsp;
-            <span className="font-semibold">
-              {" "}
-              <i className="fa-solid fa-user text-blue-400 w-5"></i>
-            </span>{" "}
-            {article.author}
+          <p className="text-sm mb-4 flex flex-wrap items-center gap-4">
+            <span className="flex items-center gap-1">
+              <i className="fa-solid fa-calendar text-green-400 w-4"></i>
+              {formattedDate}
+            </span>
+            <span className="flex items-center gap-1">
+              <i className="fa-solid fa-tag text-yellow-400 w-4"></i>
+              {article.topic}
+            </span>
+            <span className="flex items-center gap-1">
+              <i className="fa-solid fa-user text-blue-400 w-4"></i>
+              {article.author}
+            </span>
           </p>
 
           {/* Article Body */}

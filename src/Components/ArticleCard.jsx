@@ -1,12 +1,9 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { format } from "date-fns";
 
-const ArticleCard = ({
-  article,
-  toggleDeleteModal,
-}) => {
+const ArticleCard = ({ article, toggleDeleteModal, toggleEditModal }) => {
   const { loggedInUser } = useContext(UserContext);
   const location = useLocation();
 
@@ -24,13 +21,23 @@ const ArticleCard = ({
       <div className="flex flex-col h-full text-white bg-slate-900 rounded-lg shadow-md relative group">
         {/* Delete Article Icon */}
         {!location.pathname.includes("articles") && (
-          <button
-            onClick={() => toggleDeleteModal(article.article_id)}
-            className="absolute bottom-4 right-4 text-red-400 hover:text-red-600 transition z-10 cursor-pointer"
-            title="Delete Article"
-          >
-            <i className="fa-solid fa-trash-can text-lg"></i>
-          </button>
+          <>
+            <button
+              onClick={() => toggleDeleteModal(article.article_id)}
+              className="absolute bottom-4 right-4 text-red-400 hover:text-red-600 transition z-10 cursor-pointer"
+              title="Delete Article"
+            >
+              <i className="fa-solid fa-trash-can text-lg"></i>
+            </button>
+
+            <button
+              onClick={() => toggleEditModal(article)}
+              className="absolute bottom-4 right-12 text-blue-400 hover:text-blue-600 transition z-10 cursor-pointer"
+              title="Edit Article"
+            >
+              <i className="fa-solid fa-pencil text-lg"></i>
+            </button>
+          </>
         )}
 
         {/* Image */}
@@ -78,8 +85,6 @@ const ArticleCard = ({
           </div>
         </div>
       </div>
-
-     
     </>
   );
 };

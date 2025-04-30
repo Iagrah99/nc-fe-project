@@ -102,3 +102,10 @@ export const fetchUserComments = async (username, sort_by) => {
   })
   return res.data
 }
+
+export const updateArticleById = async (article_id, title, topic, article_img_url, article_body) => {
+  const res = await ncNewsApi.patch(`/articles/${article_id}`, {
+   article_img_url, article_body, title, topic, inc_votes: 0
+  })
+  return res.data.article
+}
