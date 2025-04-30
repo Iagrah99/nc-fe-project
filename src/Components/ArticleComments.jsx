@@ -43,24 +43,35 @@ const ArticleComments = ({
   return (
     <section>
       <form className="mb-8">
-        <div className="flex flex-wrap items-center justify-between gap-4 px-4 text-white">
-          <p className="text-lg font-semibold">
-            {comments.length} Comment{comments.length !== 1 && "s"}
-          </p>
+        <div className="flex flex-wrap items-center justify-center max-w-fit gap-8 px-4 py-3 text-white">
+          {/* Comment Count with Icon */}
+          <div className="flex items-center gap-3 py-2 px-4 rounded-lg shadow-md text-base">
+            <i className="fa-regular fa-comments text-white text-base"></i>
+            <span>
+              {comments.length} <span className="mr-1"></span> Comment{comments.length !== 1 && "s"}
+            </span>
+          </div>
 
-          <div className="flex items-center space-x-2">
+          {/* Sort Dropdown with Icon */}
+          <div className="flex items-center gap-1 px-4 rounded-lg shadow-md">
+            <i className="fa-solid fa-sliders text-slate-300 text-sm"></i>
             <select
               id="sort-comments"
               onChange={handleSortBy}
-              className=" text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white"
+              className="text-white px-3 text-base py-2 focus:outline-none cursor-pointer"
               value={sortBy}
             >
-              <option className="bg-slate-800" value="created_at">Newest First</option>
-              <option className="bg-slate-800" value="votes">Most Popular</option>
+              <option className="bg-slate-800" value="sort_by" disabled>
+                Sort By
+              </option>
+              <option className="bg-slate-800" value="created_at">
+                Newest First
+              </option>
+              <option className="bg-slate-800" value="votes">
+                Most Popular
+              </option>
             </select>
           </div>
-
-          <div></div>
         </div>
       </form>
 
