@@ -10,7 +10,7 @@ function CreateArticleModal({ toggleModal }) {
   const [articleIsOnlySpaces, setArticleIsOnlySpaces] = useState(false);
   const [articleTitle, setarticleTitle] = useState("");
   const [articleBody, setArticleBody] = useState("");
-  const [articleTopic, setArticleTopic] = useState("cooking");
+  const [articleTopic, setArticleTopic] = useState("coding");
   const [articleImgUrl, setArticleImgUrl] = useState("");
 
   const navigate = useNavigate();
