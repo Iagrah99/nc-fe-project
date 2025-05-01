@@ -216,6 +216,22 @@ const Articles = () => {
                       </div>
                     </div>
                   </form>
+                  <p className="text-slate-300 text-center text-lg font-medium mb-6 flex items-center justify-center gap-2">
+                    {!isLoadingArticles &&
+                      !isLoadingTopics &&
+                      hasLoadedOnce && (
+                        <>
+                          <i className="fa-regular fa-newspaper text-white text-xl"></i>
+                          <span>
+                            {totalCount}{" "}
+                            {topic
+                              ? topic[0].toUpperCase() + topic.slice(1)
+                              : "Total"}{" "}
+                            Article{totalCount !== 1 && "s"} Available
+                          </span>
+                        </>
+                      )}
+                  </p>
                 </>
               )}
 
