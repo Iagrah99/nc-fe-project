@@ -205,7 +205,7 @@ const CommentCard = ({
                   {formattedDate}
                 </p>
 
-                {loggedInUser.username === comment.author && (
+                {loggedInUser?.username === comment.author && (
                   <div className="flex flex-row justify-evenly items-center gap-5">
                     <button
                       onClick={() => toggleModal()}

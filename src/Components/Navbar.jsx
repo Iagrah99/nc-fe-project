@@ -1,12 +1,13 @@
 import { UserContext } from "../contexts/UserContext";
 import { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import { loginUser, logoutUser } from "../utils/api";
 import LogoutModal from "./LogoutModal";
 
 const NavigationBar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [isError, setIsError] = useState(false);
@@ -29,7 +30,7 @@ const NavigationBar = () => {
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
 
   useEffect(() => {
-    !loggedInUser && navigate("/articles")
+    !loggedInUser && location.pathname === "/" && navigate("/articles")
   }, [])
 
   const handleLink = (e) => {

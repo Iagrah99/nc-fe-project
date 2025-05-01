@@ -49,7 +49,7 @@ const CreateComment = ({ articleId, setSuccess }) => {
       return;
     } else {
       const newComment = {
-        username: loggedInUser.username,
+        username: loggedInUser?.username,
         body: comment,
       };
       addNewComment(newComment, e);
@@ -69,7 +69,7 @@ const CreateComment = ({ articleId, setSuccess }) => {
             <input
               type="text"
               id="username"
-              value={loggedInUser.username}
+              value={loggedInUser?.username}
               disabled
               className=" bg-slate-700 text-white rounded px-4 py-2 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-white hidden"
             />
