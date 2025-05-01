@@ -97,6 +97,7 @@ const Home = () => {
   };
 
   useEffect(() => {
+    if (!loggedInUser) return;
     fetchArticlesByUsername(
       topic,
       sortByQuery,
@@ -126,6 +127,7 @@ const Home = () => {
   ]);
 
   useEffect(() => {
+    if (!loggedInUser) return;
     fetchUserComments(loggedInUser.username)
       .then(({ comments }) => {
         setIsError(false);
@@ -140,6 +142,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    if (!loggedInUser) return;
     setIsLoadingTopics(true);
     fetchTopics()
       .then((topics) => {
@@ -155,6 +158,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    if (!loggedInUser) return;
     if (!articlesLoading && !commentsLoading) {
       setIsLoading(false);
     }

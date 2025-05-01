@@ -1,21 +1,78 @@
 import { UserContext } from "../contexts/UserContext";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import LoginModal from "./LoginModal";
+import { loginUser, logoutUser } from "../utils/api";
+import LogoutModal from "./LogoutModal";
 
 const NavigationBar = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [username, setUsername] = useState("");
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState("");
 
-  const { loggedInUser } = useContext(UserContext);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const toggleLoginModal = () => {
+    setIsError(false);
+    setIsLoginModalOpen((prev) => !prev);
+  };
+
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const toggleLogoutModal = () => {
+    setIsLogoutModalOpen((prev) => !prev);
+  };
+
+  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
 
   const handleLink = (e) => {
     e.preventDefault();
-    if (e.target.id === "/") {
+    if (e.target.id === "/" && loggedInUser) {
       navigate("/");
+    } else if (e.target.id === "/" && !loggedInUser) {
+      navigate("/articles");
     } else {
       navigate(`/${e.target.id}`);
     }
   };
+
+  const handleLoginUser = async (e) => {
+    setIsLoggingIn(true);
+    setIsError(false);
+    e.preventDefault();
+
+    try {
+      const { user } = await loginUser(username);
+      setLoggedInUser(user);
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      setIsLoggingIn(false);
+      toggleLoginModal(null);
+      navigate("/");
+    } catch (error) {
+      setError(error);
+      setIsError(true);
+      setIsLoggingIn(false);
+    }
+  };
+
+  const handleLogoutUser = async (e) => {
+    setIsLoggingOut(true);
+    setIsError(false);
+    e.preventDefault();
+    try {
+      await logoutUser(username);
+      setLoggedInUser("");
+      localStorage.removeItem("currentUser");
+      toggleLogoutModal(null);
+      navigate("/articles");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <nav className="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,29 +95,41 @@ const NavigationBar = () => {
             >
               Articles
             </button>
-            <button
-              onClick={handleLink}
-              id="login"
-              className="text-sm font-medium cursor-pointer hover:text-red-400 transition"
-            >
-              Switch User
-            </button>
+            {loggedInUser ? (
+              <button
+                onClick={toggleLogoutModal}
+                id="logout"
+                className="text-sm font-medium cursor-pointer hover:text-red-400 transition"
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={toggleLoginModal}
+                id="login"
+                className="text-sm font-medium cursor-pointer hover:text-red-400 transition"
+              >
+                Login
+              </button>
+            )}
           </div>
 
           {/* Logged-in Status - Right */}
-          <div className="hidden lg:flex items-center gap-3 text-sm text-gray-300">
-            <span className="flex items-center gap-2 px-3 py-1 rounded-full">
-              <span>Logged in as</span>
-              <span className="font-semibold text-white">
-                {loggedInUser.username}
+          {loggedInUser && (
+            <div className="hidden lg:flex items-center gap-3 text-sm text-gray-300">
+              <span className="flex items-center gap-2 px-3 py-1 rounded-full">
+                <span>Logged in as</span>
+                <span className="font-semibold text-white">
+                  {loggedInUser.username}
+                </span>
+                <img
+                  src={loggedInUser.avatar_url}
+                  alt="User Avatar"
+                  className="w-8 h-8 rounded-full border border-gray-600 shadow-sm"
+                />
               </span>
-              <img
-                src={loggedInUser.avatar_url}
-                alt="User Avatar"
-                className="w-8 h-8 rounded-full border border-gray-600 shadow-sm"
-              />
-            </span>
-          </div>
+            </div>
+          )}
 
           {/* Mobile Toggle - Right */}
           <div className="lg:hidden">
@@ -92,7 +161,7 @@ const NavigationBar = () => {
             Switch User
           </button>
           <div className="text-xs text-gray-300">
-          <span className="flex items-center gap-2 rounded-full">
+            <span className="flex items-center gap-2 rounded-full">
               <span>Logged in as</span>
               <span className="font-semibold text-white">
                 {loggedInUser.username}
@@ -105,6 +174,28 @@ const NavigationBar = () => {
             </span>
           </div>
         </div>
+      )}
+
+      {isLoginModalOpen && (
+        <LoginModal
+          toggleLoginModal={toggleLoginModal}
+          handleLoginUser={handleLoginUser}
+          username={username}
+          setUsername={setUsername}
+          isLoggingIn={isLoggingIn}
+          isError={isError}
+          setIsError={setIsError}
+        />
+      )}
+
+      {isLogoutModalOpen && (
+        <LogoutModal
+          toggleLogoutModal={toggleLogoutModal}
+          handleLogoutUser={handleLogoutUser}
+          isLoggingOut={isLoggingOut}
+          isError={isError}
+          setIsError={setIsError}
+        />
       )}
     </nav>
   );
