@@ -1,5 +1,5 @@
 import { UserContext } from "../contexts/UserContext";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import { loginUser, logoutUser } from "../utils/api";
@@ -27,6 +27,10 @@ const NavigationBar = () => {
   };
 
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+
+  useEffect(() => {
+    !loggedInUser && navigate("/articles")
+  }, [])
 
   const handleLink = (e) => {
     e.preventDefault();
