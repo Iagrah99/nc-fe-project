@@ -79,7 +79,7 @@ function CreateArticleModal({ toggleModal }) {
         {/* Close Button */}
         <button
           onClick={toggleModal}
-          className="absolute top-3 right-4 text-gray-400 hover:text-white text-lg cursor-pointer"
+          className="absolute top-3 right-4 text-gray-400 hover:text-white text-2xl cursor-pointer"
         >
           &times;
         </button>

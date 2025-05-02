@@ -112,10 +112,11 @@ export const updateArticleById = async (article_id, title, topic, article_img_ur
   return res.data.article
 }
 
-export const loginUser = async (username) => {
+export const loginUser = async (username, password) => {
   const res = await ncNewsApi.patch(`/auth/login`, {
     user: {
-      username
+      username,
+      password
     }
   })
   return res.data

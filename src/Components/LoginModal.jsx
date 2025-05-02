@@ -3,7 +3,11 @@ const LoginModal = ({
   handleLoginUser,
   username,
   setUsername,
+  password,
+  setPassword,
   isLoggingIn,
+  isLoggingInAsGuest,
+  handleGuestLogin,
   isError,
   setIsError,
 }) => {
@@ -18,11 +22,19 @@ const LoginModal = ({
           Login to Your Account
         </h2>
 
+        <button
+          onClick={toggleLoginModal}
+          className="absolute top-3 right-4 text-gray-400 hover:text-white text-2xl cursor-pointer"
+        >
+          &times;
+        </button>
+
         <form className="space-y-6" onSubmit={handleLoginUser}>
-          <div>
+          {/* Username Field */}
+          <div className="space-y-2">
             <label
               htmlFor="username"
-              className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
             >
               Username
             </label>
@@ -41,29 +53,62 @@ const LoginModal = ({
             />
           </div>
 
+          {/* Password Field */}
+          <div className="space-y-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+              className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setIsError(false);
+              }}
+              onFocus={() => setIsError(false)}
+              value={password}
+              required
+            />
+          </div>
+
+          {/* Error Message */}
           {isError && (
-            <p className="text-red-500">No user with that username exists</p>
+            <p className="text-red-500 text-sm">
+              No user with that username exists.
+            </p>
           )}
 
-          <div className="flex justify-between items-center mt-6">
-            <button
-              type="button"
-              onClick={toggleLoginModal}
-              className="bg-gray-600 px-6 py-2 rounded-lg shadow text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white transition cursor-pointer"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className={`px-6 py-2 rounded font-semibold ${
-                username.trim().length === 0
-                  ? "bg-blue-600 hover:bg-blue-700 text-white cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700 cursor-pointer text-white"
-              }`}
-              disabled={username.trim().length === 0}
-            >
-              {isLoggingIn ? "Logging In" : "Login"}
-            </button>
+          {/* Action Buttons */}
+          <div className="flex items-center gap-3">
+            {!isLoggingInAsGuest && (
+              <button
+                type="submit"
+                className={`px-6 py-2 w-fit rounded font-semibold transition ${
+                  username.trim().length === 0
+                    ? "bg-blue-600 text-white opacity-50 cursor-not-allowed"
+                    : "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+                }`}
+                disabled={username.trim().length === 0}
+              >
+                {isLoggingIn ? "Logging In" : "Login"}
+              </button>
+            )}
+
+            {!isLoggingIn && (
+              <button
+                type="button"
+                onClick={handleGuestLogin}
+                className="w-fit text-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow transition cursor-pointer"
+                disabled={isLoggingIn}
+              >
+                {isLoggingInAsGuest ? "Logging In" : "Continue As Guest"}
+              </button>
+            )}
           </div>
         </form>
       </div>

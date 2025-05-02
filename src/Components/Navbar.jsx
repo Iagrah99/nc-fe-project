@@ -10,11 +10,13 @@ const NavigationBar = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState("");
 
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isLoggingInAsGuest, setIsLoggingInAsGuest] = useState(false);
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const toggleLoginModal = () => {
@@ -30,8 +32,8 @@ const NavigationBar = () => {
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
 
   useEffect(() => {
-    !loggedInUser && location.pathname === "/" && navigate("/articles")
-  }, [])
+    !loggedInUser && location.pathname === "/" && navigate("/articles");
+  }, []);
 
   const handleLink = (e) => {
     e.preventDefault();
@@ -44,13 +46,35 @@ const NavigationBar = () => {
     }
   };
 
+  const handleGuestLogin = async () => {
+    setIsLoggingInAsGuest(true);
+    setIsError(false);
+
+    const guestUsername = "tickle122";
+    const guestPassword = "tickle123";
+
+    try {
+      const { user } = await loginUser(guestUsername, guestPassword);
+      setLoggedInUser(user);
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      setIsLoggingInAsGuest(false);
+      toggleLoginModal();
+      navigate("/");
+    } catch (error) {
+      setError(error);
+      setIsError(true);
+      setIsLoggingIn(false);
+      setIsLoggingInAsGuest(false);
+    }
+  };
+
   const handleLoginUser = async (e) => {
     setIsLoggingIn(true);
     setIsError(false);
     e.preventDefault();
 
     try {
-      const { user } = await loginUser(username);
+      const { user } = await loginUser(username, password);
       setLoggedInUser(user);
       localStorage.setItem("currentUser", JSON.stringify(user));
       setIsLoggingIn(false);
@@ -187,7 +211,11 @@ const NavigationBar = () => {
           handleLoginUser={handleLoginUser}
           username={username}
           setUsername={setUsername}
+          password={password}
+          setPassword={setPassword}
           isLoggingIn={isLoggingIn}
+          isLoggingInAsGuest={isLoggingInAsGuest}
+          handleGuestLogin={handleGuestLogin}
           isError={isError}
           setIsError={setIsError}
         />
@@ -199,7 +227,6 @@ const NavigationBar = () => {
           handleLogoutUser={handleLogoutUser}
           isLoggingOut={isLoggingOut}
           isError={isError}
-          setIsError={setIsError}
         />
       )}
     </nav>
