@@ -12,7 +12,7 @@ const LogoutModal = ({
 
       {/* Modal Content */}
       <div className="relative bg-slate-50 dark:bg-gray-800 rounded-lg shadow-lg p-6 w-96 z-10">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-3">
           Confirm Logout
         </h2>
         <p className="text-sm font-normal text-gray-300">
@@ -30,9 +30,16 @@ const LogoutModal = ({
             </button>
             <button
               type="submit"
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow transition cursor-pointer"
+              className="w-fit flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg shadow transition cursor-pointer"
             >
-              {isLoggingOut ? "Logging Out" : "Logout"}
+              {isLoggingOut ? (
+                <>
+                  <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  Logging Out
+                </>
+              ) : (
+                "Logout"
+              )}
             </button>
           </div>
           {isError && (

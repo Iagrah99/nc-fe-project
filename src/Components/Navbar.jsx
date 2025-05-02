@@ -52,6 +52,9 @@ const NavigationBar = () => {
 
     const guestUsername = "tickle122";
     const guestPassword = "tickle123";
+    
+    setUsername(guestUsername)
+    setPassword(guestPassword)
 
     try {
       const { user } = await loginUser(guestUsername, guestPassword);

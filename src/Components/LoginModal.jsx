@@ -88,14 +88,21 @@ const LoginModal = ({
             {!isLoggingInAsGuest && (
               <button
                 type="submit"
-                className={`px-6 py-2 w-fit rounded font-semibold transition ${
+                className={`w-fit flex items-center justify-center gap-2 py-2 px-4 rounded-lg shadow transition  ${
                   username.trim().length === 0
                     ? "bg-blue-600 text-white opacity-50 cursor-not-allowed"
                     : "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
                 }`}
                 disabled={username.trim().length === 0}
               >
-                {isLoggingIn ? "Logging In" : "Login"}
+                {isLoggingIn ? (
+                  <>
+                    <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    Logging In
+                  </>
+                ) : (
+                  "Login"
+                )}
               </button>
             )}
 
@@ -103,10 +110,17 @@ const LoginModal = ({
               <button
                 type="button"
                 onClick={handleGuestLogin}
-                className="w-fit text-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow transition cursor-pointer"
+                className="w-fit flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow transition cursor-pointer"
                 disabled={isLoggingIn}
               >
-                {isLoggingInAsGuest ? "Logging In" : "Continue As Guest"}
+                {isLoggingInAsGuest ? (
+                  <>
+                    <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    Logging In
+                  </>
+                ) : (
+                  "Continue As Guest"
+                )}
               </button>
             )}
           </div>

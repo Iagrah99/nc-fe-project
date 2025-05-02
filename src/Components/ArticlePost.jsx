@@ -59,7 +59,7 @@ const ArticlePost = ({ article, articleId, searchParams, setSearchParams }) => {
             <img
               src={article.article_img_url}
               alt={`An article image about ${article.topic}`}
-              className="w-full max-w-7xl aspect-[22/9] object-cover rounded"
+              className="w-full max-w-7xl md:aspect-[22/9] object-cover rounded"
             />
           </figure>
 

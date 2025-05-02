@@ -292,7 +292,7 @@ const Home = () => {
                   {articles.map((article) => (
                     <div
                       key={article.article_id}
-                      className=" min-w-[100%] sm:min-w-[50%] lg:min-w-[25%] px-2" // 25% width per card for 4-per-view
+                      className=" min-w-[100%] sm:min-w-[50%] xl:min-w-[25%] px-2" // 25% width per card for 4-per-view
                     >
                       <ArticleCard
                         article={article}
@@ -347,8 +347,7 @@ const Home = () => {
                   Your Top Comments
                 </h2>
               </section>
-
-              <div className="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-4 gap-6 lg:mb-32">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-20 lg:mb-32">
                 {comments
                   .slice(0, 4)
                   .map(
