@@ -14,6 +14,7 @@ const ArticleComments = ({
   const [isError, setisError] = useState(false);
   const [deleted, setDeleted] = useState(false);
   const [isCommentUpdated, setIsCommentUpdated] = useState(false);
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   const [sortBy, setSortBy] = useState("sort_by");
   const sortByQuery = searchParams.get("sort_by");
 
@@ -32,6 +33,7 @@ const ArticleComments = ({
         setComments(comments);
         setIsLoading(false);
         setIsSorting(false);
+        setHasLoadedOnce(true);
       })
       .catch(() => {
         setIsLoading(false);
@@ -73,7 +75,7 @@ const ArticleComments = ({
       </form>
       <div>
         {/* Spinner Overlay */}
-        {isLoading && !isSorting && (
+        {isLoading && !isSorting && !hasLoadedOnce && (
           <div className="relative w-full flex flex-col items-center justify-center px-4 py-12 rounded-lg overflow-hidden">
             {/* Semi-transparent backdrop */}
             <div className="absolute inset-0 bg-black opacity-20 rounded-lg"></div>

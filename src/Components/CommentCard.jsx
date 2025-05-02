@@ -144,10 +144,13 @@ const CommentCard = ({
               : "border-2 border-transparent"
           }`}
         >
-
           {isCommentUpdating || deletingComment ? (
             <div className="flex flex-col items-center justify-center w-full h-48">
-              <div className={`w-8 h-8 border-4 ${deletingComment ? 'border-red-500' : 'border-blue-500'} border-t-transparent rounded-full animate-spin mb-4`}></div>
+              <div
+                className={`w-8 h-8 border-4 ${
+                  deletingComment ? "border-red-500" : "border-blue-500"
+                } border-t-transparent rounded-full animate-spin mb-4`}
+              ></div>
               <p className="text-white text-sm">
                 {isCommentUpdating ? "Updating" : "Deleting"} comment...
               </p>
@@ -164,7 +167,7 @@ const CommentCard = ({
                   className="w-10 h-10 rounded-full border-2 border-gray-700 shadow-md object-cover"
                 />
                 <h2 className="text-lg font-semibold text-white">
-                  {comment.author} 
+                  {comment.author}
                 </h2>
               </div>
 

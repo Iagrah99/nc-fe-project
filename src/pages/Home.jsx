@@ -37,7 +37,7 @@ const Home = () => {
   const [articleUpdated, setArticleUpdated] = useState(false);
 
   const [cardsPerView, setCardsPerView] = useState(
-    window.innerWidth < 1024 ? 2 : 4
+    window.innerWidth < 1024 ? 1 : 4
   );
 
   const [isModalOpen, setIsModalOpen] = useState(false);

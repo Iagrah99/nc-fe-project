@@ -5,12 +5,14 @@ import { addComment } from "../utils/api";
 const CreateComment = ({ articleId, setSuccess }) => {
   const [comment, setComment] = useState("");
   const [commentPosted, setCommentPosted] = useState(false);
-  const [commentPostingError, setCommentPostingError] = useState(false);
   const [commentIsOnlySpaces, setCommentIsOnlySpaces] = useState(false);
   const [commentPosting, setCommentPosting] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(null);
   const { loggedInUser } = useContext(UserContext);
 
   const addNewComment = (postedComment, e) => {
+    setIsError(false);
     addComment(articleId, postedComment)
       .then((commentFromApi) => {
         e.target[2].disabled = false;
@@ -22,7 +24,9 @@ const CreateComment = ({ articleId, setSuccess }) => {
       })
       .catch((error) => {
         setCommentPosted(false);
-        setCommentPostingError(true);
+        setCommentPosting(false);
+        setIsError(true);
+        setError(error);
       });
   };
 
@@ -87,6 +91,7 @@ const CreateComment = ({ articleId, setSuccess }) => {
               maxLength={2500}
               value={comment}
               required
+              onFocus={() => setIsError(false)}
               onChange={(e) => {
                 const inputValue = e.target.value;
                 setComment(inputValue);
@@ -104,19 +109,25 @@ const CreateComment = ({ articleId, setSuccess }) => {
             ></textarea>
           </div>
 
-          {/* Validation Messages */}
           <div className="mb-6">
-            {comment.length >= 2500 && (
+            {/* Validation Messages */}
+            {/* {comment.length >= 2500 && (
               <p className="text-red-400 mb-4">
                 Your comment is too long! The max character length is 2500.
               </p>
             )}
             {commentIsOnlySpaces && comment.length > 0 && (
               <p className="text-red-400 mb-4">Can't only use spaces!</p>
-            )}
+            )} */}
+
             <button
               type="submit"
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 cursor-pointer text-white font-medium py-2 px-4 rounded disabled:opacity-50"
+              className={`px-6 py-2 rounded flex items-center gap-2 font-semibold ${
+                comment.trim().length === 0
+                  ? "bg-blue-600 hover:bg-blue-600 opacity-50 text-white cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700 cursor-pointer text-white"
+              }`}
+              disabled={isError || comment.trim().length === 0}
             >
               <i className="fa-regular fa-paper-plane"></i>
               Post Comment
@@ -131,9 +142,11 @@ const CreateComment = ({ articleId, setSuccess }) => {
                 <p className="text-white text-sm">Posting comment...</p>
               </div>
             )}
-            {commentPostingError && (
+            {isError && (
               <p className="mt-4 text-red-400">
-                Couldn't post comment, try again later.
+                {error.response.data.msg === "Not found"
+                  ? "Please login to make a comment"
+                  : "There was an error posting your comment"}
               </p>
             )}
           </div>
