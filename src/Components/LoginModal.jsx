@@ -17,8 +17,8 @@ const LoginModal = ({
       <div className="absolute inset-0 bg-[rgba(0,0,0,0.50)]"></div>
 
       {/* Modal Content */}
-      <div className="relative bg-slate-50 dark:bg-gray-800 rounded-2xl shadow-xl p-8 w-full max-w-md z-10">
-        <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6 text-center">
+      <div className="relative bg-slate-50 dark:bg-gray-800 rounded-2xl shadow-xl p-8 w-96 z-10">
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">
           Login to Your Account
         </h2>
 
