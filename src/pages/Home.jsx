@@ -12,7 +12,6 @@ import { UserContext } from "../contexts/UserContext";
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import PageLoading from "../Components/PageLoading";
 import PageError from "../Components/PageError";
-import Header from "../Components/Header";
 import CommentPreviewCard from "../Components/CommentPreviewCard";
 import CreateArticleModal from "../Components/CreateArticleModal";
 import DeleteArticleModal from "../Components/DeleteArticleModal";
@@ -36,6 +35,10 @@ const Home = () => {
 
   const [articleUpdating, setArticleUpdating] = useState(false);
   const [articleUpdated, setArticleUpdated] = useState(false);
+
+  const [cardsPerView, setCardsPerView] = useState(
+    window.innerWidth < 1024 ? 2 : 4
+  );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleModal = () => setIsModalOpen(!isModalOpen);
@@ -95,6 +98,15 @@ const Home = () => {
     setOrderBy(e.target.value);
     setSearchParams(newParams);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setCardsPerView(window.innerWidth < 1024 ? 1 : 4);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (!loggedInUser) return;
@@ -194,8 +206,6 @@ const Home = () => {
             <PageLoading contentType="Homepage" />
           ) : (
             <article className="flex flex-col justify-center mt-6 sm:px-6 lg:px-8">
-              {/* <Header /> */}
-
               <header className="text-center py-12 bg-slate-950">
                 <h1 className="text-4xl sm:text-5xl font-bold text-white mb-2">
                   {greetingsMap[greeting] || ""}
@@ -210,10 +220,10 @@ const Home = () => {
                 </p>
               </header>
 
-              <section>
+              <section className="mx-4">
                 <div
                   onClick={toggleModal}
-                  className="cursor-pointer bg-slate-800 text-slate-400 hover:text-white px-6 py-4 rounded-lg border-1 shadow-md w-full max-w-3xl mx-auto transition duration-200 ease-in-out hover:bg-slate-700"
+                  className="cursor-pointer bg-slate-800 text-slate-400 hover:text-white px-6 py-4 rounded-lg border-1 shadow-md sm:mx-auto  w-full max-w-3xl transition duration-200 ease-in-out hover:bg-slate-700"
                 >
                   Compose an article...
                 </div>
@@ -226,12 +236,12 @@ const Home = () => {
               </section>
 
               <form className="mb-8">
-                <div className="flex flex-wrap gap-6 lg:justify-center sm:justify-between justify-center ">
+                <div className="flex flex-wrap gap-6 lg:justify-center justify-center ">
                   {/* Sort By */}
                   <div className="flex flex-col items-center">
                     <select
                       onChange={handleSortBy}
-                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-36 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                       defaultValue={"sort_by"}
                     >
                       <option value="sort_by" id="sort_by" disabled>
@@ -253,7 +263,7 @@ const Home = () => {
                   <div className="flex flex-col items-center">
                     <select
                       onChange={handleOrderBy}
-                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-36 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                       defaultValue={"order_by"}
                     >
                       <option value="order_by" id="order_by" disabled>
@@ -267,30 +277,6 @@ const Home = () => {
                       </option>
                     </select>
                   </div>
-
-                  {/* Filter By */}
-                  {/* <div className="flex flex-col items-center">
-                        <select
-                          onChange={handleFilterBy}
-                          className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-24 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
-                          defaultValue={"filter_by"}
-                        >
-                          <option value="filter_by" id="filter_by" disabled>
-                            Filter By
-                          </option>
-                          {topics.map((topic) => (
-                            <option
-                              value={topic.slug}
-                              id={topic.slug}
-                              key={topic.slug}
-                            >
-                              {topic.slug[0].toUpperCase() +
-                                topic.slug.slice(1)}{" "}
-                              Articles
-                            </option>
-                          ))}
-                        </select>
-                      </div> */}
                 </div>
               </form>
 
@@ -298,13 +284,15 @@ const Home = () => {
                 <div
                   className="flex transition-transform duration-500 ease-in-out"
                   style={{
-                    transform: `translateX(-${slideIndex * 25}%)`, // 25% if 4 cards visible (100% / 4)
+                    transform: `translateX(-${
+                      (slideIndex * 100) / cardsPerView
+                    }%)`,
                   }}
                 >
                   {articles.map((article) => (
                     <div
                       key={article.article_id}
-                      className="min-w-[25%] px-2" // 25% width per card for 4-per-view
+                      className=" min-w-[100%] sm:min-w-[50%] lg:min-w-[25%] px-2" // 25% width per card for 4-per-view
                     >
                       <ArticleCard
                         article={article}
