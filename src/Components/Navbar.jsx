@@ -52,9 +52,9 @@ const NavigationBar = () => {
 
     const guestUsername = "tickle122";
     const guestPassword = "tickle123";
-    
-    setUsername(guestUsername)
-    setPassword(guestPassword)
+
+    setUsername(guestUsername);
+    setPassword(guestPassword);
 
     try {
       const { user } = await loginUser(guestUsername, guestPassword);
@@ -177,34 +177,48 @@ const NavigationBar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="lg:hidden pt-2 px-4 pb-4 bg-gray-800 space-y-3">
-          <button
-            onClick={handleLink}
-            id="articles"
-            className="block w-full text-left text-sm font-medium hover:text-red-400"
-          >
-            Articles
-          </button>
-          <button
-            onClick={handleLink}
-            id="login"
-            className="block w-full text-left text-sm font-medium hover:text-red-400"
-          >
-            Switch User
-          </button>
-          <div className="text-xs text-gray-300">
-            <span className="flex items-center gap-2 rounded-full">
-              <span>Logged in as</span>
-              <span className="font-semibold text-white">
-                {loggedInUser.username}
-              </span>
-              <img
-                src={loggedInUser.avatar_url}
-                alt="User Avatar"
-                className="w-8 h-8 rounded-full border border-gray-600 shadow-sm"
-              />
-            </span>
+        <div className="lg:hidden flex justify-between items-center p-3 bg-gray-800">
+          <div className="flex gap-5 ">
+            <button
+              onClick={handleLink}
+              id="articles"
+              className="block w-fit text-left text-sm font-medium hover:text-red-400"
+            >
+              Articles
+            </button>
+            {loggedInUser ? (
+              <button
+                onClick={toggleLogoutModal}
+                id="logout"
+                className="text-sm font-medium cursor-pointer hover:text-red-400 transition"
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={toggleLoginModal}
+                id="login"
+                className="text-sm font-medium cursor-pointer hover:text-red-400 transition"
+              >
+                Login
+              </button>
+            )}
           </div>
+          {loggedInUser && (
+            <div className="text-xs text-gray-300">
+              <span className="flex items-center gap-2 rounded-full">
+                <span>Logged in as</span>
+                <span className="font-semibold text-white">
+                  {loggedInUser.username}
+                </span>
+                <img
+                  src={loggedInUser.avatar_url}
+                  alt="User Avatar"
+                  className="w-8 h-8 rounded-full border border-gray-600 shadow-sm"
+                />
+              </span>
+            </div>
+          )}
         </div>
       )}
 

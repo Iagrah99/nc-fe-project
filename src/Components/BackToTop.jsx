@@ -10,7 +10,7 @@ const ScrollButton = () => {
   };
 
   return (
-    <FaArrowCircleUp onClick={scrollToTop} className='fa-2x cursor-pointer'/>
+    <FaArrowCircleUp onClick={scrollToTop} className='scale-175 cursor-pointer'/>
   );
 }
 

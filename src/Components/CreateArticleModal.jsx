@@ -72,9 +72,15 @@ function CreateArticleModal({ toggleModal }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
       <div className="absolute inset-0 bg-[rgba(0,0,0,0.50)]"></div>
-      <div className="bg-slate-900 text-white rounded-lg shadow-xl w-full max-w-3xl p-8 relative">
-        <h2 className="text-xl font-semibold mb-4">Create a New Article</h2>
+
+      {/* Modal Container */}
+      <div className="relative bg-slate-900 text-white rounded-lg shadow-xl w-full max-w-3xl max-h-[95vh] overflow-y-auto p-4 sm:p-8 mx-4">
+        {/* Header */}
+        <h2 className="text-base sm:text-xl font-semibold mb-4">
+          Create a New Article
+        </h2>
 
         {/* Close Button */}
         <button
@@ -84,8 +90,10 @@ function CreateArticleModal({ toggleModal }) {
           &times;
         </button>
 
-        <form onSubmit={handleSubmitPost}>
-          <div className="grid grid-cols-2 gap-4 mb-4">
+        {/* Form */}
+        <form onSubmit={handleSubmitPost} className="space-y-4">
+          {/* Title and Topic */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block mb-2 text-sm">Title</label>
               <input
@@ -110,7 +118,8 @@ function CreateArticleModal({ toggleModal }) {
             </div>
           </div>
 
-          <div className="mb-4">
+          {/* Image URL */}
+          <div>
             <label className="block mb-2 text-sm">Image URL (optional)</label>
             <input
               type="text"
@@ -119,23 +128,21 @@ function CreateArticleModal({ toggleModal }) {
             />
           </div>
 
-          <div className="mb-6">
+          {/* Body */}
+          <div>
             <label className="block mb-2 text-sm">Article Body</label>
             <textarea
-              rows="6"
-              className="w-full bg-slate-700 border border-slate-600 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white resize-none"
+              className="w-full bg-slate-700 border border-slate-600 rounded px-4 py-2 h-20 lg:h-40 focus:outline-none focus:ring-2 focus:ring-white resize-none"
               placeholder="Share your thoughts..."
               maxLength="2500"
               required
               onChange={(e) => {
                 const bodyValue = e.target.value;
                 setArticleBody(bodyValue);
-
                 const containsOnlySpaces = /^\s+$/.test(bodyValue);
                 setArticleIsOnlySpaces(
                   containsOnlySpaces || bodyValue.trim().length === 0
                 );
-
                 setArticlePosted(false);
               }}
             ></textarea>
@@ -144,13 +151,14 @@ function CreateArticleModal({ toggleModal }) {
             )}
           </div>
 
-          <div className="flex justify-end">
+          {/* Submit */}
+          <div className="flex flex-col sm:flex-row justify-end sm:items-center gap-4">
             <button
               type="submit"
               className={`px-6 py-2 rounded font-semibold ${
                 articleBody.trim().length === 0
-                  ? "bg-blue-600 hover:bg-blue-700 text-white cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700 cursor-pointer text-white"
+                  ? "bg-blue-600 text-white opacity-50 cursor-not-allowed"
+                  : "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
               }`}
               disabled={articleBody.trim().length === 0}
             >
@@ -160,10 +168,10 @@ function CreateArticleModal({ toggleModal }) {
             </button>
 
             {articlePosted && !articlePostingError && (
-              <p className="text-green-400 mt-2">Posted Successfully!</p>
+              <p className="text-green-400">Posted Successfully!</p>
             )}
             {articlePostingError && (
-              <p className="text-red-400 mt-2">
+              <p className="text-red-400">
                 Couldn't post article, try again later.
               </p>
             )}

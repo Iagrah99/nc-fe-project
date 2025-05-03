@@ -347,7 +347,7 @@ const Home = () => {
                   Your Top Comments
                 </h2>
               </section>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-20 lg:mb-32">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-20 lg:mb-32 px-2">
                 {comments
                   .slice(0, 4)
                   .map(
