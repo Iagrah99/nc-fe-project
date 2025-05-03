@@ -35,6 +35,7 @@ const Home = () => {
 
   const [articleUpdating, setArticleUpdating] = useState(false);
   const [articleUpdated, setArticleUpdated] = useState(false);
+  const [refreshingArticles, setRefreshingArticles] = useState(false);
 
   const [cardsPerView, setCardsPerView] = useState(
     window.innerWidth < 1024 ? 1 : 4
@@ -90,6 +91,7 @@ const Home = () => {
     newParams.set("sort_by", e.target.value);
     setSortBy(e.target.value);
     setSearchParams(newParams);
+    setRefreshingArticles(true);
   };
 
   const handleOrderBy = (e) => {
@@ -97,6 +99,7 @@ const Home = () => {
     newParams.set("order_by", e.target.value);
     setOrderBy(e.target.value);
     setSearchParams(newParams);
+    setRefreshingArticles(true);
   };
 
   useEffect(() => {
@@ -123,9 +126,11 @@ const Home = () => {
         setArticles(articles);
         setArticlesLoading(false);
         setTotalCount(total_count);
+        setRefreshingArticles(false);
       })
       .catch((error) => {
         setArticlesLoading(false);
+        setRefreshingArticles(false);
         setError(error);
         setIsError(true);
       });
@@ -281,8 +286,18 @@ const Home = () => {
               </form>
 
               <div className="overflow-hidden relative w-full">
+                {/* Spinner Overlay */}
+                {refreshingArticles && (
+                  <div className="absolute inset-0 flex justify-center items-center z-10">
+                    <div className="w-20 h-20 border-4 border-t-transparent border-red-500 rounded-full animate-spin"></div>
+                  </div>
+                )}
+
+                {/* Article Slider */}
                 <div
-                  className="flex transition-transform duration-500 ease-in-out"
+                  className={`flex transition-transform duration-500 ease-in-out ${
+                    refreshingArticles ? "opacity-30" : "opacity-100"
+                  }`}
                   style={{
                     transform: `translateX(-${
                       (slideIndex * 100) / cardsPerView
@@ -292,7 +307,7 @@ const Home = () => {
                   {articles.map((article) => (
                     <div
                       key={article.article_id}
-                      className=" min-w-[100%] sm:min-w-[50%] xl:min-w-[25%] px-2" // 25% width per card for 4-per-view
+                      className="min-w-[100%] sm:min-w-[50%] xl:min-w-[25%] px-2"
                     >
                       <ArticleCard
                         article={article}
