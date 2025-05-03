@@ -207,11 +207,11 @@ const Home = () => {
           ) : (
             <article className="flex flex-col justify-center mt-6 sm:px-6 lg:px-8">
               <header className="text-center py-12 bg-slate-950">
-                <h1 className="text-4xl sm:text-5xl font-bold text-white mb-2">
+                <h1 className="text-3xl sm:text-5xl font-bold text-white mb-2">
                   {greetingsMap[greeting] || ""}
                 </h1>
 
-                <p className="text-xl sm:text-2xl text-slate-400">
+                <p className="text-lg sm:text-2xl text-slate-400">
                   Welcome back,{" "}
                   <span className="text-white font-semibold">
                     {loggedInUser.username}
@@ -230,7 +230,7 @@ const Home = () => {
               </section>
 
               <section>
-                <h2 className="bg-slate-950 text-center text-3xl py-10 text-white">
+                <h2 className="bg-slate-950 text-center text-2xl sm:text-3xl py-10 text-white">
                   Your Articles
                 </h2>
               </section>
@@ -343,7 +343,7 @@ const Home = () => {
               )}
 
               <section>
-                <h2 className="bg-slate-950 text-center text-3xl py-10 text-white">
+                <h2 className="bg-slate-950 text-center text-2xl sm:text-3xl py-10 text-white">
                   Your Top Comments
                 </h2>
               </section>

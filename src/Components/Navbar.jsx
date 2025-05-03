@@ -207,10 +207,10 @@ const NavigationBar = () => {
           {loggedInUser && (
             <div className="text-xs text-gray-300">
               <span className="flex items-center gap-2 rounded-full">
-                <span>Logged in as</span>
-                <span className="font-semibold text-white">
+                {/* <span>Logged in as</span> */}
+                {/* <span className="font-semibold text-white">
                   {loggedInUser.username}
-                </span>
+                </span> */}
                 <img
                   src={loggedInUser.avatar_url}
                   alt="User Avatar"

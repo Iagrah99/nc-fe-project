@@ -3,7 +3,7 @@ import React from "react";
 function CommentPreviewCard({ comment, user, handleVisitComment }) {
   return (
     <div key={comment.comment_id} className="w-full">
-      <div className="bg-gray-900 w-full rounded-lg shadow-md p-6 text-white flex flex-col justify-between relative min-h-60">
+      <div className="bg-gray-900 w-full rounded-lg shadow-md px-1 py-3 sm:p-6 text-white flex flex-col justify-between relative min-h-60">
         {/* Top Row: Avatar + Author */}
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-3 ">
@@ -15,7 +15,7 @@ function CommentPreviewCard({ comment, user, handleVisitComment }) {
               loading="lazy"
               className="w-10 h-10 rounded-full border-2 border-gray-700 shadow-md object-cover"
             />
-            <h2 className="text-lg font-semibold">{comment.author}</h2>
+            <h2 className="text-base sm:text-lg font-semibold">{comment.author}</h2>
           </div>
           <button
             onClick={() => handleVisitComment(comment)}
@@ -26,10 +26,10 @@ function CommentPreviewCard({ comment, user, handleVisitComment }) {
         </div>
 
         {/* Comment Body */}
-        <p className="mb-4 overflow-hidden line-clamp-3">{comment.body}</p>
+        <p className="mb-4 px-1 text-sm sm:text-base overflow-hidden line-clamp-3">{comment.body}</p>
 
         {/* Votes and Date */}
-        <div className="flex justify-between items-center mt-auto pt-4 border-t border-gray-700">
+        <div className="flex justify-between items-center mt-auto px-1 pt-4 border-t border-gray-700">
           <span className="flex items-center text-pink-500">
             <i className="fa-solid fa-thumbs-up mr-2"></i>
             {comment.votes}
