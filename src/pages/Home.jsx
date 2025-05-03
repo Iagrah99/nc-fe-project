@@ -241,7 +241,7 @@ const Home = () => {
                   <div className="flex flex-col items-center">
                     <select
                       onChange={handleSortBy}
-                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-36 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      className="bg-slate-800 text-white lg:px-3 py-3 sm:py-2 lg:w-60 w-36 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                       defaultValue={"sort_by"}
                     >
                       <option value="sort_by" id="sort_by" disabled>
@@ -263,7 +263,7 @@ const Home = () => {
                   <div className="flex flex-col items-center">
                     <select
                       onChange={handleOrderBy}
-                      className="bg-slate-800 text-white lg:px-3 py-2 lg:w-60 w-36 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      className="bg-slate-800 text-white lg:px-3 py-3 sm:py-2 lg:w-60 w-36 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                       defaultValue={"order_by"}
                     >
                       <option value="order_by" id="order_by" disabled>
