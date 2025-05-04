@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const ncNewsApi = axios.create({
-  baseURL: `https://nc-news-project-imqq.onrender.com/api`,
+  baseURL: `https://nc-be-project.fly.dev/api`,
 });
 
 export const fetchArticles = async (topic, sort_by, order_by, p) => {

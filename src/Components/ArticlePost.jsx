@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { decrementArticleVotes, incrementArticleVotes } from "../utils/api";
+import { useNavigate } from "react-router-dom";
 import CommentSection from "./CommentSection";
 import "../css/Voting.css";
 import { format } from "date-fns";
 import PageError from "./PageError";
 
 const ArticlePost = ({ article, articleId, searchParams, setSearchParams }) => {
+  const navigate = useNavigate();
   const [showComments, setShowComments] = useState(true);
   const [articleVotes, setArticleVotes] = useState(article.votes);
   const [activeBtn, setActiveBtn] = useState("none");
@@ -73,7 +75,7 @@ const ArticlePost = ({ article, articleId, searchParams, setSearchParams }) => {
               <i className="fa-solid fa-tag text-yellow-400 w-4"></i>
               {article.topic}
             </span>
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1 cursor-pointer" onClick={() => navigate(`/users/${article.author}`)}>
               <i className="fa-solid fa-user text-blue-400 w-4"></i>
               {article.author}
             </span>

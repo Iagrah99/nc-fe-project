@@ -85,6 +85,7 @@ const UserById = () => {
   useEffect(() => {
     if (!isLoadingUserData && !isLoadingArticleData && !isLoadingCommentsData) {
       setIsLoading(false);
+      document.title = `NC News | ${user?.name}`;
     }
   }, [isLoadingUserData, isLoadingArticleData, isLoadingCommentsData]);
 
@@ -99,17 +100,18 @@ const UserById = () => {
           <PageLoading contentType="User" />
         ) : (
           <div className="max-w-3xl mx-auto bg-slate-900 rounded-xl shadow-lg p-8 space-y-6">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
               <img
                 src={user.avatar_url}
                 alt={`${user.username}'s avatar`}
-                className="w-24 h-24 rounded-full border-2 border-slate-700 shadow"
+                className="w-32 h-32 rounded-full border-2 border-slate-700 shadow"
               />
               <div>
-                <h1 className="text-3xl font-bold">{user.name}</h1>
+                <h1 className="text-4xl font-bold">{user.name}</h1>
                 <p className="text-slate-400 text-sm">@{user.username}</p>
               </div>
             </div>
+
             <div className="flex items-center gap-2 text-sm">
               <span
                 className={`w-3 h-3 rounded-full ${
