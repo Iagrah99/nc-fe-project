@@ -1,8 +1,8 @@
 const PageLoading = ({ contentType }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-40 flex items-center justify-center">
       {/* Backdrop (transparent black) */}
-      <div className="absolute inset-0 bg-black opacity-15"></div>
+      <div className={`absolute inset-0 bg-black ${contentType === "User" ? "opacity-100 bg-transparent" : "opacity-15"}`}></div>
 
       {/* Spinner content */}
       <div className="relative flex flex-col items-center mb-24 gap-5 z-10">

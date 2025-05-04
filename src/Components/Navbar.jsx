@@ -157,7 +157,8 @@ const NavigationBar = () => {
                 <img
                   src={loggedInUser.avatar_url}
                   alt="User Avatar"
-                  className="w-8 h-8 rounded-full border border-gray-600 shadow-sm"
+                  className="w-8 h-8 rounded-full border border-gray-600 shadow-sm cursor-pointer"
+                  onClick={() => {navigate(`/users/${loggedInUser.username}`)}}
                 />
               </span>
             </div>
@@ -215,6 +216,7 @@ const NavigationBar = () => {
                   src={loggedInUser.avatar_url}
                   alt="User Avatar"
                   className="w-8 h-8 rounded-full border border-gray-600 shadow-sm"
+                  onClick={() => {navigate(`/users/${loggedInUser.username}`)}}
                 />
               </span>
             </div>

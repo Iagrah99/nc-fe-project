@@ -1,6 +1,6 @@
 import { UserContext } from "../contexts/UserContext";
 import { useState, useEffect, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import EditCommentModal from "./EditCommentModal";
 import {
   removeComment,
@@ -45,6 +45,8 @@ const CommentCard = ({
       }
     }
   }, [location]);
+
+  const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleModal = () => setIsModalOpen(!isModalOpen);
@@ -164,7 +166,8 @@ const CommentCard = ({
                   height="1024"
                   alt="User Avatar"
                   loading="lazy"
-                  className="w-10 h-10 rounded-full border-2 border-gray-700 shadow-md object-cover"
+                  className="w-10 h-10 rounded-full border-2 border-gray-700 shadow-md object-cover cursor-pointer"
+                  onClick={() => (navigate(`/users/${user?.username}`))}
                 />
                 <h2 className="text-lg font-semibold text-white">
                   {comment.author}

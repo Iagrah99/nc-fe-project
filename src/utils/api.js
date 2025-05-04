@@ -53,6 +53,11 @@ export const fetchUsers = async () => {
   return res.data.users;
 };
 
+export const fetchUserByUsername = async (username) => {
+  const res = await ncNewsApi.get(`/users/${username}`);
+  return res.data.user
+}
+
 export const addComment = async (articleId = '', comment) => {
   const res = await ncNewsApi.post(`/articles/${articleId}/comments`, comment);
   return res.data;

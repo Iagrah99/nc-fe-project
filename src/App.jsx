@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect } from 'react';
 import Articles from './pages/Articles'
 import ArticleById from "./pages/ArticleById"
+import UserById from './pages/UserById';
 import PageError from './Components/PageError'
 import Home from "./pages/Home"
 
@@ -26,6 +27,7 @@ function App() {
         <Route path='/*' element={<PageError />} />
         <Route path='/topics/*' element={<PageError />} />
         <Route path='/articles' element={<Articles />} />
+        <Route path='/users/:username' element={<UserById />} />
         <Route path='/articles/:topic' element={<Articles />} />
         <Route path='/articles/*' element={<PageError />} />
         <Route path="/articles/article/:articleId" element={<ArticleById />} />
