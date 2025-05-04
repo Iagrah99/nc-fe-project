@@ -128,6 +128,7 @@ export const loginUser = async (username, password) => {
 }
 
 export const logoutUser = async (username) => {
+  console.log(username)
   const res = await ncNewsApi.patch(`/auth/logout`, {
     user: {
       username
