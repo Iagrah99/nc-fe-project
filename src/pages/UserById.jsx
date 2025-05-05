@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 import { useParams } from "react-router-dom";
 import {
   fetchArticlesByUsername,
   fetchUserByUsername,
   fetchUserComments,
+  refreshLoginStatus,
 } from "../utils/api";
 import PageError from "../Components/PageError";
 import PageLoading from "../Components/PageLoading";
@@ -11,6 +13,7 @@ import NavigationBar from "../Components/Navbar";
 import { format } from "date-fns";
 
 const UserById = () => {
+  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
   const { username } = useParams();
   const [user, setUser] = useState(null);
   const [userArticles, setUserArticles] = useState(null);
@@ -23,6 +26,7 @@ const UserById = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
+  const [loginStatusChecked, setLoginStatusChecked] = useState(false);
 
   let formattedDate;
 
@@ -31,18 +35,32 @@ const UserById = () => {
   }
 
   useEffect(() => {
-    setIsLoadingUserData(true);
-    fetchUserByUsername(username)
-      .then((fetchedUserData) => {
+    const fetchAndRefreshUser = async () => {
+      try {
+        const fetchedUserData = await fetchUserByUsername(username);
         setUser(fetchedUserData);
+
+        // Only refresh status if this is the current logged-in user
+        if (loggedInUser?.username === username) {
+          const { is_logged_in } = await refreshLoginStatus(username);
+          console.log(is_logged_in)
+          setUser((prev) => ({
+            ...prev,
+            is_logged_in,
+          }));
+        }
+
+        setLoginStatusChecked(true);
         setIsLoadingUserData(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         setIsLoadingUserData(false);
         setIsError(true);
         setError(error);
-      });
-  }, [username]);
+      }
+    };
+
+    fetchAndRefreshUser();
+  }, [username, loggedInUser?.username]);
 
   useEffect(() => {
     setIsLoadingArticleData(true);
@@ -137,20 +155,24 @@ const UserById = () => {
             </p>
 
             {/* Online Status */}
-            <div className="flex items-center gap-2 text-sm">
-              <span
-                className={`w-3 h-3 rounded-full ${
-                  user.is_logged_in ? "bg-green-500" : "bg-gray-500"
-                }`}
-              ></span>
-              <span
-                className={
-                  user.is_logged_in ? "text-green-500" : "text-gray-500"
-                }
-              >
-                {user.is_logged_in ? "Currently Online" : "Currently Offline"}
-              </span>
-            </div>
+            {loginStatusChecked ? (
+              <div className="flex items-center gap-2 text-sm">
+                <span
+                  className={`w-3 h-3 rounded-full ${
+                    user.is_logged_in ? "bg-green-500" : "bg-gray-500"
+                  }`}
+                ></span>
+                <span
+                  className={
+                    user.is_logged_in ? "text-green-500" : "text-gray-500"
+                  }
+                >
+                  {user.is_logged_in ? "Currently Online" : "Currently Offline"}
+                </span>
+              </div>
+            ) : (
+              <div className="text-sm text-slate-400">Checking status...</div>
+            )}
 
             {/* Activity Section */}
             <section>
