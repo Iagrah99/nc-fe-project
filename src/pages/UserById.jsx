@@ -8,6 +8,7 @@ import {
 import PageError from "../Components/PageError";
 import PageLoading from "../Components/PageLoading";
 import NavigationBar from "../Components/Navbar";
+import { format } from "date-fns";
 
 const UserById = () => {
   const { username } = useParams();
@@ -22,6 +23,12 @@ const UserById = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
+
+  let formattedDate;
+
+  if (user) {
+    formattedDate = format(user.date_joined, "do MMMM yyyy");
+  }
 
   useEffect(() => {
     setIsLoadingUserData(true);
@@ -111,9 +118,9 @@ const UserById = () => {
         {isLoading ? (
           <PageLoading contentType="User" />
         ) : (
-          <div className="max-w-3xl mx-auto bg-slate-900 rounded-xl shadow-lg p-8 space-y-8">
+          <div className="max-w-3xl mx-auto bg-slate-900 rounded-xl shadow-lg p-8 space-y-8 relative">
             {/* Profile Header */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-6 mb-5">
               <img
                 src={user.avatar_url}
                 alt={`${user.username}'s avatar`}
@@ -124,6 +131,10 @@ const UserById = () => {
                 <p className="text-slate-400 text-sm">@{user.username}</p>
               </div>
             </div>
+            <p className="text-xs sm:text-sm text-slate-400 mt-1 flex items-center gap-1">
+              <i className="fa-regular fa-calendar-alt"></i> Member since{" "}
+              {formattedDate}
+            </p>
 
             {/* Online Status */}
             <div className="flex items-center gap-2 text-sm">
