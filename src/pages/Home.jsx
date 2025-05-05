@@ -243,10 +243,10 @@ const Home = () => {
               <form className="mb-8">
                 <div className="flex flex-wrap gap-6 lg:justify-center justify-center ">
                   {/* Sort By */}
-                  <div className="flex flex-col items-center">
+                  <div className="flex flex-col items-center relative w-fit">
                     <select
                       onChange={handleSortBy}
-                      className="bg-slate-800 text-white lg:px-3 py-3 sm:py-2 lg:w-60 w-36 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      className="appearance-none bg-slate-800 text-white lg:px-3 py-3 sm:py-2 lg:w-60 w-36 border-r-12 pl-2 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                       defaultValue={"sort_by"}
                     >
                       <option value="sort_by" id="sort_by" disabled>
@@ -262,13 +262,16 @@ const Home = () => {
                         Votes
                       </option>
                     </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-white">
+                      <i className="fa-solid fa-chevron-down text-xs"></i>
+                    </div>
                   </div>
 
                   {/* Order By */}
-                  <div className="flex flex-col items-center">
+                  <div className="flex flex-col items-center relative w-fit">
                     <select
                       onChange={handleOrderBy}
-                      className="bg-slate-800 text-white lg:px-3 py-3 sm:py-2 lg:w-60 w-36 border-r-12 pl-1 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                      className="appearance-none bg-slate-800 text-white lg:px-3 py-3 sm:py-2 lg:w-60 w-36 border-r-12 pl-2 text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                       defaultValue={"order_by"}
                     >
                       <option value="order_by" id="order_by" disabled>
@@ -281,6 +284,9 @@ const Home = () => {
                         Ascending
                       </option>
                     </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-white">
+                      <i className="fa-solid fa-chevron-down text-xs"></i>
+                    </div>
                   </div>
                 </div>
               </form>

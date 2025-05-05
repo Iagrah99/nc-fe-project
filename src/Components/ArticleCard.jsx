@@ -63,7 +63,9 @@ const ArticleCard = ({ article, toggleDeleteModal, toggleEditModal }) => {
             </div>
             <div className="flex items-center">
               <i className="fa-solid fa-user text-blue-400 w-5 mr-2"></i>
-              <span>{article.author}</span>
+              <span className="cursor-pointer" onClick={() => navigate(`/users/${article.author}`)}>
+                {article.author}
+              </span>
             </div>
             <div className="flex items-center">
               <i className="fa-solid fa-calendar-days text-green-400 w-5 mr-2"></i>

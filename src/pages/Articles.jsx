@@ -151,32 +151,29 @@ const Articles = () => {
                   <form className="mb-8">
                     <div className="flex flex-wrap gap-4 justify-center ">
                       {/* Sort By */}
-                      <div className="flex flex-col items-center">
+                      <div className="flex flex-col items-center relative w-fit">
                         <select
                           onChange={handleSortBy}
-                          className="bg-slate-800 text-white lg:px-3 py-3 sm:py-2 pl-1 sm:pl-3 lg:w-60 sm:w-32 w-fit border-r-12  text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white overflow-ellipsis"
-                          defaultValue={"sort_by"}
+                          className="appearance-none bg-slate-800 text-white lg:px-3 py-3 sm:py-2 pl-3 pr-8 lg:w-60 sm:w-32 w-full border border-transparent text-sm cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                          defaultValue="sort_by"
                         >
-                          <option value="sort_by" id="sort_by" disabled>
+                          <option value="sort_by" disabled>
                             Sort By
                           </option>
-                          <option value="created_at" id="date">
-                            Date
-                          </option>
-                          <option value="comment_count" id="comment_count">
-                            Comment Count
-                          </option>
-                          <option value="votes" id="votes">
-                            Votes
-                          </option>
+                          <option value="created_at">Date</option>
+                          <option value="comment_count">Comment Count</option>
+                          <option value="votes">Votes</option>
                         </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-white">
+                          <i className="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
                       </div>
 
                       {/* Order By */}
-                      <div className="flex flex-col items-center">
+                      <div className="flex flex-col items-center relative w-fit">
                         <select
                           onChange={handleOrderBy}
-                          className="bg-slate-800 text-white lg:px-3 py-3 sm:py-2 pl-1 sm:pl-3 lg:w-60 w-fit sm:w-32 border-r-12  text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                          className="appearance-none bg-slate-800 text-white lg:px-3 py-3 sm:py-2 pl-2 sm:pl-3 lg:w-60 w-fit sm:w-32 border-r-12  text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                           defaultValue={"order_by"}
                         >
                           <option value="order_by" id="order_by" disabled>
@@ -189,13 +186,16 @@ const Articles = () => {
                             Ascending
                           </option>
                         </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-white">
+                          <i className="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
                       </div>
 
                       {/* Filter By */}
-                      <div className="flex flex-col items-center">
+                      <div className="flex flex-col items-center relative w-fit">
                         <select
                           onChange={handleFilterBy}
-                          className="bg-slate-800 text-white lg:px-3 py-3 sm:py-2 pl-1 sm:pl-3 lg:w-60 w-fit sm:w-32 border-r-12  text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
+                          className="appearance-none bg-slate-800 text-white lg:px-3 py-3 sm:py-2 pl-2 sm:pl-3 lg:w-60 w-fit sm:w-32 border-r-12  text-sm border-transparent cursor-pointer rounded shadow focus:outline-none focus:ring-2 focus:ring-white"
                           defaultValue={"filter_by"}
                         >
                           <option value="filter_by" id="filter_by" disabled>
@@ -213,6 +213,9 @@ const Articles = () => {
                             </option>
                           ))}
                         </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-white">
+                          <i className="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
                       </div>
                     </div>
                   </form>
