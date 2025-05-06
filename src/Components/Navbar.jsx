@@ -95,9 +95,7 @@ const NavigationBar = () => {
     setIsError(false);
     e.preventDefault();
     try {
-      console.log(username)
-      const logoutResponse = await logoutUser(loggedInUser.username);
-      console.log(logoutResponse)
+      await logoutUser(loggedInUser.username);
       setLoggedInUser("");
       localStorage.removeItem("currentUser");
       toggleLogoutModal(null);
