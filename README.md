@@ -1,24 +1,61 @@
-# NC News Web App
+# 📰 NC News — Full Stack News Aggregator
 
 ## Project Summary
 
-Welcome to NC News!
+NC News is a full-stack news platform built as part of the solo project phase of the Northcoders Software Development bootcamp course. It allows users to browse, interact with, and manage articles and comments in a dynamic, user-friendly environment.
 
-This project was built using React and styled with TailwindCSS.
+## 🌐 Live Site
 
-NC News serves as the frontend for my backend RESTful API project. Users can browse and filter articles by topic, and sort them by date, comment count, or the number of votes. Articles can be ordered in either descending (default) or ascending order.
+Access the site <a href="https://nc-news-uk.netlify.app" target="_blank">here</a>.
 
-Clicking on any article takes the user to a full view of the article, where they can upvote or downvote it, post comments, edit or delete their own comments (provided they are the signed-in user), and join discussions.
+## 🚀 Features
 
-Users can also switch accounts by signing in as a different predefined user from a preset list.
+### 🔐 Authentication
 
-The project showcases a user-centred design with dynamic, interactive functionality, seamless API integration, and responsive styling for an accessible browsing experience.
+- Login as a registered user or continue as a guest.
+- Passwords are encrypted with bcrypt and stored securely in the database.
 
-## Hosted Live Version
+### 📚 Articles
 
-This version is hosted using the website hosting service, <a href="https://www.netlify.com/">Netlify</a>.
+- View all articles, filter by topic, and sort by date, comment count, or votes.
+- Authenticated users can create, edit, and delete their own articles.
 
-This version can be found <a href="https://nc-news-uk.netlify.app" target="_blank">here</a>.
+### 💬 Comments
+
+- Leave comments on articles.
+- Users can edit or delete their own comments.
+- Comments are voteable (upvote/downvote).
+- User homepage showcases their most popular comments.
+
+### 👤 User Profiles
+
+- View any user's public profile.
+- Displays profile picture, username, name, join date, and real-time online status.
+- Statistics: Total articles, comments, and cumulative karma from votes.
+
+## ⚙️ Tech Stack
+### 🖥️ Frontend:
+- React (CRA)
+- Axios for API communication
+- Tailwind CSS + custom CSS for styling
+- Date-fns for date formatting
+- Responsive design implemented using Tailwind's utility classes and media breakpoints
+
+### 🗄️ Backend:
+- Node.js & Express
+- PostgreSQL for relational data
+- pg-format for SQL query formatting
+- Jest for testing
+- bcrypt for secure password hashing
+
+### ☁️ Hosting & Deployment
+- Frontend: Hosted on Netlify
+- Backend API: Deployed via Fly.io
+- Database: Hosted on Supabase (PostgreSQL)
+
+### 🧪 Testing
+- The backend is thoroughly tested with Jest.
+- Tests cover API endpoints, error responses, and edge cases.
 
 ## Instructions
 
