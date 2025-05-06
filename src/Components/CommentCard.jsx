@@ -206,7 +206,7 @@ const CommentCard = ({
                 </div>
               </div>
 
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex justify-between items-center mb-8">
                 <p>
                   <i className="fa-solid fa-calendar text-green-400 w-5 mr-2"></i>
                   {formattedDate}
