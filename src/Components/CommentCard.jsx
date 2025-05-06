@@ -167,6 +167,7 @@ const CommentCard = ({
                   alt="User Avatar"
                   loading="lazy"
                   className="w-10 h-10 rounded-full border-2 border-gray-700 shadow-md object-cover cursor-pointer"
+                  crossOrigin="anonymous"
                   onClick={() => (navigate(`/users/${user?.username}`))}
                 />
                 <h2 className="text-lg font-semibold text-white">

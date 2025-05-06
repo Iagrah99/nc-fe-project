@@ -46,6 +46,7 @@ const ArticleCard = ({ article, toggleDeleteModal, toggleEditModal }) => {
             src={article.article_img_url}
             alt={`An article image about ${article.topic}`}
             className="h-64 w-full object-cover transition-transform duration-300 hover:scale-105 hover:opacity-75 cursor-pointer"
+            crossOrigin="anonymous"
             onClick={() => handleClick(article.article_id)}
           />
         </div>

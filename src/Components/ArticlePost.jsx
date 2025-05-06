@@ -62,6 +62,7 @@ const ArticlePost = ({ article, articleId, searchParams, setSearchParams }) => {
               src={article.article_img_url}
               alt={`An article image about ${article.topic}`}
               className="w-full max-w-7xl md:aspect-[22/9] object-cover rounded"
+              crossOrigin="anonymous"
             />
           </figure>
 

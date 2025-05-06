@@ -14,14 +14,16 @@ function CommentPreviewCard({ comment, user, handleVisitComment }) {
               alt="User Avatar"
               loading="lazy"
               className="w-10 h-10 rounded-full border-2 border-gray-700 shadow-md object-cover"
+              crossOrigin="anonymous"
             />
-            <h2 className="text-base sm:text-lg font-semibold">{comment.author}</h2>
+            <h2 className="text-sm sm:text-lg font-semibold">{comment.author}</h2>
           </div>
           <button
             onClick={() => handleVisitComment(comment)}
             className="text-blue-400 hover:text-blue-300 font-semibold text-sm px-3 py-1 rounded transition cursor-pointer"
           >
-            Visit Comment
+            <span className="hidden sm:block">Visit Comment</span>
+            <span className="block sm:hidden"><i className="fa-solid fa-link"></i></span>
           </button>
         </div>
 
