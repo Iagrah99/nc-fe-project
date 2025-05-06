@@ -168,7 +168,7 @@ const CommentCard = ({
                   loading="lazy"
                   className="w-10 h-10 rounded-full border-2 border-gray-700 shadow-md object-cover cursor-pointer"
                   crossOrigin="anonymous"
-                  onClick={() => (navigate(`/users/${user?.username}`))}
+                  onClick={() => navigate(`/users/${user?.username}`)}
                 />
                 <h2 className="text-lg font-semibold text-white">
                   {comment.author}
@@ -211,26 +211,26 @@ const CommentCard = ({
                   <i className="fa-solid fa-calendar text-green-400 w-5 mr-2"></i>
                   {formattedDate}
                 </p>
-
-                {loggedInUser?.username === comment.author && (
-                  <div className="flex flex-row justify-evenly items-center gap-5">
-                    <button
-                      onClick={() => toggleModal()}
-                      title="Edit Comment"
-                      className="text-blue-500 hover:text-blue-600 transition text-xl scale-110 cursor-pointer shadow-lg p-4"
-                    >
-                      <i className="fa-solid fa-pen"></i>
-                    </button>
-                    <button
-                      onClick={() => toggleDeleteModal()}
-                      title="Delete Comment"
-                      className="text-red-500 hover:text-red-600 transition text-xl scale-110 cursor-pointer shadow-lg p-4"
-                    >
-                      <i className="fa-solid fa-trash"></i>
-                    </button>
-                  </div>
-                )}
               </div>
+
+              {loggedInUser?.username === comment.author && (
+                <div className="absolute bottom-1 right-1">
+                  <button
+                    onClick={() => toggleModal()}
+                    title="Edit Comment"
+                    className="text-blue-500 hover:text-blue-600 transition text-xl scale-75 sm:scale-110 cursor-pointer shadow-lg p-4"
+                  >
+                    <i className="fa-solid fa-pen"></i>
+                  </button>
+                  <button
+                    onClick={() => toggleDeleteModal()}
+                    title="Delete Comment"
+                    className="text-red-500 hover:text-red-600 transition text-xl scale-75 sm:scale-110 cursor-pointer shadow-lg p-4"
+                  >
+                    <i className="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              )}
 
               {deletingError && (
                 <p className="mt-4 mb-4 text-red-400">{deletingError}</p>
