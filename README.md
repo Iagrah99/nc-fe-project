@@ -1,4 +1,4 @@
-# 📰 NC News — Full Stack News Aggregator (Frontend)
+# 📰 NC News — Full Stack News Platform (Frontend)
 
 ## Project Summary
 
