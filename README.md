@@ -1,12 +1,16 @@
-# 📰 NC News — Full Stack News Aggregator
+# 📰 NC News — Full Stack News Aggregator (Frontend)
 
 ## Project Summary
 
-NC News is a full-stack news platform built as part of the solo project phase of the Northcoders Software Development bootcamp course. It allows users to browse, interact with, and manage articles and comments in a dynamic, user-friendly environment.
+NC News is a full-stack news platform built using the PERN stack. It allows users to browse, interact with, and manage articles and their comments, and more!
 
 ## 🌐 Live Site
 
 Access the site <a href="https://nc-news-uk.netlify.app" target="_blank">here</a>.
+
+## 🗄️ Backend 
+
+Access the Backend Source Code <a href="https://github.com/Iagrah99/nc-news-be" target="_blank"> here </a>
 
 ## 🚀 Features
 
