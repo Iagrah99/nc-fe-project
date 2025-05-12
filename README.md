@@ -35,7 +35,7 @@ Access the site <a href="https://nc-news-uk.netlify.app" target="_blank">here</a
 
 ## ⚙️ Tech Stack
 ### 🖥️ Frontend:
-- React (CRA)
+- React (Vite)
 - Axios for API communication
 - Tailwind CSS + custom CSS for styling
 - Date-fns for date formatting
